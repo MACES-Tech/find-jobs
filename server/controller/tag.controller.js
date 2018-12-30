@@ -23,7 +23,7 @@ exports.update = (req, res, next) => {
 					 { where: {id: id} }
 				   ).then(() => {
 						// next()
-					 res.status(200).send("updated successfully a carBrand with id = " + id);
+					 res.status(200).send("updated successfully a tag with id = " + id);
 				   }).catch(next);
 };
  
@@ -33,6 +33,6 @@ exports.delete = (req, res, next) => {
         { where: {id: id} }
       ).then(() => {
 		// next()
-	  res.status(200).send('deleted successfully a carBrand with id = ' + id);
+	  res.status(200).send('deleted successfully a tag with id = ' + id);
 	}).catch(next);
 };
