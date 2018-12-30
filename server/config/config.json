@@ -1,0 +1,9 @@
+{
+    "development":{
+        "username":"root",
+        "password":"root",
+        "database":"find_int_jobs",
+        "host":"localhost",
+        "dialect":"mysql"
+    }
+}

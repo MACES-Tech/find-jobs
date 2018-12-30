@@ -1,0 +1,247 @@
+<script src="assets/js/jquery.js"></script> 
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/script.js"></script> 
+<div class="page-wrapper">
+    <!-- Preloader -->
+    <!-- <div id="loading-bar-container"></div> -->
+    <!-- Main Header-->
+    <header class="main-header">
+        <!-- Header-->
+
+        <!--Header Top-->
+        <div class="header-top">
+            <div class="auto-container">
+                <div class="clearfix">
+                    <!--Top Left-->
+                    <div class="top-left">
+                         <ul class="dropdown-option clearfix">
+                            <li class="location dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span
+                                        class="icon fa fa-language">
+                                    <!-- </span>{{'select_lang'|translate}} &nbsp;</a> -->
+                                    <a ng-if="!toggle.switch" ng-click="changeLang(!toggle.switch)">{{'arabic'|translate}}</a>
+                                    <a ng-if="toggle.switch" ng-click="changeLang(!toggle.switch)">{{'english'|translate}}</a>
+                                <!-- <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu1">
+                                    <li><a ng-click="setPrefferdLanguage('en')">{{'english'|translate}}</a></li>
+                                    <li><a ng-click="setPrefferdLanguage('ar')">{{'arabic'|translate}}</a></li>
+                                </ul> -->
+                            </li>
+                        </ul>  
+                        <div class="social-links" ng-if="FaceBookLink.length > 0">
+                            <a href="{{FaceBookLink}}" target="_blank"><span class="fa fa-facebook-f"></span></a>
+                            <!-- <a href="#"><span class="fa fa-twitter"></span></a>
+                            <a href="#"><span class="fa fa-linkedin"></span></a>
+                            <a href="#"><span class="fa fa-vimeo"></span></a>
+                            <a href="#"><span class="fa fa-rss"></span></a> -->
+                        </div> 
+                    </div>
+                    <!--Top Right-->
+                    <div class="top-right">
+                        <ul class="dropdown-option clearfix">
+                            <!-- <li class="account dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu2"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span
+                                        class="icon flaticon-user"></span>&ensp;My Account &nbsp;<span class="fa fa-angle-down"></span></a>
+                                <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu2">
+                                    <li><a ng-if="!isSignedIn()" ng-click=goToAccountPage()>My Account</a></li>
+                                    <li><a ng-if="isSignedIn()" ng-click="signOut()">Sign Out</a>
+                                    <li><a href="#">Settings</a></li>
+                                    <li><a href="#">Wishlist</a></li>
+                                    <li><a href="#">Cart</a></li> 
+                                </ul>
+                            </li> -->
+                            <li><a class="icon flaticon-user" ng-if="!isSignedIn()" ng-click=goToAccountPage()>&ensp;{{'login'|translate}}&ensp;</a></li>
+                            <li><a class="icon flaticon-user" ng-if="isSignedIn()" ng-click="goToMyAccount()">&ensp;{{'my_account'|translate}}&ensp;</a></li>
+                            <li><a class="icon flaticon-arrow-pointing-to-right" ng-if="isSignedIn()" ng-click="signOut()">&ensp;{{'sign_out'|translate}}&ensp;</a></li>
+                            <!-- <li><a class="sell-car" href="#">Sell Your Car</a></li> -->
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--Header-Upper-->
+        <div class="header-upper">
+            <div class="auto-container">
+                <div class="upper-inner clearfix">
+
+                    <div class="logo-outer">
+                        <div class="logo"><a ng-click="goTopage('/home')" href=""><img style="width: 162px;" src="assets/images/logo.png" alt="" title=""></a></div>
+                    </div>
+
+                    <div class="upper-right clearfix">
+
+                        <div class="nav-outer clearfix">
+                            <!-- Main Menu -->
+                            <nav class="main-menu">
+                                <div class="navbar-header">
+                                    <!-- Toggle Button -->
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <div class="navbar-collapse collapse clearfix">
+                                    <ul class="navigation clearfix">
+                                        <li ng-class="currentTab==='home'? 'current':''"><a  ng-click="goTopage('/home')">{{'home'|translate}}</a></li>
+                                        <li ng-class="currentTab==='skoda'? 'current':''" class="dropdown"><a ng-click="goTopage('/skoda/models')">{{'skoda'|translate}}</a>
+                                            <ul>
+                                                <li><a ng-click="goTopage('/skoda/models')" >{{'models'|translate}}</a></li>
+                                                <li><a ng-click="goTopage('/skoda/services')" >{{'service_center'|translate}}</a></li>
+                                                <li><a ng-click="goTopage('/skoda/spare_parts')">{{'spare_parts'|translate}}</a></li>
+                                            </ul>
+                                        </li>
+                                        <!-- <li><a href="services.html">Services</a></li> -->
+                                        <li ng-class="currentTab==='toyota'? 'current':''" class="dropdown"><a ng-click="goTopage('/toyota/models')" >{{'toyota'|translate}}</a>
+                                            <ul>
+                                                <li><a ng-click="goTopage('/toyota/models')" >{{'models'|translate}}</a></li>
+                                                <li><a ng-click="goTopage('/toyota/services')" >{{'service_center'|translate}}</a></li>
+                                                <li><a ng-click="goTopage('/toyota/spare_parts')">{{'spare_parts'|translate}}</a></li>
+                                            </ul>
+                                        </li>
+                                        <li ng-class="currentTab==='cars'? 'current':''" class="dropdown"><a href="#">{{'cars'|translate}}</a>
+                                            <ul>
+                                                <li><a  href="#/cars/buy">{{'buy_sell'|translate}}</a></li>
+                                                <li><a href="#/cars/compare">{{'VEHICLE_COMPARE'|translate}}</a></li>
+                                                <li><a href="#/cars/service">{{'service_center'|translate}}</a></li>
+                                            </ul>
+                                        </li>
+                                        <li ng-class="currentTab==='contact'? 'current':''"><a ng-click="goTopage('/contact')">{{'contact_us'|translate}}</a></li>
+                                        <li ng-if="isAdmin()" ng-class="currentTab==='admin'? 'current':''" class="dropdown"><a href="#">{{'admin_pages'|translate}}</a>
+                                            <ul>
+                                                <li>
+                                                    <a ng-if="isAdmin()" ng-click="goTopage('/admin/request_services')">{{'requested_services'|translate}}</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-if="isAdmin()" ng-click="goTopage('/admin/request_sell_car')">{{'requested_cell_car'|translate}}</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-if="isAdmin()" ng-click="goTopage('/admin/request_exchange_car')">{{'requested_exchange_car'|translate}}</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-if="isAdmin()" ng-click="goTopage('/admin/messages_list')">{{'messages_list'|translate}}</a>
+                                                </li>
+                                                <li>
+                                                    <a ng-if="isAdmin()" ng-click="goTopage('/admin/subscribers_list')">{{'subscribers_list'|translate}}</a>
+                                                </li>
+
+                                                
+                                            </ul>
+                                        </li>
+                                            
+                                    </ul>
+                                </div>
+                            </nav>
+                            <!-- Main Menu End-->
+
+                            <!--More Options-->
+                            <!-- <div class="more-options">
+                                <div class="cart-box">
+                                    <a href="shoping-cart.html">Cart <span class="icon fa fa-shopping-cart"><span class="number">0</span></span></a>
+                                </div>
+                            </div> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--End Header Upper-->
+
+
+        <div class="header-lower">
+            <div class="auto-container">
+                <div class="lower-inner">
+                    <ul class="info-block">
+                        <li><span class="icon flaticon-maps-and-flags"></span>{{'small_address'|translate}}</li>
+                        <li><span class="icon flaticon-telephone"></span>{{'phone'|translate}}: +201067560150</li>
+                        <li><span class="icon flaticon-timer"></span>{{'Sunday'|translate}} - {{'Thursday'|translate}}: 11:00 - 19:00</li>
+                    </ul>
+                    <!-- Search -->
+                    <div class="search-box">
+                        <form method="post" action="contact.html">
+                            <div class="form-group">
+                                <input type="search" name="search-field" value="" placeholder="{{'search' |translate}}" required>
+                                <button type="submit"><span class="icon fa fa-search"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Sticky Header-->
+        <div class="sticky-header">
+            <div class="auto-container clearfix">
+                <!--Logo-->
+                <div class="logo pull-left">
+                    <a ng-click="goTopage('/home')" class="img-responsive" title="Cars"><img style="width: 119px;" src="assets/images/logo.png"
+                            alt="Tali" title="Cars"></a>
+                </div>
+
+                <!--Right Col-->
+                <div class="right-col pull-right">
+                    <!-- Main Menu -->
+                    <nav class="main-menu">
+                        <div class="navbar-header">
+                            <!-- Toggle Button -->
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix">
+                                <li ng-class="currentTab==='home'? 'current':''"><a  ng-click="goTopage('/home')">{{'home'|translate}}</a></li>
+                                <li ng-class="currentTab==='skoda'? 'current':''" class="dropdown "><a ng-click="goTopage('/skoda/models')">{{'skoda'|translate}}</a>
+                                    <ul>
+                                        <li><a ng-click="goTopage('/skoda/models')" >{{'models'|translate}}</a></li>
+                                        <li><a ng-click="goTopage('/skoda/services')">{{'service_center'|translate}}</a></li>
+                                        <li><a  ng-click="goTopage('/skoda/spare_parts')">{{'spare_parts'|translate}}</a></li>
+                                    </ul>
+                                </li>
+                                <!-- <li><a href="services.html">Services</a></li> -->
+                                <li ng-class="currentTab==='toyota'? 'current':''" class="dropdown"><a ng-click="goTopage('/toyota/models')">{{'toyota'|translate}}</a>
+                                    <ul>
+                                        <li><a ng-click="goTopage('/toyota/models')">{{'models'|translate}}</a></li>
+                                        <li><a ng-click="goTopage('/toyota/services')" >{{'service_center'|translate}}</a></li>
+                                        <li><a ng-click="goTopage('/toyota/spare_parts')">{{'spare_parts'|translate}}</a></li>
+                                    </ul>
+                                </li>
+                                <li ng-class="currentTab==='cars'? 'current':''" class="dropdown"><a href="#">{{'cars'|translate}}</a>
+                                    <ul>
+                                            <li><a  href="#/cars/buy">{{'buy_sell'|translate}}</a></li>
+                                            <li><a  href="#/cars/compare">{{'VEHICLE_COMPARE'|translate}}</a></li>
+                                            <li><a href="#/cars/service">{{'service_center'|translate}}</a></li>
+                                        </ul>
+                                </li>
+                                <!-- <li class="dropdown"><a href="#">Shop</a>
+                                            <ul>
+                                                <li><a href="shop.html">Our Shop</a></li>
+                                                <li><a href="shop-single.html">Shop Single</a></li>
+                                                <li><a href="shoping-cart.html">Shoping Cart</a></li>
+                                                <li><a href="checkout.html">CheckOut</a></li>
+                                                <li><a href="account.html">Account</a></li>
+                                            </ul>
+                                        </li> -->
+                                <li  ng-class="currentTab==='contact'? 'current':''"><a ng-click="goTopage('/contact')">{{'contact_us'|translate}}</a></li>
+                            </ul>
+                        </div>
+                    </nav><!-- Main Menu End-->
+                </div>
+
+            </div>
+        </div>
+        <!--End Sticky Header-->
+
+    </header>
+    <!--End Main Header -->
+
+
+
+    <script src="assets/js/bootstrap.min.js"></script>
