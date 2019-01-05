@@ -1,0 +1,24 @@
+<aside class="careerfy-column-3">
+        <div class="careerfy-typo-wrap">
+            <div class="careerfy-employer-dashboard-nav">
+                <figure>
+                    <a href="#" class="employer-dashboard-thumb"><img src="assets/extra-images/avatar-372-456324.png" alt=""></a>
+                    <figcaption>
+                        <!-- <div class="careerfy-fileUpload">
+                            <span><i class="careerfy-icon careerfy-add"></i> Upload Photo</span>
+                            <input type="file" class="careerfy-upload" />
+                        </div> -->
+                        <h2>{{getcurrentUser().name}}</h2>
+                    </figcaption>
+                </figure>
+                <ul>
+                    <li ng-repeat="page in pages" ng-class="{'active': currentPage.url == page.url}" ng-click="opnePage(page.url)">
+                        <a href="">
+                            <i class="careerfy-icon {{page.icon}}"></i> {{page.title}}
+                        </a>
+                    </li>
+                    <li ng-click="signOut()" ><a href=""><i class="careerfy-icon careerfy-logout"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>

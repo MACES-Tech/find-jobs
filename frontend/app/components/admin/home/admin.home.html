@@ -1,0 +1,18 @@
+        
+<div ng-include="'./app/components/admin/page-content/sub-header.html'"></div>   
+<!-- Main Content -->
+<div class="careerfy-main-content">
+    <!-- Main Section -->
+     <div class="careerfy-main-section careerfy-dashboard-fulltwo">
+        <div class="container">
+            <div class="row">
+                <div ng-include="'./app/components/admin/page-content/menu.html'"></div>   
+                <div ng-repeat="page in pages" ng-if="currentPage.url == page.url" ng-include="page.html"></div>
+                <div  ng-if="currentPage.url == notFoundPage.url" ng-include="notFoundPage.html"></div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Main Section -->
+
+</div>

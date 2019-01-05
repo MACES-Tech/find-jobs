@@ -1,12 +1,10 @@
 'use strict'
-var app = angular.module('buildingChain',
+var app = angular.module('jobs',
         [
-    'ngRoute','oitozero.ngSweetAlert','ngFileUpload','ngCookies','oc.lazyLoad','pascalprecht.translate','slickCarousel',
+    'ngRoute','oitozero.ngSweetAlert','ngFileUpload','ngCookies','oc.lazyLoad'
 ]).run(function($rootScope , $location,$http) {
 
-  $rootScope.goTopage = function(PageName){
-    $location.path(PageName);
-  }
+  
     $rootScope.backendURL = $location.protocol() + "://" + $location.host() + ":"+ $location.port() +"/api/" ;
     $rootScope.currentTab ="home";
 
@@ -19,13 +17,6 @@ app.config(['$httpProvider', '$compileProvider', function ($httpProvider, $compi
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
 }]);
 
-app.config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.useStaticFilesLoader({
-    prefix: 'app/translate/',
-    suffix: '.json'
-  });
-  $translateProvider.preferredLanguage('ar');
-}]);
 
 app.filter('propsFilter', function() {
   return function(items, props) {

@@ -1,5 +1,5 @@
-angular.module('buildingChain')
-    .controller('appController', function ($http, $rootScope, $scope,$location,$cookies,$translate,$route,$window) {
+angular.module('jobs')
+    .controller('appController', function ($http, $rootScope, $scope,$location,$cookies,$route,$window) {
        
         $rootScope.default_float =  'float-r' ;
         $rootScope.rootLoading = false;
@@ -7,10 +7,14 @@ angular.module('buildingChain')
         return $cookies.get('currentUser.token') !== undefined;
     }
 
+    $rootScope.goTopage = function(PageName){
+        $location.url(PageName);
+    }
+    
     $rootScope.setcurrentUser = function (admin, token) {
         $cookies.put("currentUser.object", admin);
         $cookies.put("currentUser.token", token);
-        $location.path("/home");
+        $rootScope.goTopage("/admin/home");
     }
     $rootScope.updateCurrentUser = function (admin) {
         $cookies.put("currentUser.object", admin);        
@@ -21,13 +25,13 @@ angular.module('buildingChain')
         if ($rootScope.isSignedIn()) {
             return JSON.parse($cookies.get('currentUser.object'));
         } else {
-            return "";
+            return undefined;
         }
     }
 
     $rootScope.isAdmin = function () {
         admin = $rootScope.getcurrentUser();
-        if (admin && (admin.role == "admin")) {
+        if (admin && (admin.role == "SUPER_ADMIN")) {
             return true;
         }
         return false;
@@ -44,7 +48,7 @@ angular.module('buildingChain')
 
     $rootScope.signOut = function () {
                 $rootScope.unsetcurrentUser();
-                $location.path('/home');
+                $rootScope.goTopage("/")
 
     }
     $rootScope.$on('$locationChangeSuccess', function () {
@@ -59,35 +63,4 @@ angular.module('buildingChain')
         $rootScope.rootLoading = false;
     });
 
-    $rootScope.getPreffrerdLanguage = function() {
-        var selectLang = "ar";
-        if (localStorage.getItem("prefferedLanguage") != null) {
-            selectLang = localStorage.getItem("prefferedLanguage");
-        } else if ($cookies.get("prefferedLanguage") != null) {
-            selectLang = $cookies.get("prefferedLanguage");
-        }
-        var langSmall = selectLang.toLowerCase();
-        $rootScope.default_float = langSmall === 'ar' ? 'float-r' : 'float-l';
-        $translate.use(langSmall);
-        $rootScope.lang = langSmall;
-        return selectLang;
-    };
-    $rootScope.setPrefferdLanguage = function(lang) {
-        $window.location.reload();
-        var langSmall = lang.toLowerCase();
-        if (langSmall === 'en' || langSmall === 'ar') {
-            $rootScope.default_float = langSmall === 'ar' ? 'float-r' : 'float-l';
-            saveLangLocally(langSmall);
-            $rootScope.lang = langSmall;
-            
-        }
-    };
-    function saveLangLocally(lang) {
-        selectLang = lang;
-        if (localStorage != undefined) {
-            localStorage.setItem("prefferedLanguage", lang);
-        } else {
-            $cookies.put("prefferedLanguage", lang);
-        }
-    };
 });

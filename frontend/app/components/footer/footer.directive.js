@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('buildingChain');
+var app = angular.module('jobs');
 
 
 function footerImp () {
