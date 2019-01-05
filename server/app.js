@@ -29,6 +29,7 @@
     require('./route/user.route.js')(app);
     require('./route/authentication.route.js')(app);
     require('./route/tag.route.js')(app);
+    require('./route/organization.route.js')(app);
 
     
 
@@ -36,7 +37,7 @@
     
     const db = require('./config/db.config.js');
 // force: true will drop the table if it already exists
-db.sequelize.sync({force: true}).then(() => {
+db.sequelize.sync({force: false}).then(() => {
     console.log('Drop and Resync with { force: true }');
 });
 app.use('/uploads', express.static(process.cwd() + '/uploads'));
