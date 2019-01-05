@@ -4,7 +4,7 @@ var passportConfig = require('../config/passport.js');
 const getTokenFromHeaders = (req) => {
   const { headers: { authorization } } = req;
 
-  if(authorization && (authorization.split(' ')[0] === 'Token' || authorization.split(' ')[0] === 'Bearer')) {
+  if(authorization && (authorization.split(' ')[0] === 'Token' || authorization.split(' ')[0] === 'Bearer'  || authorization.split(' ')[0] === 'JWT')) {
     return authorization.split(' ')[1];
   }
   return null;

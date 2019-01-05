@@ -9,9 +9,27 @@ exports.create = (req, res, next) => {
 };
  
 exports.findAll = (req, res, next) => {
-	Organization.findAll({where:{active:true}, order:[['createdAt', 'DESC']]}).then(orgs => {
-	  res.send(orgs);
+	var pageNumber = req.query.pageNumber;
+	var itemsPerPage = req.query.itemsPerPage;
+	if(!pageNumber || pageNumber === "undefined"){
+		pageNumber = 1;
+	}
+	if(!itemsPerPage || itemsPerPage === "undefined"){
+		itemsPerPage = 8;
+	}
+	offset = (pageNumber - 1) * itemsPerPage 
+	var jsonResult ={};
+	Organization.count().then(count=>{
+		jsonResult.count = count;
+		Organization.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
+			jsonResult.organizations = [];
+			for (let index = 0; index < orgs.length; index++) {
+				jsonResult.organizations.push(orgs[index].toJSON());
+			}
+			res.send(jsonResult);
+		  }).catch(next);
 	}).catch(next);
+
 };
  
 
