@@ -1,3 +1,5 @@
+var compression = require('compression')
+
     var express = require('express'); 
     var app = express(); 
     var bodyParser = require('body-parser');
@@ -6,6 +8,7 @@
 
         /** Serving from the same express Server
     No cors required */
+    app.use(compression())
     app.use(express.static('../frontend'));
     app.use(bodyParser.json());  
     app.use(function(err,req,res,next){
