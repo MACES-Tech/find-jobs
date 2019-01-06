@@ -32,7 +32,8 @@ require('./route/user.route.js')(app);
 require('./route/authentication.route.js')(app);
 require('./route/tag.route.js')(app);
 require('./route/organization.route.js')(app);
-
+require('./route/util.route.js')(app);
+require('./controller/file.controller.js')(app);
 
 
 

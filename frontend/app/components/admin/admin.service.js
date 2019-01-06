@@ -36,4 +36,37 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+
+    self.getCountries = function(cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "country"
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    self.getCities = function(country,cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "country/"+country.id +"/city"
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
 })
