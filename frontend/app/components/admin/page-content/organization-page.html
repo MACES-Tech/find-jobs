@@ -12,195 +12,33 @@
                         </form>
                     </div>
                     <!-- Manage Jobs -->
-                    <div class="careerfy-employer careerfy-employer-list">
+                    <div class="careerfy-employer careerfy-employer-grid">
                             <ul class="careerfy-row">
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-01.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
+                                <li ng-repeat="org in organizations" class="careerfy-column-4">
+                                    <div class="careerfy-employer-grid-wrap">
+                                            <figure>
+                                                <a href="#" class="careerfy-employer-grid-image">
+                                                    <img style="width: 60px;height: 60px;" ng-if="org.mainImage.path" ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}">
+                                                    <img style="width: 60px;height: 60px;" ng-if="!org.mainImage.path" ng-src="thumb.jpg" >
+                                                </a>
+                                                <figcaption>
+                                                    <small>{{org.industry}}</small>
+                                                    <h2><a href="#">{{org.name}}.</a></h2>
+                                                    <span><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}</span>
+                                                </figcaption>
+                                            </figure>
                                         </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-02.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-03.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-04.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-05.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-06.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-07.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="careerfy-column-12">
-                                    <div class="careerfy-table-layer">
-                                        <div class="careerfy-table-row">
-                                            <div class="careerfy-table-cell"> <figure><a href="#"><img src="extra-images/employer-08.png" alt=""></a></figure> </div>
-                                            <div class="careerfy-table-cell">
-                                                <small>Banking</small>
-                                                <h2><a href="#">Zeeva Hiring Co.</a></h2>
-                                                <span><i class="fa fa-map-marker"></i> United Kingdom, London, 88 Crown Street</span>
-                                            </div>
-                                            <div class="careerfy-table-cell">
-                                                <ul class="careerfy-employer-thumblist">
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-1.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-2.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-3.jpg" alt=""></a></li>
-                                                    <li><a href="#"><img src="extra-images/employer-list-thumb-4.jpg" alt=""></a></li>
-                                                </ul>
-                                                <a href="#" class="careerfy-employer-thumblist-size">+3 team size</a>
-                                            </div>
-                                            <div class="careerfy-table-cell"> <a href="#" class="careerfy-employer-list-btn">10 Vacancies</a> </div>
-                                        </div>
-                                    </div>
+                                        <a href="#" class="careerfy-employer-grid-btn">0 Vacancies</a>
                                 </li>
                             </ul>
                         </div>
                         <!-- Pagination -->
                         <div class="careerfy-pagination-blog">
                             <ul class="page-numbers">
-                                <li><a class="prev page-numbers" href="#"><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
-                                <li><span class="page-numbers current">01</span></li>
-                                <li><a class="page-numbers" href="#">02</a></li>
-                                <li><a class="page-numbers" href="#">03</a></li>
-                                <li><a class="page-numbers" href="#">04</a></li>
-                                <li><a class="next page-numbers" href="#"><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                                <li ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage - 1)"><a class="prev page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                                <li ng-repeat="pages in  [].constructor(numberOfPagesInOrganizationPage) track by $index " ng-click="getManageOrgainzationPage($index + 1)"><span style="cursor: pointer;" ng-class="{'current':$index + 1  === currentPageNumberInOrganizationPage}" class="page-numbers ">{{ $index + 1 }}</span></li>
+                                <li ng-show="currentPageNumberInOrganizationPage + 1 <= numberOfPagesInOrganizationPage"ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage + 1)" ><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
+                                <li ng-show="currentPageNumberInOrganizationPage + 1 > numberOfPagesInOrganizationPage"><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
                             </ul>
                         </div>
                     </div>

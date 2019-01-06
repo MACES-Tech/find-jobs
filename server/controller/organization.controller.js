@@ -21,7 +21,12 @@ exports.findAll = (req, res, next) => {
 	var jsonResult ={};
 	Organization.count().then(count=>{
 		jsonResult.count = count;
-		Organization.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
+		Organization.findAll({where:{active:true},include: [
+			{ model: db.file, as: 'mainImage'
+		 	},{
+				model: db.city, as: 'city'
+			 }
+		],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
 			jsonResult.organizations = [];
 			for (let index = 0; index < orgs.length; index++) {
 				jsonResult.organizations.push(orgs[index].toJSON());
