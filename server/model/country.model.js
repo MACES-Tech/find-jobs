@@ -5,14 +5,11 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
             unique: true
         },
-        lat: {
+        country_code: {
             type: Sequelize.STRING,
             allowNull: true,
-        },
-        long: {
-            type: Sequelize.STRING,
-            allowNull: true,
-		}
+            unique: true
+        }
     })
 
     return Country;
