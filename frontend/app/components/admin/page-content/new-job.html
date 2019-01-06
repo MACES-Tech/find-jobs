@@ -1,0 +1,157 @@
+<div class="careerfy-column-9">
+    <div class="careerfy-typo-wrap">
+        <div class="careerfy-employer-dasboard">
+            <form>
+                <div class="careerfy-employer-box-section">
+                    <!-- Profile Title -->
+                    <div class="careerfy-profile-title">
+                        <h2>Post new Job</h2>
+                    </div>
+                    <ul class="careerfy-row careerfy-employer-profile-form">
+                        <li class="careerfy-column-8">
+                            <label>Job Title *</label>
+                            <input placeholder="Enter job Title" type="text" ng-model="job.title">
+                        </li>
+                        <li class="careerfy-column-4">
+                            <label>Job Type *</label>
+                            <div class="careerfy-profile-select">
+                                <select ng-model="job.type">
+                                    <option value="" selected disabled>Select job type</option>
+                                    <option value="Full Time">Full Time</option>
+                                    <option value="Part Time">Part Time</option>
+                                    <option value="Temporary">Temporary</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Freelance">Freelance</option>
+                                    <option value="Volunteer">Volunteer</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="careerfy-column-4">
+                            <label>Organization *</label>
+                            <tags-input max-tags="1" ng-class="{'hide-input': job.organization.length > 0}" ng-model="job.organization"
+                                display-property="name" placeholder="Add Organization" replace-spaces-with-dashes="false">
+                                <auto-complete source="loadOrganizations($query)" min-length="0" load-on-focus="true"
+                                    load-on-empty="false" max-results-to-show="32"></auto-complete>
+                            </tags-input>
+                        </li>
+                        <li class="careerfy-column-4">
+                            <label>Posted Date</label>
+                            <input style="float: left;
+                                        width: 100%;
+                                        height: 41px;
+                                        border: 1px solid #eceeef;
+                                        border-radius: 2px;
+                                        background-color: #ffffff;
+                                        padding: 11px 13px;
+                                        margin: 0px;
+                                        font-size: 12px;
+                                        color: #777777;"
+                                type="date" ng-model="job.postedDate">
+                        </li>
+                        <li class="careerfy-column-4">
+                            <label>Expired Date</label>
+                            <input style="float: left;
+                                width: 100%;
+                                height: 41px;
+                                border: 1px solid #eceeef;
+                                border-radius: 2px;
+                                background-color: #ffffff;
+                                padding: 11px 13px;
+                                margin: 0px;
+                                font-size: 12px;
+                                color: #777777;"
+                                type="date" ng-model="job.expiredDate">
+                        </li>
+
+
+                        <li class="careerfy-column-12">
+                            <label>Tags</label>
+                            <tags-input ng-model="job.tags" display-property="name" placeholder="Add Tag"
+                                replace-spaces-with-dashes="false">
+                                <auto-complete source="loadTags($query)" min-length="0" load-on-focus="true"
+                                    load-on-empty="true" max-results-to-show="32"></auto-complete>
+                            </tags-input>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="careerfy-employer-box-section" ng-repeat="section in job.sections track by $index">
+                    <div class="careerfy-profile-title">
+                        <h2>Job Section {{$index + 1}}</h2>
+                    </div>
+                    <ul class="careerfy-row careerfy-employer-profile-form">
+                        <li class="careerfy-column-12">
+                            <label>Section Title *</label>
+                            <input placeholder="Enter Section Title" type="text" ng-model="section.title">
+                        </li>
+                        <li class="careerfy-column-12">
+                            <label>Section Description *</label>
+                            <textarea placeholder="Enter Section Description" ng-model="section.description"></textarea>
+                        </li>
+                        <ul class="careerfy-row careerfy-employer-profile-form" ng-repeat="point in section.points track by $index">
+                            <li class="careerfy-column-9">
+                                <label>Section Point {{$index + 1}} *</label>
+                                <input placeholder="Enter Section Description" type="text" ng-model="point.title">
+                            </li>
+                            <li class="careerfy-column-3" ng-show="!$last">
+                                <a href="" style="font-size: 15px" ng-click="removePointInSection(section,$index)">
+                                    <i class="fa fa-times"></i> remove point
+                                </a>
+                            </li>
+                            <li class="careerfy-column-3" ng-show="$last">
+                                <a href="" style="font-size: 15px" ng-click="addPointInSection(section)">
+                                    <i class="careerfy-icon careerfy-plus"></i> add new point
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="careerfy-column-3" ng-show="!$last">
+                            <a href="" style="font-size: 15px" ng-click="removeSection($index)">
+                                <i class="fa fa-times"></i> Remove this section
+                            </a>
+                        </li>
+                        <li class="careerfy-column-3" ng-show="$last">
+                            <a href="" style="font-size: 15px" ng-click="addNewSection()">
+                                <i class="careerfy-icon careerfy-plus"></i> add new section
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="careerfy-employer-box-section">
+                    <div class="careerfy-profile-title">
+                        <h2>Address / Location</h2>
+                    </div>
+                    <ul class="careerfy-row careerfy-employer-profile-form">
+                        <li class="careerfy-column-6">
+                            <label>Country *</label>
+                            <div class="careerfy-profile-select">
+                                <select ng-model="selectedCountry" ng-change="getCities(selectedCountry)">
+                                    <option value="" selected disabled>Select Country</option>
+                                    <option value="{{country}}" ng-repeat="country in countries">{{country.name}}</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="careerfy-column-6">
+                            <label>City / Town *</label>
+                            <div class="careerfy-profile-select">
+                                <select ng-change="getCityData(job.selectedCity)" ng-model="job.selectedCity">
+                                    <option value="" selected disabled>Select City</option>
+                                    <option value="{{city}}" ng-repeat="city in cities">{{city.name}}</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="careerfy-column-9">
+                            <label>Full Address *</label>
+                            <input placeholder="Ha Dong - Ha Noi - Viet Nam" ng-model="job.address" type="text">
+                        </li>
+                        <!-- <li class="careerfy-column-12">
+                                <div class="careerfy-profile-map"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d22589232.038285658!2d-103.9763543971716!3d46.28054447273778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1507595834401"></iframe></div>
+                                <span class="careerfy-short-message">For the precise location, you can drag and drop the
+                                    pin.</span>
+                            </li> -->
+                    </ul>
+                </div>
+                <input type="submit" class="careerfy-employer-profile-submit" ng-click="addNewJob(job)" value="Save">
+            </form>
+        </div>
+    </div>
+</div>

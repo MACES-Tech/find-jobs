@@ -1,7 +1,7 @@
 'use strict'
 var app = angular.module('jobs',
         [
-    'ngRoute','oitozero.ngSweetAlert','ngFileUpload','ngCookies','oc.lazyLoad'
+    'ngRoute','oitozero.ngSweetAlert','ngFileUpload','ngCookies','oc.lazyLoad','ngTagsInput'
 ]).run(function($rootScope , $location,$http) {
 
   

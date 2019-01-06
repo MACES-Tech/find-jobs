@@ -3,11 +3,10 @@ module.exports = (sequelize, Sequelize) => {
 
 	const Section = sequelize.define('section', {
         title: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true
+            type: Sequelize.TEXT,
+            allowNull: false
         },
-        body: {
+        description: {
             type: Sequelize.TEXT
         }
     })

@@ -3,41 +3,37 @@ module.exports = (sequelize, Sequelize) => {
     const City =  require('../model/city.model.js')(sequelize, Sequelize);
     const Category =  require('../model/category.model.js')(sequelize, Sequelize);    
     const Organization =  require('../model/organization.model.js')(sequelize, Sequelize);    
-    
+    const User =  require('../model/users.model.js')(sequelize, Sequelize);    
+
 	const Job = sequelize.define('Job', {
+        title:{
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        jobtype:{
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        postedDate: {
+            type: Sequelize.DATEONLY,
+            allowNull: true
+        },
         dueDate: {
             type: Sequelize.DATEONLY,
             allowNull: true
         },
-        salary: {
-            type: Sequelize.STRING,
-            allowNull: true
+        address:{
+            type: Sequelize.STRING
         },
-        careerLevel: {
-            type: Sequelize.STRING,
-            allowNull: true
-        },
-        experince: {
-            type: Sequelize.STRING,
-            allowNull: true
-        },
-        gender: {
-            type: Sequelize.STRING,
-            allowNull: true
-        },
-        industry: {
-            type: Sequelize.STRING,
-            allowNull: true
-        },
-        qualification: {
-            type: Sequelize.STRING,
-            allowNull: true
+        status:{
+            type: Sequelize.STRING
         }
 
     })
 
+    Job.belongsTo(User, {foreignKey : 'creatorId' , as :"creator"})
     Job.belongsTo(Organization, {foreignKey : 'organizationId' , as :"organization"})
-    Job.belongsTo(Category, {foreignKey : 'categoryId' , as :"category"})
+    // Job.belongsTo(Category, {foreignKey : 'categoryId' , as :"category"})
     Job.belongsTo(City, {foreignKey : 'cityId' , as :"city"})
     return Job;
 }
