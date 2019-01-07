@@ -1,0 +1,232 @@
+<!-- SubHeader -->
+<div class="careerfy-job-subheader">
+    <span class="careerfy-banner-transparent"></span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SubHeader -->
+<div class="careerfy-main-content">
+
+    <!-- Main Section -->
+    <div class="careerfy-main-section">
+        <div class="container">
+            <div class="row">
+
+                <!-- Job Detail List -->
+                <div class="careerfy-column-12">
+                    <div class="careerfy-typo-wrap">
+                        <figure class="careerfy-jobdetail-list">
+                            <span class="careerfy-jobdetail-listthumb"><img ng-src="/uploads/{{job.organization.mainImage.path}}"
+                                    alt="{{job.organization.mainImage.altValue}}"></span>
+                            <figcaption>
+                                <h2>{{job.title}}</h2>
+                                <span><small class="careerfy-jobdetail-type">{{job.jobtype}}</small>
+                                    {{job.organization.name}}
+                                    <small class="careerfy-jobdetail-postinfo">{{job.createdAt | date:'MMM dd yyyy'
+                                        :'UTC'}}</small></span>
+                                <ul class="careerfy-jobdetail-options">
+                                    <li><i class="fa fa-map-marker"></i> {{job.address}}, {{job.city.name}}, United
+                                        Kingdom
+                                    </li>
+                                    <li><i class="careerfy-icon careerfy-calendar"></i> Post Date: {{job.postedDate |
+                                        date:'MMM dd yyyy' :'UTC'}}</li>
+                                    <li><i class="careerfy-icon careerfy-calendar"></i> Apply Before: {{job.dueDate |
+                                        date:'MMM dd yyyy' :'UTC'}}</li>
+
+                                </ul>
+                                <!-- <a href="#" class="careerfy-jobdetail-btn active"><i class="careerfy-icon careerfy-add-list"></i>
+                                    Shortlist</a> -->
+                                <a href="#" class="careerfy-jobdetail-btn"><i class="careerfy-icon careerfy-envelope"></i>
+                                    Email Job</a>
+                                <ul class="careerfy-jobdetail-media">
+                                    <li><span>Share:</span></li>
+                                    <li><a href="#" data-original-title="facebook" class="careerfy-icon careerfy-facebook-logo-in-circular-button-outlined-social-symbol"></a></li>
+                                    <li><a href="#" data-original-title="twitter" class="careerfy-icon careerfy-twitter-circular-button"></a></li>
+                                    <li><a href="#" data-original-title="linkedin" class="careerfy-icon careerfy-linkedin"></a></li>
+                                </ul>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <!-- Job Detail List -->
+
+                <!-- Job Detail Content -->
+                <div class="careerfy-column-8">
+                    <div class="careerfy-typo-wrap">
+                        <div class="careerfy-jobdetail-content">
+
+                            <div ng-repeat="section in job.sections">
+                                <div class="careerfy-content-title">
+                                    <h2>{{section.title}}</h2>
+                                </div>
+                                <div class="careerfy-description">
+                                    <p>{{section.description}}</p>
+                                    <ul class="careerfy-list-style-icon">
+                                        <li ng-repeat="point in section.points"><i class="careerfy-icon careerfy-arrows22"></i>{{point.title}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="careerfy-content-title" ng-show="job.tags.length > 0">
+                                <h2>Job tags</h2>
+                            </div>
+                            <div class="careerfy-jobdetail-tags">
+                                <a ng-repeat="tag in job.tags" href="">{{tag.tag.name}}</a>
+                            </div>
+                        </div>
+                        <div class="careerfy-section-title">
+                            <h2>Other jobs you may like</h2>
+                        </div>
+                        <div class="careerfy-job careerfy-joblisting-classic careerfy-jobdetail-joblisting">
+                            <ul class="careerfy-row">
+                                <li class="careerfy-column-12">
+                                    <div class="careerfy-joblisting-classic-wrap">
+                                        <figure><a href="#"><img src="extra-images/job-listing-logo-1.png" alt=""></a></figure>
+                                        <div class="careerfy-joblisting-text">
+                                            <div class="careerfy-list-option">
+                                                <h2><a href="#">Need Senior Rolling Stock Technician</a> <span>Featured</span></h2>
+                                                <ul>
+                                                    <li><a href="#">@ Massimo Artemisis</a></li>
+                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        Netherlands, Rotterdam</li>
+                                                    <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i>
+                                                        Sales & Marketing</li>
+                                                </ul>
+                                            </div>
+                                            <div class="careerfy-job-userlist">
+                                                <a href="#" class="careerfy-option-btn">Freelance</a>
+                                                <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="careerfy-column-12">
+                                    <div class="careerfy-joblisting-classic-wrap">
+                                        <figure><a href="#"><img src="extra-images/job-listing-logo-2.png" alt=""></a></figure>
+                                        <div class="careerfy-joblisting-text">
+                                            <div class="careerfy-list-option">
+                                                <h2><a href="#">Job in Computer Information Tech</a></h2>
+                                                <ul>
+                                                    <li><a href="#">@ Sapient</a></li>
+                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        Netherlands, Rotterdam</li>
+                                                    <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i>
+                                                        Development</li>
+                                                </ul>
+                                            </div>
+                                            <div class="careerfy-job-userlist">
+                                                <a href="#" class="careerfy-option-btn careerfy-blue">Full time</a>
+                                                <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="careerfy-column-12">
+                                    <div class="careerfy-joblisting-classic-wrap">
+                                        <figure><a href="#"><img src="extra-images/job-listing-logo-3.png" alt=""></a></figure>
+                                        <div class="careerfy-joblisting-text">
+                                            <div class="careerfy-list-option">
+                                                <h2><a href="#">Website Information Officer Required</a></h2>
+                                                <ul>
+                                                    <li><a href="#">@ Mindshare</a></li>
+                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        Netherlands, Rotterdam</li>
+                                                    <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i>
+                                                        Telecommunication</li>
+                                                </ul>
+                                            </div>
+                                            <div class="careerfy-job-userlist">
+                                                <a href="#" class="careerfy-option-btn careerfy-red">Temporary</a>
+                                                <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="careerfy-column-12">
+                                    <div class="careerfy-joblisting-classic-wrap">
+                                        <figure><a href="#"><img src="extra-images/job-listing-logo-4.png" alt=""></a></figure>
+                                        <div class="careerfy-joblisting-text">
+                                            <div class="careerfy-list-option">
+                                                <h2><a href="#">Junior Support Engineer VBA</a> <span>Featured</span></h2>
+                                                <ul>
+                                                    <li><a href="#">@ Disneyland</a></li>
+                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        Netherlands, Rotterdam</li>
+                                                    <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i>
+                                                        Food Services</li>
+                                                </ul>
+                                            </div>
+                                            <div class="careerfy-job-userlist">
+                                                <a href="#" class="careerfy-option-btn">Freelance</a>
+                                                <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="careerfy-column-12">
+                                    <div class="careerfy-joblisting-classic-wrap">
+                                        <figure><a href="#"><img src="extra-images/job-listing-logo-5.png" alt=""></a></figure>
+                                        <div class="careerfy-joblisting-text">
+                                            <div class="careerfy-list-option">
+                                                <h2><a href="#">Technology Senior Officer Norway Office</a></h2>
+                                                <ul>
+                                                    <li><a href="#">@ LK Collections</a></li>
+                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        Netherlands, Rotterdam</li>
+                                                    <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i>
+                                                        Health Care</li>
+                                                </ul>
+                                            </div>
+                                            <div class="careerfy-job-userlist">
+                                                <a href="#" class="careerfy-option-btn careerfy-green">Part time</a>
+                                                <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Job Detail Content -->
+                <!-- Job Detail SideBar -->
+                <aside class="careerfy-column-4">
+                    <div class="careerfy-typo-wrap">
+                        <div class="widget jobsearch_widget_map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d22589232.038285658!2d-103.9763543971716!3d46.28054447273778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1507595834401"></iframe>
+                        </div>
+                        <div class="widget widget_add">
+                            <img src="extra-images/jobdetail-add.jpg" alt="">
+                        </div>
+                        <div class="widget widget_view_jobs" ng-show="job.organization.jobs.length > 0">
+                            <div class="careerfy-widget-title">
+                                <h2>More Jobs from {{job.organization.name}}</h2>
+                            </div>
+                            <ul>
+                                <li ng-repeat="job in job.organization.jobs">
+                                    <h6><a href="/?#/job/{{job.id}}">{{job.title}}</a></h6>
+                                    <span>{{job.jobtype}}</span>
+                                    <small>{{job.address}}, {{job.city.name}}</small>
+                                </li>
+                            </ul>
+                            <a href="" class="widget_view_jobs_btn">View all jobs <i class="careerfy-icon careerfy-arrows32"></i></a>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Job Detail SideBar -->
+
+            </div>
+        </div>
+    </div>
+    <!-- Main Section -->
+
+</div>

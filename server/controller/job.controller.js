@@ -4,6 +4,7 @@ const JobTag = db.jobTag;
 const JobSection = db.section
 const JobPoint = db.point
 const Op = db.sequelize.Op;
+const Organization = db.organization
 
 const jobStatus = {
     active:  "Active",
@@ -85,4 +86,72 @@ exports.delete = (req, res, next) => {
 		// next()
 	  res.status(200).send('deleted successfully a category with id = ' + id);
 	}).catch(next);
+};
+
+exports.getJobById = (req, res, next) => {	
+	const id = req.params.jobId;
+	Job.findAll({where:{id:id},include: [
+		{model: db.city, as: 'city'}]}).then(job => {
+			jobRsult = {};
+			if(job.length > 0){
+                jobRsult = job[0].toJSON();
+
+                Organization.findAll({where:{id:jobRsult.organizationId},include: [
+                    { model: db.file, as: 'mainImage'}
+                    ]}).then(org => {
+                        orgRsult = {};
+                        if(org.length > 0){
+                            orgRsult = org[0].toJSON();
+                            Job.findAll({ where:{id:{[Op.ne]:[jobRsult.id]},organizationId:orgRsult.id,status : {[Op.eq]: ['Active']}},include: [{
+                                    model: db.city, as: 'city'
+                                }
+                                ],offset: 0, limit: parseInt(5),order:[['createdAt', 'DESC']]}).then(jobs =>{
+                                    orgRsult.jobs = jobs;
+                                    jobRsult.organization =  orgRsult
+
+                            JobTag.findAll({where:{jobId:jobRsult.id},include: [{model:db.tag,as:'tag'}] }).then(tags=>{
+                                jobRsult.tags = tags
+                                jobRsult.sections = [];
+                                JobSection.findAll({where:{jobId:jobRsult.id} ,order:[['createdAt', 'ASC']]}).then(sections=>{
+                                    if(sections.length > 0){
+                                        
+                                        for (let index = 0; index < sections.length; index++) {
+
+                                            (function(index){
+                                                
+                                            JobPoint.findAll({where:{sectionId:sections[index].id} ,order:[['createdAt', 'ASC']]}).then(points=>{
+                                                JsonSection = {};
+                                                JsonSection = sections[index].toJSON();
+                                                sectionpoints = []
+                                                for (let index2 = 0; index2 < points.length; index2++) {
+                                                    const point = points[index2];
+                                                    jsonPoint = point.toJSON();
+                                                    sectionpoints.push(jsonPoint)
+                                                }
+                                                JsonSection.points = sectionpoints; 
+                                                jobRsult.sections.push(JsonSection);
+                                                if(index === sections.length - 1){
+                                                     res.send(jobRsult);
+                                                }
+                                            })
+                                            }(index));
+                                 
+                                        }
+                                        
+                                    }else{
+                                        
+                                res.send(jobRsult);
+                                    }
+                                })
+                                
+                                })
+                            })
+                        }else{
+                            res.send(jobRsult);
+                        }
+                    }).catch(next);
+			}else{
+				res.send(jobRsult);
+			}
+		}).catch(next);
 };
