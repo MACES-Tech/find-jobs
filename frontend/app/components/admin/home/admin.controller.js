@@ -23,7 +23,8 @@ angular.module('jobs')
                 html:"./app/components/admin/page-content/manage-jobs.html",
                 icon:"careerfy-briefcase-1",
                 url:"jobs",
-                showInList:true
+                showInList:true,
+                function:getManageJobsPage
             },
             {
                 title:"Tags",
@@ -40,10 +41,11 @@ angular.module('jobs')
                 showInList:true
             },{
                 title:"Post a New Job",
-                html:"",
+                html:"./app/components/admin/page-content/new-job.html",
                 icon:"careerfy-plus",
                 url:"new_job",
-                showInList:true
+                showInList:true,
+                function:getNewJobPage
             },{
                 title:"Subscriptions List",
                 html:"",
@@ -189,7 +191,37 @@ const numberOfitemPerPages = 9;
         };
 
         
+        $scope.getManageJobsPage = function(pageNumber){
+            getManageJobsPage(pageNumber)
+        }
+        function getManageJobsPage(pageNumber){
+            if(!pageNumber){
+                pageNumber = 1;
+            }
+            $scope.currentPageNumberInJobsPage = pageNumber;
+            adminService.getJobs(pageNumber,numberOfitemPerPages,function(res,err){
+                if(!err){
+                    $scope.jobs = res.data.jobs;
+                    console.log( $scope.jobs);
+                    $scope.numberOfPagesInJobsPage = getTotalPages(numberOfitemPerPages,res.data.count);
+                }
+            })
+        }
+
+
         $scope.org={}
+        $scope.job={};
+        $scope.job.sections=[];
+        $scope.loadTags = function($query) {
+                return $scope.AllTags.filter(function(tag) {
+                  return tag.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+                });
+          };
+          $scope.loadOrganizations= function($query) {
+            return $scope.AllOrganizations.organizations.filter(function(org) {
+              return org.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
+      };
         function getNewOrgainzationPage(){
             adminService.getCountries(function(res,err){
                 if(!err){
@@ -197,8 +229,51 @@ const numberOfitemPerPages = 9;
                 }
             })
         }
+
+        function getNewJobPage(){
+            adminService.getCountries(function(res,err){
+                if(!err){
+                    $scope.countries = res.data;
+                }
+            })
+            adminService.getAllTags(function(res,err){
+                $scope.AllTags = res.data;
+            })
+            adminService.getOrganizations(1,1000,function(res,err){
+                $scope.AllOrganizations = res.data;
+            })
+            var section={title:"",description:"",points:[{title:""}]};
+            $scope.job.sections.push(section)
+        }
+        $scope.addPointInSection = function(section){
+            section.points.push({title:""})
+        }
+        $scope.addNewSection = function(){
+            var section={title:"",description:"",points:[{title:""}]};
+            $scope.job.sections.push(section)
+        }
+        $scope.removePointInSection = function(section,index){
+            section.points.splice(index, 1);
+        }
+        $scope.removeSection = function(index){
+            $scope.job.sections.splice(index, 1);
+        }
+        $scope.addNewJob = function(job){
+            job.creator = $rootScope.getcurrentUser();
+            console.log(job);
+            adminService.createJobPost(job,function(res,err){
+                if(!err){
+                    SweetAlert.swal("Good job!", "The Job added successfully", "success");
+                }else{
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }
+            })
+            
+        }
+        
         $scope.getCities = function(country){
             $scope.org.selectedCity = ""
+            $scope.job.selectedCity = ""
             country = JSON.parse(country)
             adminService.getCities(country,function(res,err){
                 if(!err){
@@ -222,7 +297,7 @@ const numberOfitemPerPages = 9;
                         modelObject = {name:model.name, email:model.email, phone:model.phone,website:model.webSite,description:model.description, mainImageId:resp.data.insertedFile.id,address:model.address,postcode:model.postcode,lat:model.lat,long:model.long,facebook:model.facebook,twitter:model.twitter,googlePlus:model.googlePlus,youtube:model.youtube,vimeo:model.vimeo,linkedin:model.linkedin,cityId:JSON.parse(model.selectedCity).id,industry:model.industry};
                         adminService.creatNewOrganization(modelObject,function(res,err){
                             if(!err){
-                                SweetAlert.swal("Good job!", "The Image added successfully", "success");
+                                SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
                             }else{
                                 SweetAlert.swal("Error", "an error occuers", "error");
                             }

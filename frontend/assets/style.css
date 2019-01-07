@@ -2098,3 +2098,6 @@ li:hover .careerfy-read-more { background-color: transparent; }
          -o-transition: all 0.4s ease-in-out;
             transition: all 0.4s ease-in-out;
 }
+tags-input.hide-input .tags input.input{
+    display: none ;
+  }

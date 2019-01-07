@@ -22,10 +22,16 @@ angular.module('jobs')
                         $scope.error = "You are not allowed to login!"
                     }else{
                         $rootScope.setcurrentUser(JSON.stringify(res.data.user), res.data.token);
+                        $scope.closePopup();
                     }
                     
                 });
             }
+        }
+        $scope.closePopup = function(){
+            var script = document.createElement('script');
+            script.src = "assets/js/hideModal.js";
+            document.head.appendChild(script)
         }
         $scope.register = function(name , email,password,phone){
             debugger

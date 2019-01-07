@@ -3,12 +3,8 @@ module.exports = (sequelize, Sequelize) => {
 
 	const Point = sequelize.define('point', {
         title: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            unique: true
-        },
-        body: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         }
     })
     Point.belongsTo(Section, {foreignKey: 'sectionId', targetKey: 'id', as : 'section'});
