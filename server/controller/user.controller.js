@@ -53,19 +53,29 @@ var setPassword = function(password){
 
 exports.resetPassword = (req, res, next) => {
 	const id = req.params.userId;
-	
-	var saltAndHash = setPassword(req.body.password);
-	var user = {
-		salt: saltAndHash.salt,
-		hash: saltAndHash.hash
-};
 
-	Users.update( user, 
-					 { where: {id: id} }
-				   ).then(() => {
-						// next()
-					 res.status(200).send("updated successfully a user with id = " + id);
-				   }).catch(next);
+	Users.find({where:{id: id }}).then(user => {
+		if (!user) {
+			return res.send(401);
+		} else {
+			var hash = crypto.pbkdf2Sync(req.body.oldPassword, user.salt, 1000, 64, 'sha512').toString('hex');
+			if(user.hash != hash){
+				return res.status(401).send("Old password is not correct");
+			}
+			var saltAndHash = setPassword(req.body.password);
+			var user = {
+				salt: saltAndHash.salt,
+				hash: saltAndHash.hash
+			};
+			Users.update( user, { where: {id: id} })
+			.then(() => {
+				res.status(200).send("updated successfully a user with id = " + id);
+			}).catch(next);
+		
+		}
+	  }).catch(err => {
+		  return res.send(401);
+	  });
 };
  
 exports.delete = (req, res, next) => {

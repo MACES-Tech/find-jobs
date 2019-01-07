@@ -295,4 +295,22 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+
+    self.resetPassword = function(resetPasswordObject,cb){
+        $http({
+            method: 'PUT',
+            url: $rootScope.backendURL + "reset_password/" + $rootScope.getcurrentUser().id,
+            data:JSON.stringify(resetPasswordObject)
+        }).then(
+            function successCallback(res) {
+                if (res.status != 200 && res.status != 201) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            });
+    };
 })

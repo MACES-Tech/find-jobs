@@ -415,8 +415,7 @@ angular.module('jobs')
                 }else{
                     SweetAlert.swal("Error", "an error occuers", "error");
                 }
-            })
-            
+            });
         }
         
         $scope.getCities = function(country){
@@ -427,7 +426,7 @@ angular.module('jobs')
                 if(!err){
                     $scope.cities = res.data;
                 }
-            })
+            });
         }
         $scope.getCityData = function(selectedCity){
             selectedCity = JSON.parse(selectedCity)
@@ -469,7 +468,26 @@ angular.module('jobs')
         $scope.openFileUploader = function(id){
             document.getElementById(id).click();
         }
-        $scope.init()
+        $scope.init();
+
+        $scope.resetPasswordObject = {};
+        $scope.resetPassword = function(){
+           if($scope.resetPasswordObject.newPassword != $scope.resetPasswordObject.confirmNewPassword){
+                SweetAlert.swal("Error", "New password doesn't match confirm new password field", "error");
+           }
+
+           adminService.resetPassword({
+               password: $scope.resetPasswordObject.newPassword,
+               oldPassword: $scope.resetPasswordObject.oldPassword
+           }, function(res, err){
+                if(err){
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }else{
+                    SweetAlert.swal("Done", "", "success");
+                    $rootScope.signOut();
+                }
+            });
+        }
 
 
 });
