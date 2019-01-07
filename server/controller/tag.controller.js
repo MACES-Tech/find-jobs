@@ -9,8 +9,25 @@ exports.create = (req, res, next) => {
 };
  
 exports.findAll = (req, res, next) => {
-	Tag.findAll({where:{active:true}, order:[['createdAt', 'DESC']]}).then(tags => {
-	  res.send(tags);
+	var pageNumber = req.query.pageNumber;
+	var itemsPerPage = req.query.itemsPerPage;
+	if(!pageNumber || pageNumber === "undefined"){
+		pageNumber = 1;
+	}
+	if(!itemsPerPage || itemsPerPage === "undefined"){
+		itemsPerPage = 8;
+	}
+	offset = (pageNumber - 1) * itemsPerPage 
+	var jsonResult ={};
+	Tag.count().then(count=>{
+		jsonResult.count = count;
+		Tag.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(tags => {
+			jsonResult.tags = [];
+			for (let index = 0; index < tags.length; index++) {
+				jsonResult.tags.push(tags[index].toJSON());
+			}
+			res.send(jsonResult);
+		  }).catch(next);
 	}).catch(next);
 };
  

@@ -27,10 +27,11 @@ angular.module('jobs')
             },
             {
                 title:"Tags",
-                html:"",
+                html:"./app/components/admin/page-content/manage-tags.html",
                 icon:"careerfy-salary",
                 url:"tags",
-                showInList:true
+                showInList:true,
+                function:getManageTagsPage
             },{
                 title:"Users",
                 html:"",
@@ -105,7 +106,7 @@ const numberOfitemPerPages = 9;
         }
 
         $scope.getManageOrgainzationPage = function(pageNumber){
-            getManageOrgainzationPage(pageNumber)
+            getManageOrgainzationPage(pageNumber);
         }
         function getManageOrgainzationPage(pageNumber){
             if(!pageNumber){
@@ -119,6 +120,75 @@ const numberOfitemPerPages = 9;
                 $scope.numberOfPagesInOrganizationPage = getTotalPages(numberOfitemPerPages,res.data.count);
             })
         }
+
+        /*
+        *   Tags Section
+        */
+        $scope.newTag = {};
+        $scope.getManageTagsPage = function(pageNumber){
+            getManageTagsPage(pageNumber);
+        };
+
+        function getManageTagsPage(pageNumber){
+            if(!pageNumber){
+                pageNumber = 1;
+            }
+            $scope.currentPageNumberInTagsPage = pageNumber;
+            adminService.getTags(pageNumber,numberOfitemPerPages,function(res,err){
+                $scope.tags = res.data.tags;                
+                $scope.numberOfPagesInTagsPage = getTotalPages(numberOfitemPerPages,res.data.count);
+            });
+        }
+
+        $scope.deleteTag = function(tag){
+            adminService.deleteTag(tag.id,function(res,err){
+                if(!err){
+                    var index = $scope.tags.indexOf(tag);
+                    $scope.tags.splice(index, 1); 
+                    SweetAlert.swal("Done", "Tag deleted successfully", "success");
+                }else{
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }
+            });
+        };
+
+        $scope.updateTagKeyPressed = function(tag, $event){
+            var keyCode = $event.which || $event.keyCode;
+            if (keyCode === 13) {
+                // Do that thing you finally wanted to do
+                $scope.updateTag(tag);
+            }
+        };
+
+        $scope.updateTag = function(tag){
+            if(!tag.editMode){
+                tag.editMode = !tag.editMode;
+                return;
+            }
+            tag.editMode = !tag.editMode;
+            adminService.updateTag(tag, function(res, err){
+                if(err){
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }else{
+                    SweetAlert.swal("Done", "", "success");
+                }
+            });
+        };
+
+        $scope.addNewTag = function(){
+            adminService.addNewTag($scope.newTag, function(res, err){
+                if(err){
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }else{
+                    $scope.addNewTag = {};
+                    $scope.tags.splice(0, 0, res.data);
+                    // $scope.tags.push(0, res.data);
+                    SweetAlert.swal("Done", "", "success");
+                }
+            });
+        };
+
+        
         $scope.org={}
         function getNewOrgainzationPage(){
             adminService.getCountries(function(res,err){
