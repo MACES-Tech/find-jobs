@@ -143,7 +143,7 @@ app.service('adminService', function ($http, $rootScope) {
     self.getAllTags = function(cb){
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "tag",
+            url: $rootScope.backendURL + "tags",
             cash: true
         }).then(
             function successCallback(res) {
@@ -192,5 +192,37 @@ app.service('adminService', function ($http, $rootScope) {
             })
     };
 
+    self.deleteJobPost = function(jobId,cb){
+        $http({
+            method: 'DELETE',
+            url: $rootScope.backendURL + "job/"+jobId
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
 
+    self.deleteOrganization = function(jobId,cb){
+        $http({
+            method: 'DELETE',
+            url: $rootScope.backendURL + "organization/"+jobId
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
 })

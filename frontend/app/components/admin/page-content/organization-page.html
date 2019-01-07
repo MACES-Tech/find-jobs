@@ -14,7 +14,7 @@
                     <!-- Manage Jobs -->
                     <div class="careerfy-employer careerfy-employer-grid">
                             <ul class="careerfy-row">
-                                <li ng-repeat="org in organizations" class="careerfy-column-4">
+                                <li ng-repeat="org in organizations track by $index" class="careerfy-column-4">
                                     <div class="careerfy-employer-grid-wrap">
                                             <figure>
                                                 <a href="#" class="careerfy-employer-grid-image">
@@ -27,8 +27,15 @@
                                                     <span><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}</span>
                                                 </figcaption>
                                             </figure>
+                                            <div class="careerfy-table-cell" style="float: left; margin-left: 57px;">
+                                                    <div class="careerfy-managejobs-links">
+                                                        <a href="#" class="careerfy-icon careerfy-view"></a>
+                                                        <a href="#" class="careerfy-icon careerfy-edit"></a>
+                                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-click="deleteOrganization(org.id,$index)"></a>
+                                                    </div>
+                                                </div>
                                         </div>
-                                        <a href="#" class="careerfy-employer-grid-btn">0 Vacancies</a>
+                                        <a href="#" class="careerfy-employer-grid-btn">{{org.jobCount}} Vacancies</a>
                                 </li>
                             </ul>
                         </div>

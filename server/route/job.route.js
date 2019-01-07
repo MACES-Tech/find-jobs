@@ -3,4 +3,6 @@ module.exports = function(app) {
     const JobController = require('../controller/job.controller.js');
     app.post('/api/job',auth.required, JobController.create);
     app.get('/api/job',auth.required, JobController.getAllJobsForAdmin);
+    app.delete('/api/job/:jobId',auth.required, JobController.delete);
+
 }

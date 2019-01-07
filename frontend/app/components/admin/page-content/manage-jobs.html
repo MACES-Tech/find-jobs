@@ -26,12 +26,12 @@
                             </div>
                         </div>
                         <!-- Manage Jobs Body -->
-                        <div ng-repeat="job in jobs" class="careerfy-table-layer careerfy-managejobs-tbody">
+                        <div ng-repeat="job in jobs track by $index" class="careerfy-table-layer careerfy-managejobs-tbody">
                             <div class="careerfy-table-row">
                                 <div class="careerfy-table-cell">
                                     <h6><a href="">{{job.title}}</a></h6>
                                     <ul>
-                                        <li><i class="careerfy-icon careerfy-calendar"></i> Created: <span> {{job.postedDate | date:'MMM dd yyyy'}} </span></li>
+                                        <li><i class="careerfy-icon careerfy-calendar"></i> Created: <span> {{job.createdAt | date:'MMM dd yyyy' :'UTC'}} </span></li>
                                         <li><i class="careerfy-icon careerfy-calendar"></i> Expiry: <span>{{job.dueDate | date:'MMM dd yyyy'}}</span></li>
                                         <li><i class="careerfy-icon careerfy-maps-and-flags"></i> {{job.address}}, {{job.city.name}}</li>
                                         <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> <a href="">{{job.jobtype}}</a></li>
@@ -47,7 +47,7 @@
                                     <div class="careerfy-managejobs-links">
                                         <a href="#" class="careerfy-icon careerfy-view"></a>
                                         <a href="#" class="careerfy-icon careerfy-edit"></a>
-                                        <a href="#" class="careerfy-icon careerfy-rubbish"></a>
+                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-click="deleteJobPost(job.id,$index)"></a>
                                     </div>
                                 </div>
                             </div>

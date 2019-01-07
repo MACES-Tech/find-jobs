@@ -8,7 +8,7 @@ exports.create = (req, res, next) => {
 	}).catch(next);
 };
  
-exports.findAll = (req, res, next) => {
+exports.findAllPaging = (req, res, next) => {
 	var pageNumber = req.query.pageNumber;
 	var itemsPerPage = req.query.itemsPerPage;
 	if(!pageNumber || pageNumber === "undefined"){
@@ -30,9 +30,11 @@ exports.findAll = (req, res, next) => {
 		  }).catch(next);
 	}).catch(next);
 };
- 
-
- 
+exports.findAll = (req, res, next) => {
+	Tag.findAll({where:{active:true}, order:[['createdAt', 'DESC']]}).then(tags => {
+	  res.send(tags);
+	}).catch(next);
+};
 exports.update = (req, res, next) => {
     const id = req.params.tagId;
     tag = req.body;
