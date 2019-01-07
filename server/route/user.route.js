@@ -7,6 +7,7 @@ module.exports = function(app) {
     app.post('/api/user',auth.required, userController.create);
     app.get('/api/user', auth.required,userController.findAll);
     app.put('/api/user/:userId',auth.required, userController.update);
+    app.put('/api/reset_password/:userId',auth.required, userController.resetPassword);
     app.delete('/api/user/:userId',auth.required, userController.delete);
  
 }
