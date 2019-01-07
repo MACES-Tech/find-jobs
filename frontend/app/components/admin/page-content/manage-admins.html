@@ -1,0 +1,113 @@
+<div class="careerfy-column-9">
+        <div class="careerfy-typo-wrap">
+            <div class="careerfy-employer-dasboard">
+                <div class="careerfy-employer-box-section">
+                    <!-- Profile Title -->
+                    <div class="careerfy-profile-title">
+                        <h2>Manage Admins</h2>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAdminModal">
+                                New Admin
+                        </button>
+                        <form class="careerfy-employer-search">
+                            <!-- Button trigger modal -->
+                            <input value="Search admins" onblur="if(this.value == '') { this.value ='Search admins'; }" onfocus="if(this.value =='Search admins') { this.value = ''; }" type="text">
+                            <input type="submit" value="">
+                            <i class="careerfy-icon careerfy-search"></i>
+                        </form>
+                    </div>
+                    <!-- Manage Jobs -->
+                    <div class="careerfy-managejobs-list-wrap">
+                        <div class="careerfy-managejobs-list">
+                            <!-- Manage Jobs Header -->
+                            <div class="careerfy-table-layer careerfy-managejobs-thead">
+                                <div class="careerfy-table-row">
+                                    <div class="careerfy-table-cell">Name</div>
+                                    <div class="careerfy-table-cell">E-Mail</div>
+                                    <div class="careerfy-table-cell">Phone</div>
+                                    <!-- <div class="careerfy-table-cell">Status</div> -->
+                                    <div class="careerfy-table-cell"></div>
+                                </div>
+                            </div>
+                            <!-- Manage Jobs Body -->
+                            <div ng-repeat="admin in admins" class="careerfy-table-layer careerfy-managejobs-tbody">
+                                <div class="careerfy-table-row">
+                                    <div class="careerfy-table-cell">
+                                        <h6 ng-if="!admin.editMode"><a href="">{{admin.name}}</a></h6>
+                                        <input ng-if="admin.editMode" placeholder="Edit admin" type="text" ng-model="admin.name" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
+                                        <!-- <ul>
+                                            <li><i class="careerfy-icon careerfy-calendar"></i> Created: <span>Sep 14, 2017</span></li>
+                                            <li><i class="careerfy-icon careerfy-calendar"></i> Expiry: <span>Dec 9, 2017</span></li>
+                                            <li><i class="careerfy-icon careerfy-maps-and-flags"></i> Netherlands, Rotterdam</li>
+                                            <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> <a href="#">Web Developer</a></li>
+                                        </ul> -->
+                                    </div>
+                                    <div class="careerfy-table-cell">
+                                            <a href="" class="careerfy-managejobs-appli" ng-if="!admin.editMode">{{admin.email}}</a>
+                                            <input ng-if="admin.editMode" placeholder="Email" type="text" ng-model="admin.email" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
+                                    </div>
+                                    <div class="careerfy-table-cell">
+                                            <a href="" class="careerfy-managejobs-appli" ng-if="!admin.editMode">{{admin.phone}}</a>
+                                            <input ng-if="admin.editMode" placeholder="Phone" type="text" ng-model="admin.phone" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
+                                    </div>
+                                    <!-- <div class="careerfy-table-cell"><i class="fa fa-star-o"></i></div> -->
+                                    <!-- <div class="careerfy-table-cell"><span class="careerfy-managejobs-option">Pending</span></div> -->
+                                    <div class="careerfy-table-cell">
+                                        <div class="careerfy-managejobs-links">
+                                            <!-- <a href="#" class="careerfy-icon careerfy-view"></a> -->
+                                            <a class="careerfy-icon careerfy-edit" ng-click="updateAdmin(admin)"></a>
+                                            <a class="careerfy-icon careerfy-rubbish" ng-click="deleteAdmin(admin)"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Manage Jobs Body -->
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="careerfy-pagination-blog">
+                            <ul class="page-numbers">
+                                    <li ng-click="getManageAdminsPage(currentPageNumberInAdminsPage - 1)"><a class="prev page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                                    <li ng-repeat="pages in  [].constructor(numberOfPagesInAdminsPage) track by $index " ng-click="getManageAdminsPage($index + 1)"><span style="cursor: pointer;" ng-class="{'current':$index + 1  === currentPageNumberInAdminsPage}" class="page-numbers ">{{ $index + 1 }}</span></li>
+                                    <li ng-show="currentPageNumberInAdminsPage + 1 <= numberOfPagesInAdminsPage"ng-click="getManageAdminsPage(currentPageNumberInAdminsPage + 1)" ><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
+                                    <li ng-show="currentPageNumberInAdminsPage + 1 > numberOfPagesInAdminsPage"><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
+                                </ul>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="newAdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add new admin</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                                <input placeholder="Name" class="form-control" type="text" placeholder="Default input" ng-model="newAdmin.name">
+                        </div>
+                        <div class="row">
+                                <input placeholder="Email" class="form-control" type="email" placeholder="Default input" ng-model="newAdmin.email">
+                        </div>
+                        <div class="row">
+                                <input placeholder="Phone Number" class="form-control" type="number" placeholder="Default input" ng-model="newAdmin.phone">
+                        </div>
+                        <div class="row">
+                                <input placeholder="Password" class="form-control" type="password" placeholder="Default input" ng-model="newAdmin.password">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addNewAdmin()">Add</button>
+                </div>
+              </div>
+            </div>
+    </div>

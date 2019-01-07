@@ -25,7 +25,11 @@ module.exports = (sequelize, Sequelize) => {
         salt: {
             type: Sequelize.STRING,
             allowNull: false
-		}
+		},
+        active: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        }
     });
     
 	return User;
