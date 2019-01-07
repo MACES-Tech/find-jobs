@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div ng-include="'./app/components/admin/page-content/menu.html'"></div>   
-                <div ng-repeat="page in pages" ng-if="currentPage.url == page.url" ng-include="page.html"></div>
+                <div ng-repeat="page in pages"  ng-if="currentPage.url == page.url && hasAuthorityToViewPage(page)" ng-include="page.html"></div>
                 <div  ng-if="currentPage.url == notFoundPage.url" ng-include="notFoundPage.html"></div>
                 <div newOrganizationPanel></div>   
             </div>

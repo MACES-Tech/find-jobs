@@ -8,7 +8,8 @@ angular.module('jobs')
                 icon:"careerfy-business",
                 url:"organizations",
                 showInList:true,
-                function:getManageOrgainzationPage
+                function:getManageOrgainzationPage,
+                authority:['SUPER_ADMIN']
             },
             {
                 title: "New organization",
@@ -16,7 +17,8 @@ angular.module('jobs')
                 url:"new_organization",
                 icon:"careerfy-plus",
                 showInList:true,
-                function:getNewOrgainzationPage
+                function:getNewOrgainzationPage,
+                authority:['SUPER_ADMIN']
             },
             {
                 title:"Manage Jobs",
@@ -24,7 +26,8 @@ angular.module('jobs')
                 icon:"careerfy-briefcase-1",
                 url:"jobs",
                 showInList:true,
-                function:getManageJobsPage
+                function:getManageJobsPage,
+                authority:['SUPER_ADMIN']
             },
             {
                 title:"Tags",
@@ -32,13 +35,15 @@ angular.module('jobs')
                 icon:"careerfy-salary",
                 url:"tags",
                 showInList:true,
-                function:getManageTagsPage
+                function:getManageTagsPage,
+                authority:['SUPER_ADMIN']
             },{
                 title:"Admins",
                 html:"./app/components/admin/page-content/manage-admins.html",
                 icon:"careerfy-group",
                 url:"admins",
                 showInList:true,
+                authority:['SUPER_ADMIN'],
                 function:getManageAdminsPage
             },{
                 title:"Post a New Job",
@@ -46,33 +51,46 @@ angular.module('jobs')
                 icon:"careerfy-plus",
                 url:"new_job",
                 showInList:true,
-                function:getNewJobPage
+                function:getNewJobPage,
+                authority:['SUPER_ADMIN','ADMIN']
             },{
                 title:"Subscriptions List",
                 html:"",
                 icon:"careerfy-alarm",
                 url:"subscription_list",
-                showInList:true
+                showInList:true,
+                authority:['SUPER_ADMIN']
             },
             {
                 title: "Change password",
                 html:"./app/components/admin/page-content/change-password.html",
                 icon:"careerfy-multimedia",
                 url:"change_password",
-                showInList:true
+                showInList:true,
+                authority:['SUPER_ADMIN','ADMIN']
             }
         ]
         $scope.notFoundPage = {
             title: "Not found",
             html:"./app/components/admin/page-content/not-found.html",
-            url:"not_found"
+            url:"not_found",
+            authority:['SUPER_ADMIN','ADMIN']
         }
-const numberOfitemPerPages = 9;
+        const numberOfitemPerPages = 9;
         // $scope.org={name:"Enter Name",industry:"Banking",hotLine:"19600",email:"dum72@gmail.com","webSite":" http://themeforest.net"}
         $scope.opnePage = function(pageUrl){
             $location.path ('/admin/home',false).search({page: pageUrl});
             setCurrentPage(($location.search()).page);
             
+        }
+        $scope.hasAuthorityToViewPage = function(page){
+            const userRole = $rootScope.getcurrentUser().role;
+            if(page.authority.indexOf(userRole) > -1){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         $scope.init = function(){
             if(!$rootScope.isAdmin()){
@@ -81,14 +99,18 @@ const numberOfitemPerPages = 9;
             }
             if(!($location.search()).page){
                 // $scope.opnePage($scope.pages[0].url);
-                $location.path ('/admin/home',false).search({page: $scope.pages[0].url});
-            }else{
-                $location.path ('/admin/home',false).search({page: ($location.search()).page});
-                
-            }
+                if($rootScope.getcurrentUser().role ==='SUPER_ADMIN')
+                    $location.path ('/admin/home',false).search({page: $scope.pages[0].url});
+                else{
+                    $location.path ('/admin/home',false).search({page: $scope.pages[5].url});
+                }
+                }else{
+                    $location.path ('/admin/home',false).search({page: ($location.search()).page});
+                }
             setCurrentPage(($location.search()).page)
         }
         function setCurrentPage(pageUrl){
+            
             $scope.currentPage=undefined;
             $scope.pages.forEach(element => {
                 if(element.url === pageUrl){
@@ -99,8 +121,13 @@ const numberOfitemPerPages = 9;
             if(!$scope.currentPage){
                 $scope.currentPage = $scope.notFoundPage;
             }
-            if($scope.currentPage)
+            if($scope.currentPage && $scope.hasAuthorityToViewPage($scope.currentPage))
                 getPageContent($scope.currentPage)
+            else{
+                $scope.currentPage = $scope.notFoundPage;
+                getPageContent($scope.currentPage)
+            }
+                
         }
 
         function getPageContent(page){
@@ -277,7 +304,59 @@ const numberOfitemPerPages = 9;
             })
         }
 
-
+        $scope.deleteJobPost = function(jobId,index){
+            SweetAlert.swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this operation!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false }, 
+             function(isConfirm){ 
+                if (isConfirm) {
+                    $scope.deleteIt(jobId,index)
+                } else {
+                   SweetAlert.swal("Cancelled", "Your data is safe :)", "error");
+                }
+             });
+        }
+        $scope.deleteIt = function(jobId,index){
+            adminService.deleteJobPost(jobId,function(res,err){
+                if(!err){
+                    $scope.jobs.splice(index, 1);
+                    SweetAlert.swal("Deleted!", "Your data has been deleted.", "success");
+                }
+            })
+        }
+        $scope.deleteOrganization = function(orgId,index){
+            SweetAlert.swal({
+                title: "Are you sure?",
+                text: "Your will not be able to recover this operation!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false }, 
+             function(isConfirm){ 
+                if (isConfirm) {
+                    $scope.deleteOrg(orgId,index)
+                } else {
+                   SweetAlert.swal("Cancelled", "Your data is safe :)", "error");
+                }
+             });
+        }
+        $scope.deleteOrg = function(orgId,index){
+            adminService.deleteOrganization(orgId,function(res,err){
+                if(!err){
+                    $scope.organizations.splice(index, 1);
+                    SweetAlert.swal("Deleted!", "Your data has been deleted.", "success");
+                }
+            })
+        }
+        
         $scope.org={}
         $scope.job={};
         $scope.job.sections=[];

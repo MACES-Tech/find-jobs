@@ -31,7 +31,7 @@ angular.module('jobs')
 
     $rootScope.isAdmin = function () {
         admin = $rootScope.getcurrentUser();
-        if (admin && (admin.role == "SUPER_ADMIN")) {
+        if (admin && (admin.role == "SUPER_ADMIN" || admin.role == "ADMIN")) {
             return true;
         }
         return false;

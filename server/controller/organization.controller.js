@@ -1,5 +1,6 @@
 const db = require('../config/db.config.js');
 const Organization = db.organization;
+const Job = db.job;
 
 exports.create = (req, res, next) => {
     org = req.body;
@@ -23,15 +24,22 @@ exports.findAll = (req, res, next) => {
 		jsonResult.count = count;
 		Organization.findAll({where:{active:true},include: [
 			{ model: db.file, as: 'mainImage'
-		 	},{
+			},{
 				model: db.city, as: 'city'
 			 }
 		],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
 			jsonResult.organizations = [];
 			for (let index = 0; index < orgs.length; index++) {
-				jsonResult.organizations.push(orgs[index].toJSON());
+				org = orgs[index].toJSON();
+				Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
+					org.jobCount = count;
+					jsonResult.organizations.push(org);
+
+					if(index == orgs.length - 1){
+						res.send(jsonResult);
+					}
+				})
 			}
-			res.send(jsonResult);
 		  }).catch(next);
 	}).catch(next);
 

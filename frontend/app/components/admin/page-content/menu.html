@@ -12,7 +12,7 @@
                     </figcaption>
                 </figure>
                 <ul>
-                    <li ng-repeat="page in pages|filter:{showInList:true}" ng-class="{'active': currentPage.url == page.url}" ng-click="opnePage(page.url)">
+                    <li ng-repeat="page in pages|filter:{showInList:true}" ng-if="hasAuthorityToViewPage(page)" ng-class="{'active': currentPage.url == page.url}" ng-click="opnePage(page.url)">
                         <a href="">
                             <i class="careerfy-icon {{page.icon}}"></i> {{page.title}}
                         </a>

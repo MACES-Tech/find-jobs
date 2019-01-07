@@ -3,11 +3,13 @@ const Job = db.job;
 const JobTag = db.jobTag;
 const JobSection = db.section
 const JobPoint = db.point
+const Op = db.sequelize.Op;
 
 const jobStatus = {
-    active: "Active",
+    active:  "Active",
     pending: "Pending",
-    expired: "Expired"
+    expired: "Expired",
+    deleted: "Deleted"
 }
 exports.create = (req, res, next) => {
     job = req.body;
@@ -59,7 +61,7 @@ exports.getAllJobsForAdmin = (req, res, next) => {
     var jsonResult = {};
     Job.count().then(count => {
         jsonResult.count = count;
-        Job.findAll({
+        Job.findAll({ where:{status : {[Op.ne]: [jobStatus.deleted]} },
             include: [
                 { model: db.users, as: 'creator' },
                 { model: db.city, as: 'city' },
@@ -75,3 +77,12 @@ exports.getAllJobsForAdmin = (req, res, next) => {
 
     }).catch(next);
 }
+exports.delete = (req, res, next) => {
+    const id = req.params.jobId;
+	Job.update( {status: jobStatus.deleted}, 
+        { where: {id: id} }
+      ).then(() => {
+		// next()
+	  res.status(200).send('deleted successfully a category with id = ' + id);
+	}).catch(next);
+};
