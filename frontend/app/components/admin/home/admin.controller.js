@@ -38,12 +38,13 @@ angular.module('jobs')
                 function:getManageTagsPage,
                 authority:['SUPER_ADMIN']
             },{
-                title:"Users",
-                html:"",
+                title:"Admins",
+                html:"./app/components/admin/page-content/manage-admins.html",
                 icon:"careerfy-group",
-                url:"users",
+                url:"admins",
                 showInList:true,
-                authority:['SUPER_ADMIN']
+                authority:['SUPER_ADMIN'],
+                function:getManageAdminsPage
             },{
                 title:"Post a New Job",
                 html:"./app/components/admin/page-content/new-job.html",
@@ -212,6 +213,74 @@ angular.module('jobs')
                     $scope.addNewTag = {};
                     $scope.tags.splice(0, 0, res.data);
                     // $scope.tags.push(0, res.data);
+                    SweetAlert.swal("Done", "", "success");
+                }
+            });
+        };
+
+
+        /*
+        *   Admins Section
+        */
+        $scope.newAdmin = {};
+        $scope.getManageAdminsPage = function(pageNumber){
+            getManageAdminsPage(pageNumber);
+        };
+
+        function getManageAdminsPage(pageNumber){
+            if(!pageNumber){
+                pageNumber = 1;
+            }
+            $scope.currentPageNumberInAdminsPage = pageNumber;
+            adminService.getAdmins(pageNumber,numberOfitemPerPages,function(res,err){
+                $scope.admins = res.data.users;                
+                $scope.numberOfPagesInAdminsPage = getTotalPages(numberOfitemPerPages,res.data.count);
+            });
+        }
+
+        $scope.deleteAdmin = function(admin){
+            adminService.deleteAdmin(admin.id,function(res,err){
+                if(!err){
+                    var index = $scope.admins.indexOf(admin);
+                    $scope.admins.splice(index, 1); 
+                    SweetAlert.swal("Done", "Admin deleted successfully", "success");
+                }else{
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }
+            });
+        };
+
+        $scope.updateAdminKeyPressed = function(admin, $event){
+            var keyCode = $event.which || $event.keyCode;
+            if (keyCode === 13) {
+                // Do that thing you finally wanted to do
+                $scope.updateAdmin(admin);
+            }
+        };
+
+        $scope.updateAdmin = function(admin){
+            if(!admin.editMode){
+                admin.editMode = !admin.editMode;
+                return;
+            }
+            admin.editMode = !admin.editMode;
+            adminService.updateAdmin(admin, function(res, err){
+                if(err){
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }else{
+                    SweetAlert.swal("Done", "", "success");
+                }
+            });
+        };
+
+        $scope.addNewAdmin = function(){
+            $scope.newAdmin.role = "ADMIN";
+            adminService.addNewAdmin($scope.newAdmin, function(res, err){
+                if(err){
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }else{
+                    $scope.newAdmin = {};
+                    $scope.admins.splice(0, 0, res.data.user);
                     SweetAlert.swal("Done", "", "success");
                 }
             });
