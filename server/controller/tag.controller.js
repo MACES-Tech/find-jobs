@@ -26,14 +26,15 @@ exports.findAllPaging = (req, res, next) => {
 			jsonResult.tags = [];
 			for (let index = 0; index < tags.length; index++) {
 				// jsonResult.tags.push(tags[index].toJSON());
-				tag = tags[index].toJSON();
-				JobTag.count({where:{tagId:tags[index].id}}).then(count => {
-					tag.jobCount = count;
-					jsonResult.tags.push(tag);
-					if(index == tags.length - 1){
-						res.send(jsonResult);
-					}
-				});
+				(function(tag, index){
+					JobTag.count({where:{tagId:tags[index].id}}).then(count => {
+						tag.jobCount = count;
+						jsonResult.tags.push(tag);
+						if(index == tags.length - 1){
+							res.send(jsonResult);
+						}
+					});
+				})(tags[index].toJSON(), index);
 			}
 			// res.send(jsonResult);
 		  }).catch(next);
