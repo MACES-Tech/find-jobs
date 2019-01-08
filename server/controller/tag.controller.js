@@ -1,5 +1,6 @@
 const db = require('../config/db.config.js');
 const Tag = db.tag;
+const JobTag = db.jobTag;
 
 exports.create = (req, res, next) => {
     tag = req.body;
@@ -24,17 +25,27 @@ exports.findAllPaging = (req, res, next) => {
 		Tag.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(tags => {
 			jsonResult.tags = [];
 			for (let index = 0; index < tags.length; index++) {
-				jsonResult.tags.push(tags[index].toJSON());
+				// jsonResult.tags.push(tags[index].toJSON());
+				tag = tags[index].toJSON();
+				JobTag.count({where:{tagId:tags[index].id}}).then(count => {
+					tag.jobCount = count;
+					jsonResult.tags.push(tag);
+					if(index == tags.length - 1){
+						res.send(jsonResult);
+					}
+				});
 			}
-			res.send(jsonResult);
+			// res.send(jsonResult);
 		  }).catch(next);
 	}).catch(next);
 };
+
 exports.findAll = (req, res, next) => {
 	Tag.findAll({where:{active:true}, order:[['createdAt', 'DESC']]}).then(tags => {
 	  res.send(tags);
 	}).catch(next);
 };
+
 exports.update = (req, res, next) => {
     const id = req.params.tagId;
     tag = req.body;

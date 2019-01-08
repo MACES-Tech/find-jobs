@@ -445,6 +445,7 @@ angular.module('jobs')
                         adminService.creatNewOrganization(modelObject,function(res,err){
                             if(!err){
                                 SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
+                                $scope.org = {};
                             }else{
                                 SweetAlert.swal("Error", "an error occuers", "error");
                             }
@@ -474,6 +475,7 @@ angular.module('jobs')
         $scope.resetPassword = function(){
            if($scope.resetPasswordObject.newPassword != $scope.resetPasswordObject.confirmNewPassword){
                 SweetAlert.swal("Error", "New password doesn't match confirm new password field", "error");
+                return;
            }
 
            adminService.resetPassword({
@@ -481,7 +483,7 @@ angular.module('jobs')
                oldPassword: $scope.resetPasswordObject.oldPassword
            }, function(res, err){
                 if(err){
-                    SweetAlert.swal("Error", "an error occuers", "error");
+                    SweetAlert.swal("Error", err.data, "error");
                 }else{
                     SweetAlert.swal("Done", "", "success");
                     $rootScope.signOut();
