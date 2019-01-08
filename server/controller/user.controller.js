@@ -3,7 +3,10 @@ var crypto = require('crypto');
 const Users = db.users;
  
 exports.create = (req, res, next) => {
-    user = req.body;
+	user = req.body;
+	var saltAndHash = setPassword(req.body.password);
+	user.salt = saltAndHash.salt;
+	user.hash = saltAndHash.hash;
 	Users.create(user).then(user => {
 		res.send(user);
 	}).catch(next);
@@ -36,7 +39,12 @@ exports.findAll = (req, res, next) => {
  
 exports.update = (req, res, next) => {
     const id = req.params.userId;
-    user = req.body;
+	user = req.body;
+	if(req.body.password !== undefined && req.body.password !== ''){
+		var saltAndHash = setPassword(req.body.password);
+		user.salt = saltAndHash.salt;
+		user.hash = saltAndHash.hash;
+	}
 	Users.update( user, 
 					 { where: {id: id} }
 				   ).then(() => {

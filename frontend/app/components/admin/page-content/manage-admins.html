@@ -33,13 +33,15 @@
                                 <div class="careerfy-table-row">
                                     <div class="careerfy-table-cell">
                                         <h6 ng-if="!admin.editMode"><a href="">{{admin.name}}</a></h6>
-                                        <input ng-if="admin.editMode" placeholder="Edit admin" type="text" ng-model="admin.name" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
-                                        <!-- <ul>
-                                            <li><i class="careerfy-icon careerfy-calendar"></i> Created: <span>Sep 14, 2017</span></li>
-                                            <li><i class="careerfy-icon careerfy-calendar"></i> Expiry: <span>Dec 9, 2017</span></li>
-                                            <li><i class="careerfy-icon careerfy-maps-and-flags"></i> Netherlands, Rotterdam</li>
-                                            <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> <a href="#">Web Developer</a></li>
-                                        </ul> -->
+                                        <input ng-if="admin.editMode" placeholder="Name" type="text" ng-model="admin.name" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
+                                        <ul ng-if="admin.editMode">
+                                            <li>
+                                                    <input placeholder="Password" type="text" ng-model="admin.password" class="ng-pristine ng-valid ng-empty ng-touched" ng-keypress="updateAdminKeyPressed(admin, $event)">
+                                            </li>
+                                            <!-- <li><i class="careerfy-icon careerfy-calendar"></i> Expiry: <span>Dec 9, 2017</span></li> -->
+                                            <li><i class="careerfy-icon"></i>Leave blank, password will not be updated</li>
+                                            <!-- <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> <a href="#">Web Developer</a></li> -->
+                                        </ul>
                                     </div>
                                     <div class="careerfy-table-cell">
                                             <a href="" class="careerfy-managejobs-appli" ng-if="!admin.editMode">{{admin.email}}</a>
