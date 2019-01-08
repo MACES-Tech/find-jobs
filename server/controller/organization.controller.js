@@ -30,15 +30,16 @@ exports.findAll = (req, res, next) => {
 		],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
 			jsonResult.organizations = [];
 			for (let index = 0; index < orgs.length; index++) {
-				org = orgs[index].toJSON();
-				Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
-					org.jobCount = count;
-					jsonResult.organizations.push(org);
-
-					if(index == orgs.length - 1){
-						res.send(jsonResult);
-					}
-				})
+				(function(org, index){
+					Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
+						org.jobCount = count;
+						jsonResult.organizations.push(org);
+	
+						if(index == orgs.length - 1){
+							res.send(jsonResult);
+						}
+					});
+				})(orgs[index].toJSON(), index);
 			}
 		  }).catch(next);
 	}).catch(next);
