@@ -71,7 +71,12 @@ exports.delete = (req, res, next) => {
 
 exports.findById = (req, res, next) => {	
 	const id = req.params.orginzationId;
-	Organization.findAll({where:{active:true,id:id},include: [
+	// const adminId = req.params.adminId;
+	searchObejct = {active:true,id:id}
+	// if(adminId){
+	// 	searchObejct.creatorId
+	// }
+	Organization.findAll({where:searchObejct,include: [
 		{ model: db.file, as: 'mainImage'
 		},{
 			model: db.city, as: 'city'

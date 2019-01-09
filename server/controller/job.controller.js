@@ -52,6 +52,13 @@ exports.create = (req, res, next) => {
 exports.getAllJobsForAdmin = (req, res, next) => {
     var pageNumber = req.query.pageNumber;
     var itemsPerPage = req.query.itemsPerPage;
+    var adminId = req.query.adminId;
+    searchobject = {status : {[Op.ne]: [jobStatus.deleted]} }
+    countObject={}
+    if(adminId){
+        searchobject.creatorId = adminId;
+        countObject.creatorId = adminId;
+    }
     if (!pageNumber || pageNumber === "undefined") {
         pageNumber = 1;
     }
@@ -60,9 +67,9 @@ exports.getAllJobsForAdmin = (req, res, next) => {
     }
     offset = (pageNumber - 1) * itemsPerPage
     var jsonResult = {};
-    Job.count().then(count => {
+    Job.count({where:countObject}).then(count => {
         jsonResult.count = count;
-        Job.findAll({ where:{status : {[Op.ne]: [jobStatus.deleted]} },
+        Job.findAll({ where:searchobject,
             include: [
                 { model: db.users, as: 'creator' },
                 { model: db.city, as: 'city' },
@@ -84,10 +91,19 @@ exports.delete = (req, res, next) => {
         { where: {id: id} }
       ).then(() => {
 		// next()
-	  res.status(200).send('deleted successfully a category with id = ' + id);
+	  res.status(200).send('deleted successfully a job with id = ' + id);
 	}).catch(next);
 };
-
+exports.updateJob = (req, res, next) => {
+    const id = req.params.jobId;
+    job = req.body;
+	Job.update( job, 
+					 { where: {id: id} }
+				   ).then(() => {
+						// next()
+					 res.status(200).send("updated successfully a job with id = " + id);
+				   }).catch(next);
+};
 exports.getJobById = (req, res, next) => {	
 	const id = req.params.jobId;
 	Job.findAll({where:{id:id},include: [
