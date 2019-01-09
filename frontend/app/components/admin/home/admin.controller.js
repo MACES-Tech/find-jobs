@@ -171,15 +171,30 @@ angular.module('jobs')
         }
 
         $scope.deleteTag = function(tag){
-            adminService.deleteTag(tag.id,function(res,err){
-                if(!err){
-                    var index = $scope.tags.indexOf(tag);
-                    $scope.tags.splice(index, 1); 
-                    SweetAlert.swal("Done", "Tag deleted successfully", "success");
-                }else{
-                    SweetAlert.swal("Error", "an error occuers", "error");
+            SweetAlert.swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this operation!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false }, 
+             function(isConfirm){ 
+                if (isConfirm) {
+                    adminService.deleteTag(tag.id,function(res,err){
+                        if(!err){
+                            var index = $scope.tags.indexOf(tag);
+                            $scope.tags.splice(index, 1); 
+                            SweetAlert.swal("Done", "Tag deleted successfully", "success");
+                        }else{
+                            SweetAlert.swal("Error", "an error occuers", "error");
+                        }
+                    });
+                } else {
+                   SweetAlert.swal("Cancelled", "Your data is safe :)", "error");
                 }
-            });
+             });
         };
 
         $scope.updateTagKeyPressed = function(tag, $event){
@@ -239,15 +254,30 @@ angular.module('jobs')
         }
 
         $scope.deleteAdmin = function(admin){
-            adminService.deleteAdmin(admin.id,function(res,err){
-                if(!err){
-                    var index = $scope.admins.indexOf(admin);
-                    $scope.admins.splice(index, 1); 
-                    SweetAlert.swal("Done", "Admin deleted successfully", "success");
-                }else{
-                    SweetAlert.swal("Error", "an error occuers", "error");
+            SweetAlert.swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this operation!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel please!",
+                closeOnConfirm: false,
+                closeOnCancel: false }, 
+             function(isConfirm){ 
+                if (isConfirm) {
+                    adminService.deleteAdmin(admin.id,function(res,err){
+                        if(!err){
+                            var index = $scope.admins.indexOf(admin);
+                            $scope.admins.splice(index, 1); 
+                            SweetAlert.swal("Done", "Admin deleted successfully", "success");
+                        }else{
+                            SweetAlert.swal("Error", "an error occuers", "error");
+                        }
+                    });
+                } else {
+                   SweetAlert.swal("Cancelled", "Your data is safe :)", "error");
                 }
-            });
+             });
         };
 
         $scope.updateAdminKeyPressed = function(admin, $event){
