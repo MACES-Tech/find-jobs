@@ -31,7 +31,7 @@
                                                     <div class="careerfy-managejobs-links">
                                                         <a href="/?#/organization/{{org.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
                                                         <a href="#" class="careerfy-icon careerfy-edit"></a>
-                                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-click="deleteOrganization(org.id,$index)"></a>
+                                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteOrganization(org.id,$index)"></a>
                                                     </div>
                                                 </div>
                                         </div>

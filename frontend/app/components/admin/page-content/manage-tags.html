@@ -5,9 +5,6 @@
                 <!-- Profile Title -->
                 <div class="careerfy-profile-title">
                     <h2>Manage Tags</h2>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newTagModal">
-                        New Tag
-                    </button>
                     <form class="careerfy-employer-search">
                         <!-- Button trigger modal -->
                         <input value="Search tags" onblur="if(this.value == '') { this.value ='Search tags'; }" onfocus="if(this.value =='Search tags') { this.value = ''; }"
@@ -30,6 +27,25 @@
                             </div>
                         </div>
                         <!-- Manage Jobs Body -->
+                        <div class="careerfy-table-layer careerfy-managejobs-tbody">
+                            <div class="careerfy-table-row">
+                                <div class="careerfy-table-cell">
+                                    <input  placeholder="Enter Tag" type="text" ng-model="newTag.name" class="ng-pristine ng-valid ng-empty ng-touched"
+                                        ng-keypress="updateTagKeyPressed(tag, $event)" style="    float: left; width: 50%; height: 41px; border: 1px solid #eceeef; border-radius: 2px; background-color: #ffffff; padding: 6px 13px; margin: 0px; font-size: 12px; color: #777777;">
+                                </div>
+                                <div class="careerfy-table-cell">
+                                </div>
+                                <!-- <div class="careerfy-table-cell"><i class="fa fa-star-o"></i></div> -->
+                                <!-- <div class="careerfy-table-cell"><span class="careerfy-managejobs-option">Pending</span></div> -->
+                                <div class="careerfy-table-cell">
+                                    <div class="careerfy-managejobs-links">
+                                        <!-- <a href="#" class="careerfy-icon careerfy-view"></a> -->
+                                        <a class="careerfy-icon" ng-click="addNewTag()"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div ng-repeat="tag in tags" class="careerfy-table-layer careerfy-managejobs-tbody">
                             <div class="careerfy-table-row">
                                 <div class="careerfy-table-cell">
@@ -54,7 +70,7 @@
                                     <div class="careerfy-managejobs-links">
                                         <!-- <a href="#" class="careerfy-icon careerfy-view"></a> -->
                                         <a class="careerfy-icon careerfy-edit" ng-click="updateTag(tag)"></a>
-                                        <a class="careerfy-icon careerfy-rubbish" ng-click="deleteTag(tag)"></a>
+                                        <a class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteTag(tag)"></a>
                                     </div>
                                 </div>
                             </div>
@@ -98,25 +114,4 @@
     </div>
 </div>
 
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="newTagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add new tag</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input placeholder="Tag name" class="form-control" type="text" placeholder="Default input" ng-model="newTag.name">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addNewTag()">Add</button>
-            </div>
-        </div>
-    </div>
 </div>

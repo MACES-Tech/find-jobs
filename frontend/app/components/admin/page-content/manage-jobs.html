@@ -48,6 +48,7 @@
                                         <a href="/?#/job/{{job.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
                                         <a href="" class="careerfy-icon careerfy-edit"></a>
                                         <a href="" class="careerfy-icon careerfy-rubbish" ng-click="deleteJobPost(job.id,$index)"></a>
+                                        <a href="" class="careerfy-icon" ng-click="approvejobPost(job.id,$index)" ng-if="job.status === 'Pending' && getcurrentUser().role =='SUPER_ADMIN' "><i class="fa fa-check"></i> </a>
                                     </div>
                                 </div>
                             </div>

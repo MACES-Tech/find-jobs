@@ -244,11 +244,27 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
-
-    self.getJobs = function(pageNumber,itemsPerPage,cb){
+    self.updateJobPost = function(jobId,updatedObject,cb){
+        $http({
+            method: 'PUT',
+            url: $rootScope.backendURL + "job/"+jobId,
+            data:JSON.stringify(updatedObject)
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    self.getJobs = function(pageNumber,itemsPerPage,cb,adminId){
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "job?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage
+            url: $rootScope.backendURL + "job?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage+"&adminId="+adminId
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {

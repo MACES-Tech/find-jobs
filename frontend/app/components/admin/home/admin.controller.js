@@ -9,7 +9,7 @@ angular.module('jobs')
                 url:"organizations",
                 showInList:true,
                 function:getManageOrgainzationPage,
-                authority:['SUPER_ADMIN']
+                authority:['SUPER_ADMIN','ADMIN']
             },
             {
                 title: "New organization",
@@ -18,7 +18,7 @@ angular.module('jobs')
                 icon:"careerfy-plus",
                 showInList:true,
                 function:getNewOrgainzationPage,
-                authority:['SUPER_ADMIN']
+                authority:['SUPER_ADMIN','ADMIN']
             },
             {
                 title:"Manage Jobs",
@@ -27,7 +27,7 @@ angular.module('jobs')
                 url:"jobs",
                 showInList:true,
                 function:getManageJobsPage,
-                authority:['SUPER_ADMIN']
+                authority:['SUPER_ADMIN','ADMIN']
             },
             {
                 title:"Tags",
@@ -36,7 +36,7 @@ angular.module('jobs')
                 url:"tags",
                 showInList:true,
                 function:getManageTagsPage,
-                authority:['SUPER_ADMIN']
+                authority:['SUPER_ADMIN','ADMIN']
             },{
                 title:"Admins",
                 html:"./app/components/admin/page-content/manage-admins.html",
@@ -143,6 +143,8 @@ angular.module('jobs')
                 pageNumber = 1;
             }
             $scope.currentPageNumberInOrganizationPage = pageNumber;
+            if($rootScope.getcurrentUser().role =="ADMIN")
+                adminId = $rootScope.getcurrentUser().id
             adminService.getOrganizations(pageNumber,numberOfitemPerPages,function(res,err){
                 $scope.organizations = res.data.organizations;
                 console.log($scope.organizations);
@@ -225,7 +227,7 @@ angular.module('jobs')
                 if(err){
                     SweetAlert.swal("Error", "an error occuers", "error");
                 }else{
-                    $scope.addNewTag = {};
+                    $scope.newTag = {};
                     $scope.tags.splice(0, 0, res.data);
                     // $scope.tags.push(0, res.data);
                     SweetAlert.swal("Done", "", "success");
@@ -325,15 +327,28 @@ angular.module('jobs')
                 pageNumber = 1;
             }
             $scope.currentPageNumberInJobsPage = pageNumber;
+            adminId = "";
+            if($rootScope.getcurrentUser().role =="ADMIN")
+                adminId = $rootScope.getcurrentUser().id
             adminService.getJobs(pageNumber,numberOfitemPerPages,function(res,err){
                 if(!err){
                     $scope.jobs = res.data.jobs;
                     console.log( $scope.jobs);
                     $scope.numberOfPagesInJobsPage = getTotalPages(numberOfitemPerPages,res.data.count);
                 }
+            },adminId)
+        }
+        $scope.approvejobPost= function(jobId,index){
+            updatedObject={status:"Active"}
+            adminService.updateJobPost(jobId,updatedObject,function(res,err){
+                if(!err){
+                    $scope.jobs[index].status = 'Active'
+                    SweetAlert.swal("Good job!", "The Job Approved successfully", "success");
+                }else{
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }
             })
         }
-
         $scope.deleteJobPost = function(jobId,index){
             SweetAlert.swal({
                 title: "Are you sure?",
