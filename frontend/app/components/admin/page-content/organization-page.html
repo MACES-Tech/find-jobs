@@ -18,13 +18,13 @@
                                     <div class="careerfy-employer-grid-wrap">
                                             <figure>
                                                 <a href="#" class="careerfy-employer-grid-image">
-                                                    <img style="width: 60px;height: 60px;" ng-if="org.mainImage.path" ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}">
-                                                    <img style="width: 60px;height: 60px;" ng-if="!org.mainImage.path" ng-src="thumb.jpg" >
+                                                    <img style="width: 60px;height: 60px;" ng-if="org.path" ng-src="/uploads/{{org.path}}" alt="{{org.altValue}}">
+                                                    <img style="width: 60px;height: 60px;" ng-if="!org.path" ng-src="thumb.jpg" >
                                                 </a>
                                                 <figcaption>
                                                     <small>{{org.industry}}</small>
                                                     <h2><a href="#">{{org.name}}.</a></h2>
-                                                    <span><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}</span>
+                                                    <span><i class="fa fa-map-marker"></i> {{org.address}},<br> {{org.cityName}}, {{org.countryName}}</span>
                                                 </figcaption>
                                             </figure>
                                             <div class="careerfy-table-cell" style="float: left; margin-left: 57px;">

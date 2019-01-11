@@ -20,29 +20,45 @@ exports.findAll = (req, res, next) => {
 	}
 	offset = (pageNumber - 1) * itemsPerPage 
 	var jsonResult ={};
-	Organization.count().then(count=>{
-		jsonResult.count = count;
-		Organization.findAll({where:{active:true},include: [
-			{ model: db.file, as: 'mainImage'
-			},{
-				model: db.city, as: 'city'
-			 }
-		],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
-			jsonResult.organizations = [];
-			for (let index = 0; index < orgs.length; index++) {
-				(function(org, index){
-					Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
-						org.jobCount = count;
-						jsonResult.organizations.push(org);
+	// Organization.count().then(count=>{
+	// 	jsonResult.count = count;
+	// 	Organization.findAll({where:{active:true},include: [
+	// 		{ model: db.file, as: 'mainImage'
+	// 		},{
+	// 			model: db.city, as: 'city'
+	// 		 }
+	// 	],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
+	// 		jsonResult.organizations = [];
+	// 		for (let index = 0; index < orgs.length; index++) {
+	// 			(function(org, index){
+	// 				Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
+	// 					org.jobCount = count;
+	// 					jsonResult.organizations.push(org);
 	
-						if(index == orgs.length - 1){
-							res.send(jsonResult);
-						}
-					});
-				})(orgs[index].toJSON(), index);
-			}
-		  }).catch(next);
-	}).catch(next);
+	// 					if(index == orgs.length - 1){
+	// 						res.send(jsonResult);
+	// 					}
+	// 				});
+	// 			})(orgs[index].toJSON(), index);
+	// 		}
+	// 	  }).catch(next);
+	// }).catch(next);
+
+	db.sequelize.query("SELECT organizations.id, organizations.name , organizations.industry,organizations.address,\
+	city.name as cityName, country.name as countryName,mainImage.path,mainImage.altValue,\
+	(select count(*) FROM organizations  ) as organizationsCount,\
+	(select count(*) FROM jobs WHERE organizationId=organizations.id ) as jobCount from organizations \
+	LEFT OUTER JOIN jobs on jobs.organizationId = organizations.id\
+	LEFT OUTER JOIN files AS mainImage ON organizations.mainImageId = mainImage.id \
+	LEFT OUTER JOIN cities AS city ON organizations.cityId = city.id\
+	INNER  JOIN countries AS country ON city.countryId = country.id  \
+	WHERE organizations.active = true group by organizations.id ORDER BY organizations.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";").spread((results, metadata) => {
+		// Results will be an empty array and metadata will contain the number of affected rows.
+		console.log(results);
+		console.log(metadata);
+		res.send(results);
+		
+	  }).catch(next);
 
 };
  
