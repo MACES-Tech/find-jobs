@@ -146,10 +146,10 @@ angular.module('jobs')
             if($rootScope.getcurrentUser().role =="ADMIN")
                 adminId = $rootScope.getcurrentUser().id
             adminService.getOrganizations(pageNumber,numberOfitemPerPages,function(res,err){
-                $scope.organizations = res.data.organizations;
+                $scope.organizations = res.data;
                 console.log($scope.organizations);
                 
-                $scope.numberOfPagesInOrganizationPage = getTotalPages(numberOfitemPerPages,res.data.count);
+                $scope.numberOfPagesInOrganizationPage = getTotalPages(numberOfitemPerPages,res.data[0].organizationsCount);
             })
         }
 
@@ -167,8 +167,8 @@ angular.module('jobs')
             }
             $scope.currentPageNumberInTagsPage = pageNumber;
             adminService.getTags(pageNumber,numberOfitemPerPages,function(res,err){
-                $scope.tags = res.data.tags;                
-                $scope.numberOfPagesInTagsPage = getTotalPages(numberOfitemPerPages,res.data.count);
+                $scope.tags = res.data;                
+                $scope.numberOfPagesInTagsPage = getTotalPages(numberOfitemPerPages,res.data[0].tagsCount);
             });
         }
 
@@ -228,7 +228,9 @@ angular.module('jobs')
                     SweetAlert.swal("Error", "an error occuers", "error");
                 }else{
                     $scope.newTag = {};
-                    $scope.tags.splice(0, 0, res.data);
+                    tag = res.data;
+                    tag.jobCount = 0;
+                    $scope.tags.splice(0, 0, tag);
                     // $scope.tags.push(0, res.data);
                     SweetAlert.swal("Done", "", "success");
                 }

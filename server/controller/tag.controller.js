@@ -19,26 +19,36 @@ exports.findAllPaging = (req, res, next) => {
 		itemsPerPage = 8;
 	}
 	offset = (pageNumber - 1) * itemsPerPage 
-	var jsonResult ={};
-	Tag.count().then(count=>{
-		jsonResult.count = count;
-		Tag.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(tags => {
-			jsonResult.tags = [];
-			for (let index = 0; index < tags.length; index++) {
-				// jsonResult.tags.push(tags[index].toJSON());
-				(function(tag, index){
-					JobTag.count({where:{tagId:tags[index].id}}).then(count => {
-						tag.jobCount = count;
-						jsonResult.tags.push(tag);
-						if(index == tags.length - 1){
-							res.send(jsonResult);
-						}
-					});
-				})(tags[index].toJSON(), index);
-			}
-			// res.send(jsonResult);
-		  }).catch(next);
-	}).catch(next);
+		// var jsonResult ={};
+		// Tag.count().then(count=>{
+		// 	jsonResult.count = count;
+		// 	Tag.findAll({where:{active:true},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(tags => {
+		// 		jsonResult.tags = [];
+		// 		for (let index = 0; index < tags.length; index++) {
+		// 			// jsonResult.tags.push(tags[index].toJSON());
+		// 			(function(tag, index){
+		// 				JobTag.count({where:{tagId:tags[index].id}}).then(count => {
+		// 					tag.jobCount = count;
+		// 					jsonResult.tags.push(tag);
+		// 					if(index == tags.length - 1){
+		// 						res.send(jsonResult);
+		// 					}
+		// 				});
+		// 			})(tags[index].toJSON(), index);
+		// 		}
+		// 		// res.send(jsonResult);
+		// 	}).catch(next);
+		// }).catch(next);
+
+		db.sequelize.query("SELECT tags.id, tags.name , \
+		(select count(*) FROM tags  ) as tagsCount,\
+		(select count(*) FROM job_tags where job_tags.tagId = tags.id) as jobCount from tags \
+		WHERE tags.active = true group by tags.id ORDER BY tags.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";").spread((results, metadata) => {
+			
+			console.log(results);
+			console.log(metadata);
+			res.send(results);
+		})
 };
 
 exports.findAll = (req, res, next) => {
