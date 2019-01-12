@@ -30,8 +30,7 @@
                                     <small class="careerfy-jobdetail-postinfo">{{job.createdAt | date:'MMM dd yyyy'
                                         :'UTC'}}</small></span>
                                 <ul class="careerfy-jobdetail-options">
-                                    <li><i class="fa fa-map-marker"></i> {{job.address}}, {{job.city.name}}, United
-                                        Kingdom
+                                    <li><i class="fa fa-map-marker"></i> {{job.address}}, {{job.city.name}}, {{job.country.name}}
                                     </li>
                                     <li><i class="careerfy-icon careerfy-calendar"></i> Post Date: {{job.postedDate |
                                         date:'MMM dd yyyy' :'UTC'}}</li>
@@ -59,8 +58,7 @@
                 <div class="careerfy-column-8">
                     <div class="careerfy-typo-wrap">
                         <div class="careerfy-jobdetail-content">
-
-                            <div ng-repeat="section in job.sections">
+                            <div ng-repeat="section in job.sections" ng-if="job.sections.length > 0">
                                 <div class="careerfy-content-title">
                                     <h2>{{section.title}}</h2>
                                 </div>
@@ -71,11 +69,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="careerfy-content-title" ng-show="job.tags.length > 0">
+                            <div class="careerfy-content-title" ng-if="job.tags.length > 0">
                                 <h2>Job tags</h2>
                             </div>
                             <div class="careerfy-jobdetail-tags">
-                                <a ng-repeat="tag in job.tags" href="">{{tag.tag.name}}</a>
+                                <a ng-repeat="tag in job.tags" href="">{{tag.name}}</a>
                             </div>
                         </div>
                         <div class="careerfy-section-title">
@@ -202,12 +200,12 @@
                 <aside class="careerfy-column-4">
                     <div class="careerfy-typo-wrap">
                         <div class="widget jobsearch_widget_map">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d22589232.038285658!2d-103.9763543971716!3d46.28054447273778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1507595834401"></iframe>
+                                <iframe id="map" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.maps.ie/map-my-route/">Draw map route</a></iframe>
                         </div>
                         <div class="widget widget_add">
                             <img src="extra-images/jobdetail-add.jpg" alt="">
                         </div>
-                        <div class="widget widget_view_jobs" ng-show="job.organization.jobs.length > 0">
+                        <div class="widget widget_view_jobs" ng-if="job.organization.jobs.length > 0">
                             <div class="careerfy-widget-title">
                                 <h2>More Jobs from {{job.organization.name}}</h2>
                             </div>

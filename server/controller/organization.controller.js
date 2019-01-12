@@ -44,7 +44,7 @@ exports.findAll = (req, res, next) => {
 	// 	  }).catch(next);
 	// }).catch(next);
 
-	db.sequelize.query("SELECT organizations.id, organizations.name , organizations.industry,organizations.address,\
+	db.sequelize.query("SELECT organizations.id, organizations.name , organizations.approvedByAdmin,organizations.address,\
 	city.name as cityName, country.name as countryName,mainImage.path,mainImage.altValue,\
 	(select count(*) FROM organizations  ) as organizationsCount,\
 	(select count(*) FROM jobs WHERE organizationId=organizations.id ) as jobCount from organizations \

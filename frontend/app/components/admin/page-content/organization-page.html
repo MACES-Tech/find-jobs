@@ -32,6 +32,7 @@
                                                         <a href="/?#/organization/{{org.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
                                                         <a href="#" class="careerfy-icon careerfy-edit"></a>
                                                         <a href="" class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteOrganization(org.id,$index)"></a>
+                                                        <a href="#" class="careerfy-icon " ng-if="getcurrentUser().role =='SUPER_ADMIN' && org.approvedByAdmin == false"><i class="fa fa-check"></i></a>
                                                     </div>
                                                 </div>
                                         </div>
