@@ -65,6 +65,10 @@ module.exports = (sequelize, Sequelize) => {
         active: {
             type :Sequelize.BOOLEAN,
             defaultValue: true
+        },
+        approvedByAdmin: {
+            type :Sequelize.BOOLEAN,
+            defaultValue: true
         }
         
     })

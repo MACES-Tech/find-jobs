@@ -54,7 +54,7 @@
                             <div class="careerfy-column-8 careerfy-typo-wrap">
                                 <div class="careerfy-jobdetail-content careerfy-employerdetail-content">
                                     
-                                    <div class="careerfy-content-title"><h2>Company Description</h2></div>
+                                    <div class="careerfy-content-title"><h2>Organization Description</h2></div>
                                     <div class="careerfy-description">
                                         <p>{{org.description}}</p>
                                         <!-- <ul class="careerfy-list-style-icon">
@@ -74,10 +74,10 @@
                                     <ul class="careerfy-row">
                                         <li class="careerfy-column-12" ng-repeat="job in org.jobs">
                                             <div class="careerfy-joblisting-classic-wrap">
-                                                <figure><a href="#"><img ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}"></a></figure>
+                                                <figure><a href="/?#/job/{{job.id}}"><img ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}"></a></figure>
                                                 <div class="careerfy-joblisting-text">
                                                     <div class="careerfy-list-option">
-                                                        <h2><a href="#">{{job.title}}</a> </h2>
+                                                        <h2><a href="/?#/job/{{job.id}}">{{job.title}}</a> </h2>
                                                         <ul>
                                                             <!-- <li><a href="#">@ Massimo Artemisis</a></li> -->
                                                             <li><i class="careerfy-icon careerfy-maps-and-flags"></i> {{job.address}}, {{job.city.name}}</li>
@@ -85,7 +85,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="careerfy-job-userlist">
-                                                        <a href="#" class="careerfy-option-btn" ng-class="{'careerfy-blue':job.jobtype === 'Full Time',
+                                                        <a href="/?#/job/{{job.id}}" class="careerfy-option-btn" ng-class="{'careerfy-blue':job.jobtype === 'Full Time',
                                                                                                             'careerfy-green':job.jobtype === 'Part Time',
                                                                                                             'careerfy-red':job.jobtype === 'Temporary',}">{{job.jobtype}}</a>
                                                     </div>

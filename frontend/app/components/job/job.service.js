@@ -18,4 +18,22 @@ app.service('jobService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+
+    self.getMoreJobsByOrganization = function(jobId,organizationId,cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "job/"+jobId+"/moreJobs?orgId="+organizationId
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    
 })

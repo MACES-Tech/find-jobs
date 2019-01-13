@@ -1,77 +1,60 @@
 <div class="careerfy-column-9">
-    <div class="careerfy-typo-wrap">
-        <div class="careerfy-employer-dasboard">
-            <div class="careerfy-employer-box-section">
-                <!-- Profile Title -->
-                <div class="careerfy-profile-title">
-                    <h2>Manage Organizations</h2>
-                    <form class="careerfy-employer-search">
-                        <input class="org_typeahead" placeholder="Organizations" type="text">
-                        <!-- <input type="submit" value="">
-                        <i class="careerfy-icon careerfy-search"></i> -->
-                    </form> 
-                </div>
-                <!-- Manage Jobs -->
-                <div class="careerfy-employer careerfy-employer-grid">
-                    <ul class="careerfy-row">
-                        <li ng-repeat="org in organizations track by $index" class="careerfy-column-4">
-                            <div class="careerfy-employer-grid-wrap">
-                                <figure>
-                                    <a href="#" class="careerfy-employer-grid-image">
-                                        <img style="width: 60px;height: 60px;" ng-if="org.path" ng-src="/uploads/{{org.path}}" alt="{{org.altValue}}">
-                                        <img style="width: 60px;height: 60px;" ng-if="!org.path" ng-src="thumb.jpg">
-                                    </a>
-                                    <figcaption>
-                                        <small>{{org.industry}}</small>
-                                        <h2>
-                                            <a href="#">{{org.name}}.</a>
-                                        </h2>
-                                        <span>
-                                            <i class="fa fa-map-marker"></i> {{org.address}},
-                                            <br> {{org.cityName}}, {{org.countryName}}</span>
-                                    </figcaption>
-                                </figure>
-                                <div class="careerfy-table-cell" style="float: left; margin-left: 57px;">
-                                    <div class="careerfy-managejobs-links">
-                                        <a href="/?#/organization/{{org.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
-                                        <a href="#" class="careerfy-icon careerfy-edit"></a>
-                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteOrganization(org.id,$index)"></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#" class="careerfy-employer-grid-btn">{{org.jobCount}} Vacancies</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Pagination -->
-                <div class="careerfy-pagination-blog">
-                    <ul class="page-numbers">
-                        <li ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage - 1)">
-                            <a class="prev page-numbers" href="">
-                                <span>
-                                    <i class="careerfy-icon careerfy-arrows4"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li ng-repeat="pages in  [].constructor(numberOfPagesInOrganizationPage) track by $index " ng-click="getManageOrgainzationPage($index + 1)">
-                            <span style="cursor: pointer;" ng-class="{'current':$index + 1  === currentPageNumberInOrganizationPage}"
-                                class="page-numbers ">{{ $index + 1 }}</span>
-                        </li>
-                        <li ng-show="currentPageNumberInOrganizationPage + 1 <= numberOfPagesInOrganizationPage" ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage + 1)">
-                            <a class="next page-numbers" href="">
-                                <span>
-                                    <i class="careerfy-icon careerfy-arrows4"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li ng-show="currentPageNumberInOrganizationPage + 1 > numberOfPagesInOrganizationPage">
-                            <a class="next page-numbers" href="">
-                                <span>
-                                    <i class="careerfy-icon careerfy-arrows4"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+        <div class="careerfy-typo-wrap">
+            <div class="careerfy-employer-dasboard">
+                <div class="careerfy-employer-box-section">
+                    <!-- Profile Title -->
+                    <div class="careerfy-profile-title">
+                        <h2>Manage Organizations</h2>
+                        <form class="careerfy-employer-search">
+                            <input value="Search orders" class="org_typeahead" type="text">
+                            <input type="submit" value="">
+                            <i class="careerfy-icon careerfy-search"></i>
+                        </form>
+                    </div>
+                    <!-- Manage Jobs -->
+                    <div class="careerfy-employer careerfy-employer-grid">
+                            <ul class="careerfy-row">
+                                <li ng-repeat="org in organizations track by $index" class="careerfy-column-4">
+                                    <div class="careerfy-employer-grid-wrap">
+                                            <figure>
+                                                <a href="#" class="careerfy-employer-grid-image">
+                                                    <img style="width: 60px;height: 60px;" ng-if="org.path" ng-src="/uploads/{{org.path}}" alt="{{org.altValue}}">
+                                                    <img style="width: 60px;height: 60px;" ng-if="!org.path" ng-src="thumb.jpg" >
+                                                </a>
+                                                <figcaption>
+                                                    <small>{{org.industry}}</small>
+                                                    <h2><a href="#">{{org.name}}.</a></h2>
+                                                    <span><i class="fa fa-map-marker"></i> {{org.address}},<br> {{org.cityName}}, {{org.countryName}}</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="careerfy-table-cell" style="float: left; margin-left: 57px;">
+                                                    <div class="careerfy-managejobs-links">
+                                                        <a href="/?#/organization/{{org.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
+                                                        <a href="#" class="careerfy-icon careerfy-edit"></a>
+                                                        <a href="" class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteOrganization(org.id,$index)"></a>
+                                                        <a href="#" class="careerfy-icon " ng-if="getcurrentUser().role =='SUPER_ADMIN' && org.approvedByAdmin == false"><i class="fa fa-check"></i></a>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <a href="#" class="careerfy-employer-grid-btn">{{org.jobCount}} Vacancies</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="careerfy-pagination-blog">
+                            <ul class="page-numbers">
+                                <li ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage - 1)"><a class="prev page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                                <li ng-repeat="pages in  [].constructor(numberOfPagesInOrganizationPage) track by $index " ng-click="getManageOrgainzationPage($index + 1)"><span style="cursor: pointer;" ng-class="{'current':$index + 1  === currentPageNumberInOrganizationPage}" class="page-numbers ">{{ $index + 1 }}</span></li>
+                                <li ng-show="currentPageNumberInOrganizationPage + 1 <= numberOfPagesInOrganizationPage"ng-click="getManageOrgainzationPage(currentPageNumberInOrganizationPage + 1)" ><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
+                                <li ng-show="currentPageNumberInOrganizationPage + 1 > numberOfPagesInOrganizationPage"><a class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4" ></i></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                            <!-- Manage Jobs Body -->
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <!-- Manage Jobs Body -->

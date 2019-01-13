@@ -413,7 +413,7 @@ angular.module('jobs')
                 });
           };
           $scope.loadOrganizations= function($query) {
-            return $scope.AllOrganizations.organizations.filter(function(org) {
+            return $scope.AllOrganizations.filter(function(org) {
               return org.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
       };
@@ -488,7 +488,12 @@ angular.module('jobs')
                     data:{file:up.file} 
                 }).then(function (resp) { 
                     if(resp.data.error_code === 0){ 
-                        modelObject = {name:model.name, email:model.email, phone:model.phone,website:model.webSite,description:model.description, mainImageId:resp.data.insertedFile.id,address:model.address,postcode:model.postcode,lat:model.lat,long:model.long,facebook:model.facebook,twitter:model.twitter,googlePlus:model.googlePlus,youtube:model.youtube,vimeo:model.vimeo,linkedin:model.linkedin,cityId:JSON.parse(model.selectedCity).id,industry:model.industry};
+                        creator = $rootScope.getcurrentUser();
+                        
+                        modelObject = {name:model.name, email:model.email, phone:model.phone,website:model.webSite,description:model.description, mainImageId:resp.data.insertedFile.id,address:model.address,postcode:model.postcode,lat:model.lat,long:model.long,facebook:model.facebook,twitter:model.twitter,googlePlus:model.googlePlus,youtube:model.youtube,vimeo:model.vimeo,linkedin:model.linkedin,cityId:JSON.parse(model.selectedCity).id,approveByAdmin:true};
+                        if(creator.role =="ADMIN"){
+                            modelObject.approveByAdmin = false;
+                        }
                         adminService.creatNewOrganization(modelObject,function(res,err){
                             if(!err){
                                 SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
