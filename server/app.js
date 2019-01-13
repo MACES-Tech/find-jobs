@@ -35,6 +35,7 @@ require('./route/organization.route.js')(app);
 require('./route/util.route.js')(app);
 require('./controller/file.controller.js')(app);
 require('./route/job.route.js')(app);
+require('./route/typeahead.route.js')(app);
 
 
 

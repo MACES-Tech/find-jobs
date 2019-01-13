@@ -539,4 +539,96 @@ angular.module('jobs')
         }
 
 
+
+        /**
+         * Typeahead.js configuration
+         */
+        $(document).ready(function() {
+            var organizationsAutoComplete = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                remote: {
+                    url: $rootScope.backendURL + 'typeahead/organization?q=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+        
+            $('.org_typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+              }, {
+                name: 'Organizations',
+                display: 'name',
+                source: organizationsAutoComplete,
+                limit: 5
+            });
+
+            var tagsAutoComplete = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                remote: {
+                    url: $rootScope.backendURL + 'typeahead/tag?q=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+        
+            $('.tag_typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+              }, {
+                name: 'Tags',
+                display: 'name',
+                source: tagsAutoComplete,
+                limit: 5
+            });
+
+            var adminsAutoComplete = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                remote: {
+                    url: $rootScope.backendURL + 'typeahead/admin?q=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+        
+            $('.admin_typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+              }, {
+                name: 'Admins',
+                display: 'name',
+                source: adminsAutoComplete,
+                limit: 5
+            });
+
+            var jobsAutoComplete = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('title'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // `states` is an array of state names defined in "The Basics"
+                remote: {
+                    url: $rootScope.backendURL + 'typeahead/job?q=%QUERY',
+                    wildcard: '%QUERY'
+                }
+            });
+        
+            $('.job_typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+              }, {
+                name: 'Job_title',
+                display: 'title',
+                source: jobsAutoComplete,
+                limit: 5
+            });
+        });
+        
+
+
 });
