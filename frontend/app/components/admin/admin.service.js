@@ -36,6 +36,22 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+    self.getOrganizationsNames = function(cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "organizationNames"
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
 
     self.getTags = function(pageNumber,itemsPerPage,cb){
         $http({
@@ -248,6 +264,39 @@ app.service('adminService', function ($http, $rootScope) {
         $http({
             method: 'PUT',
             url: $rootScope.backendURL + "job/"+jobId,
+            data:JSON.stringify(updatedObject)
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    self.getOrganizationById = function (orgId, cb) {
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "organization/"+orgId
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    self.updateOrganization = function(orgId,updatedObject,cb){
+        $http({
+            method: 'PUT',
+            url: $rootScope.backendURL + "organization/"+orgId,
             data:JSON.stringify(updatedObject)
         }).then(
             function successCallback(res) {

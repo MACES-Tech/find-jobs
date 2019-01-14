@@ -19,7 +19,7 @@ exports.create = (req, res, next) => {
     } else {
         status = jobStatus.pending;
     }
-    jobObject = { title: job.title, jobtype: job.type, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, status: status, creatorId: job.creator.id, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id }
+    jobObject = { title: job.title, jobtype: job.type, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, status: status, creatorId: job.creator.id, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
     Job.create(jobObject).then(insertedjob => {
         for (let index = 0; index < job.tags.length; index++) {
             const element = job.tags[index];

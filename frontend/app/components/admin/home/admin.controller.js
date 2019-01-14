@@ -19,6 +19,14 @@ angular.module('jobs')
                 showInList:true,
                 function:getNewOrgainzationPage,
                 authority:['SUPER_ADMIN','ADMIN']
+            }, {
+                title: "Edit organization",
+                html:"./app/components/admin/page-content/new-Organization.html",
+                url:"edit_organization",
+                icon:"careerfy-plus",
+                showInList:false,
+                function:getEditOrgainzationPage,
+                authority:['SUPER_ADMIN']
             },
             {
                 title:"Manage Jobs",
@@ -351,6 +359,21 @@ angular.module('jobs')
                 }
             })
         }
+
+        $scope.editOrganizationPage = function(orgId){
+
+        }
+        $scope.approveorganization= function(orgId,index){
+            updatedObject={approvedByAdmin:"1"}
+            adminService.updateOrganization(orgId,updatedObject,function(res,err){
+                if(!err){
+                    $scope.organizations[index].approvedByAdmin = '1'
+                    SweetAlert.swal("Good job!", "The organization Approved successfully", "success");
+                }else{
+                    SweetAlert.swal("Error", "an error occuers", "error");
+                }
+            })
+        }
         $scope.deleteJobPost = function(jobId,index){
             SweetAlert.swal({
                 title: "Are you sure?",
@@ -417,12 +440,34 @@ angular.module('jobs')
               return org.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
       };
+      $scope.editOrganization = function(orgId){
+          $scope.opnePage('edit_organization');
+          $rootScope.editorganizationId = orgId;
+      }
         function getNewOrgainzationPage(){
             adminService.getCountries(function(res,err){
                 if(!err){
                     $scope.countries = res.data;
                 }
             })
+        }
+
+        function getEditOrgainzationPage() {
+            if ($rootScope.editorganizationId) {
+                adminService.getOrganizationById($rootScope.editorganizationId, function (res, err) {
+                    if (!err) {
+                        $scope.org = res.data;
+                        $scope.org.selectedCity = res.data.city;
+                        adminService.getCountries(function (res, err) {
+                            if (!err) {
+                                $scope.countries = res.data;
+                            }
+                        })
+                    }else{
+                        $scope.opnePage('new_organization');
+                    }
+                })
+            } 
         }
 
         function getNewJobPage(){
@@ -434,7 +479,7 @@ angular.module('jobs')
             adminService.getAllTags(function(res,err){
                 $scope.AllTags = res.data;
             })
-            adminService.getOrganizations(1,1000,function(res,err){
+            adminService.getOrganizationsNames(function(res,err){
                 $scope.AllOrganizations = res.data;
             })
             var section={title:"",description:"",points:[{title:""}]};
@@ -480,25 +525,32 @@ angular.module('jobs')
             $scope.org.lat = selectedCity.lat;
             $scope.org.long = selectedCity.long;
         }
-        $scope.addNewOrganization = function(up,model){
+        $scope.up2 = {};
+
+        $scope.addNewOrganization = function (up, model) {
             console.log(model);
-            if(!model.id){
+            if (!model.id) {
                 Upload.upload({
-                    url: $rootScope.backendURL +'upload',
-                    data:{file:up.file} 
-                }).then(function (resp) { 
-                    if(resp.data.error_code === 0){ 
+                    url: $rootScope.backendURL + 'upload',
+                    data: { file: up.file }
+                }).then(function (resp) {
+                    if (resp.data.error_code === 0) {
                         creator = $rootScope.getcurrentUser();
-                        
-                        modelObject = {name:model.name, email:model.email, phone:model.phone,website:model.webSite,description:model.description, mainImageId:resp.data.insertedFile.id,address:model.address,postcode:model.postcode,lat:model.lat,long:model.long,facebook:model.facebook,twitter:model.twitter,googlePlus:model.googlePlus,youtube:model.youtube,vimeo:model.vimeo,linkedin:model.linkedin,cityId:JSON.parse(model.selectedCity).id,approveByAdmin:true};
-                        if(creator.role =="ADMIN"){
-                            modelObject.approveByAdmin = false;
+
+                        modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, cityId: JSON.parse(model.selectedCity).id, creatorId: creator.id };
+                        if (creator.role == "ADMIN") {
+                            modelObject.approvedByAdmin = false;
+                        } else if (creator.role == "SUPER_ADMIN") {
+                            modelObject.approvedByAdmin = true;
                         }
-                        adminService.creatNewOrganization(modelObject,function(res,err){
-                            if(!err){
+                        adminService.creatNewOrganization(modelObject, function (res, err) {
+                            if (!err) {
                                 SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
                                 $scope.org = {};
-                            }else{
+                                $scope.up2 = {};
+                                $scope.OrganizationImageProgress = 0;
+                                $scope.opnePage('organizations');
+                            } else {
                                 SweetAlert.swal("Error", "an error occuers", "error");
                             }
                         })
@@ -506,12 +558,28 @@ angular.module('jobs')
                         SweetAlert.swal("Error", "an error occuers", "error");
 
                     }
-                }, function (resp) { 
+                }, function (resp) {
                     SweetAlert.swal("Error", "an error occuers", "error");
-                }, function (evt) { 
+                }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope.OrganizationImageProgress = 'progress: ' + progressPercentage + '% '; 
+                    $scope.OrganizationImageProgress = 'progress: ' + progressPercentage + '% ';
                 });
+            } else {
+                if (!up.file) {
+                    modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, cityId: model.selectedCity.id };
+
+                    adminService.updateOrganization(model.id,modelObject, function (res, err) {
+                        if (!err) {
+                            SweetAlert.swal("Good job!", "The Organiztion Updated successfully", "success");
+                            $scope.org = {};
+                            $scope.up2 = {};
+                            $scope.OrganizationImageProgress = 0;
+                            $scope.opnePage('organizations');
+                        } else {
+                            SweetAlert.swal("Error", "an error occuers", "error");
+                        }
+                    })
+                }
             }
         }
         function getTotalPages(limit, size) {

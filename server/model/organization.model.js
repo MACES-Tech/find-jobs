@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     const File =  require('../model/file.model.js')(sequelize, Sequelize);
     const City =  require('../model/city.model.js')(sequelize, Sequelize);    
     const Category =  require('../model/category.model.js')(sequelize, Sequelize);    
-    
+    const User = require('../model/users.model.js')(sequelize, Sequelize);    
 	const Organization = sequelize.define('organization', {
         name: {
             type: Sequelize.STRING,
@@ -72,7 +72,7 @@ module.exports = (sequelize, Sequelize) => {
         }
         
     })
-
+    Organization.belongsTo(User, {foreignKey : 'creatorId' , as :"creator"})
     Organization.belongsTo(File, {foreignKey : 'mainImageId' , as :"mainImage"})
     Organization.belongsTo(City, {foreignKey : 'cityId' , as :"city"})
     Organization.belongsTo(Category, {foreignKey : 'categoryId' , as :"category"})

@@ -17,22 +17,22 @@
                                 <li ng-repeat="org in organizations track by $index" class="careerfy-column-4">
                                     <div class="careerfy-employer-grid-wrap">
                                             <figure>
-                                                <a href="#" class="careerfy-employer-grid-image">
+                                                <a href="/?#/organization/{{org.id}}" class="careerfy-employer-grid-image">
                                                     <img style="width: 60px;height: 60px;" ng-if="org.path" ng-src="/uploads/{{org.path}}" alt="{{org.altValue}}">
                                                     <img style="width: 60px;height: 60px;" ng-if="!org.path" ng-src="thumb.jpg" >
                                                 </a>
                                                 <figcaption>
                                                     <small>{{org.industry}}</small>
-                                                    <h2><a href="#">{{org.name}}.</a></h2>
+                                                    <h2><a href="/?#/organization/{{org.id}}">{{org.name}}.</a></h2>
                                                     <span><i class="fa fa-map-marker"></i> {{org.address}},<br> {{org.cityName}}, {{org.countryName}}</span>
                                                 </figcaption>
                                             </figure>
-                                            <div class="careerfy-table-cell" style="float: left; margin-left: 57px;">
+                                            <div class="" style="text-align: center;">
                                                     <div class="careerfy-managejobs-links">
                                                         <a href="/?#/organization/{{org.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
-                                                        <a href="#" class="careerfy-icon careerfy-edit"></a>
+                                                        <a href=""  class="careerfy-icon careerfy-edit" ng-click="editOrganization(org.id)" ng-if="getcurrentUser().role =='SUPER_ADMIN'"></a>
                                                         <a href="" class="careerfy-icon careerfy-rubbish" ng-if="getcurrentUser().role =='SUPER_ADMIN'" ng-click="deleteOrganization(org.id,$index)"></a>
-                                                        <a href="#" class="careerfy-icon " ng-if="getcurrentUser().role =='SUPER_ADMIN' && org.approvedByAdmin == false"><i class="fa fa-check"></i></a>
+                                                        <a href="" class="careerfy-icon " ng-click="approveorganization(org.id,$index)" ng-if="getcurrentUser().role =='SUPER_ADMIN' && org.approvedByAdmin == false"><i class="fa fa-check"></i></a>
                                                     </div>
                                                 </div>
                                         </div>
