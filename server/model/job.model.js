@@ -25,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
         address:{
             type: Sequelize.STRING
         },
+        jobUrl:{
+            type: Sequelize.STRING
+        },
         status:{
             type: Sequelize.STRING
         }

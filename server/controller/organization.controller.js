@@ -67,7 +67,12 @@ exports.delete = (req, res, next) => {
 	  res.status(200).send('deleted successfully a organization with id = ' + id);
 	}).catch(next);
 };
+exports.findAllOrganizationName = (req, res, next) => {
+	Organization.findAll({attributes: ['id', 'name'],where:{active:true,approvedByAdmin:true}}).then(org => {
+		res.send(org);
 
+		}).catch(next);
+}
 exports.findById = (req, res, next) => {	
 	const id = req.params.orginzationId;
 	// const adminId = req.params.adminId;
