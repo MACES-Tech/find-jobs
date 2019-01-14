@@ -7,8 +7,8 @@
                         <h2>Manage Admins</h2>
                         <form class="careerfy-employer-search">
                             <!-- Button trigger modal -->
-                            <input class="admin_typeahead" type="text">
-                            <input type="submit" value="">
+                            <input ng-model="adminSearchQuery" ng-enter="filterAdmins(adminSearchQuery)" class="admin_typeahead" type="text">
+                            <input ng-click="filterAdmins(adminSearchQuery)" type="submit" value="">
                             <i class="careerfy-icon careerfy-search"></i>
                         </form>
                     </div>

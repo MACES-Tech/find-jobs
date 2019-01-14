@@ -12,6 +12,7 @@ exports.create = (req, res, next) => {
 exports.findAll = (req, res, next) => {
 	var pageNumber = req.query.pageNumber;
 	var itemsPerPage = req.query.itemsPerPage;
+	var q = req.query.q;
 	if(!pageNumber || pageNumber === "undefined"){
 		pageNumber = 1;
 	}
@@ -20,31 +21,8 @@ exports.findAll = (req, res, next) => {
 	}
 	offset = (pageNumber - 1) * itemsPerPage 
 	var jsonResult ={};
-	// Organization.count().then(count=>{
-	// 	jsonResult.count = count;
-	// 	Organization.findAll({where:{active:true},include: [
-	// 		{ model: db.file, as: 'mainImage'
-	// 		},{
-	// 			model: db.city, as: 'city'
-	// 		 }
-	// 	],offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(orgs => {
-	// 		jsonResult.organizations = [];
-	// 		for (let index = 0; index < orgs.length; index++) {
-	// 			(function(org, index){
-	// 				Job.count({where:{organizationId:orgs[index].id}}).then(count =>{
-	// 					org.jobCount = count;
-	// 					jsonResult.organizations.push(org);
-	
-	// 					if(index == orgs.length - 1){
-	// 						res.send(jsonResult);
-	// 					}
-	// 				});
-	// 			})(orgs[index].toJSON(), index);
-	// 		}
-	// 	  }).catch(next);
-	// }).catch(next);
 
-	db.sequelize.query("SELECT organizations.id, organizations.name , organizations.approvedByAdmin,organizations.address,\
+	var sqlQuery = "SELECT organizations.id, organizations.name , organizations.approvedByAdmin,organizations.address,\
 	city.name as cityName, country.name as countryName,mainImage.path,mainImage.altValue,\
 	(select count(*) FROM organizations  ) as organizationsCount,\
 	(select count(*) FROM jobs WHERE organizationId=organizations.id ) as jobCount from organizations \
@@ -52,7 +30,12 @@ exports.findAll = (req, res, next) => {
 	LEFT OUTER JOIN files AS mainImage ON organizations.mainImageId = mainImage.id \
 	LEFT OUTER JOIN cities AS city ON organizations.cityId = city.id\
 	INNER  JOIN countries AS country ON city.countryId = country.id  \
-	WHERE organizations.active = true group by organizations.id ORDER BY organizations.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";").spread((results, metadata) => {
+	WHERE organizations.active = true";
+	if(q && q != "undefined"){
+		sqlQuery += " AND organizations.name LIKE '%" + q + "%'";
+	}
+	sqlQuery += " group by organizations.id ORDER BY organizations.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";"
+	db.sequelize.query(sqlQuery).spread((results, metadata) => {
 		// Results will be an empty array and metadata will contain the number of affected rows.
 		console.log(results);
 		console.log(metadata);

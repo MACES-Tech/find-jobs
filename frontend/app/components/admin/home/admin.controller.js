@@ -138,14 +138,20 @@ angular.module('jobs')
         $scope.getManageOrgainzationPage = function(pageNumber){
             getManageOrgainzationPage(pageNumber);
         }
-        function getManageOrgainzationPage(pageNumber){
+
+        // $scope.orgSearchQuery = ""
+        $scope.filterOrganizations = function(orgSearchQuery){
+            getManageOrgainzationPage(0, orgSearchQuery);
+        }
+
+        function getManageOrgainzationPage(pageNumber, q){
             if(!pageNumber){
                 pageNumber = 1;
             }
             $scope.currentPageNumberInOrganizationPage = pageNumber;
             if($rootScope.getcurrentUser().role =="ADMIN")
                 adminId = $rootScope.getcurrentUser().id
-            adminService.getOrganizations(pageNumber,numberOfitemPerPages,function(res,err){
+            adminService.getOrganizations(pageNumber, numberOfitemPerPages, q,function(res,err){
                 $scope.organizations = res.data;
                 console.log($scope.organizations);
                 
@@ -161,12 +167,16 @@ angular.module('jobs')
             getManageTagsPage(pageNumber);
         };
 
-        function getManageTagsPage(pageNumber){
+        $scope.filterTags = function(tagSearchQuery){
+            getManageTagsPage(0, tagSearchQuery);
+        }
+
+        function getManageTagsPage(pageNumber, q){
             if(!pageNumber){
                 pageNumber = 1;
             }
             $scope.currentPageNumberInTagsPage = pageNumber;
-            adminService.getTags(pageNumber,numberOfitemPerPages,function(res,err){
+            adminService.getTags(pageNumber,numberOfitemPerPages, q,function(res,err){
                 $scope.tags = res.data;                
                 $scope.numberOfPagesInTagsPage = getTotalPages(numberOfitemPerPages,res.data[0].tagsCount);
             });
@@ -246,12 +256,16 @@ angular.module('jobs')
             getManageAdminsPage(pageNumber);
         };
 
-        function getManageAdminsPage(pageNumber){
+        $scope.filterAdmins = function(adminSearchQuery){
+            getManageAdminsPage(0, adminSearchQuery);
+        }
+
+        function getManageAdminsPage(pageNumber, q){
             if(!pageNumber){
                 pageNumber = 1;
             }
             $scope.currentPageNumberInAdminsPage = pageNumber;
-            adminService.getAdmins(pageNumber,numberOfitemPerPages,function(res,err){
+            adminService.getAdmins(pageNumber,numberOfitemPerPages, q,function(res,err){
                 $scope.admins = res.data.users;                
                 $scope.numberOfPagesInAdminsPage = getTotalPages(numberOfitemPerPages,res.data.count);
             });
@@ -324,7 +338,12 @@ angular.module('jobs')
         $scope.getManageJobsPage = function(pageNumber){
             getManageJobsPage(pageNumber)
         }
-        function getManageJobsPage(pageNumber){
+
+        $scope.filterJobs = function(jobSearchQuery){
+            getManageJobsPage(0, jobSearchQuery);
+        }
+
+        function getManageJobsPage(pageNumber, q){
             if(!pageNumber){
                 pageNumber = 1;
             }
@@ -332,7 +351,7 @@ angular.module('jobs')
             adminId = "";
             if($rootScope.getcurrentUser().role =="ADMIN")
                 adminId = $rootScope.getcurrentUser().id
-            adminService.getJobs(pageNumber,numberOfitemPerPages,function(res,err){
+            adminService.getJobs(pageNumber,numberOfitemPerPages, q,function(res,err){
                 if(!err){
                     $scope.jobs = res.data.jobs;
                     console.log( $scope.jobs);

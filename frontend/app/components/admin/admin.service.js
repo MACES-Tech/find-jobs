@@ -20,10 +20,14 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
-    self.getOrganizations = function(pageNumber,itemsPerPage,cb){
+    self.getOrganizations = function(pageNumber,itemsPerPage, q, cb){
+        var url = $rootScope.backendURL + "organization?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage;
+        if(q !== undefined && q != ''){
+            url += '&q=' + q;
+        }
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "organization?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage
+            url: url
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {
@@ -37,10 +41,14 @@ app.service('adminService', function ($http, $rootScope) {
             })
     };
 
-    self.getTags = function(pageNumber,itemsPerPage,cb){
+    self.getTags = function(pageNumber,itemsPerPage, q,cb){
+        var url = $rootScope.backendURL + "tag?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage;
+        if(q !== undefined && q != ''){
+            url += '&q=' + q;
+        }
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "tag?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage
+            url: url
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {
@@ -107,10 +115,14 @@ app.service('adminService', function ($http, $rootScope) {
             });
     };
 
-    self.getAdmins = function(pageNumber,itemsPerPage,cb){
+    self.getAdmins = function(pageNumber,itemsPerPage, q,cb){
+        var url = $rootScope.backendURL + "user?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage;
+        if(q !== undefined && q != ''){
+            url += '&q=' + q;
+        }
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "user?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage
+            url: url
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {
@@ -261,10 +273,14 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
-    self.getJobs = function(pageNumber,itemsPerPage,cb,adminId){
+    self.getJobs = function(pageNumber,itemsPerPage, q,cb,adminId){
+        var url = $rootScope.backendURL + "job?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage+"&adminId="+adminId
+        if(q !== undefined && q != ''){
+            url += '&q=' + q;
+        }
         $http({
             method: 'GET',
-            url: $rootScope.backendURL + "job?pageNumber="+pageNumber+"&itemsPerPage="+itemsPerPage+"&adminId="+adminId
+            url: url
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {

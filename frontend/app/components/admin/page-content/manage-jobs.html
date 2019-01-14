@@ -5,9 +5,9 @@
                 <!-- Profile Title -->
                 <div class="careerfy-profile-title">
                     <h2>Manage Jobs</h2>
-                    <form class="careerfy-employer-search">
-                        <input class="job_typeahead" type="text">
-                        <input type="submit" value="">
+                    <form class="careerfy-employer-search">    
+                        <input ng-model="jobSearchQuery" ng-enter="filterJobs(jobSearchQuery)" class="job_typeahead" type="text">
+                        <input ng-click="filterJobs(jobSearchQuery)" type="submit" value="">
                         <i class="careerfy-icon careerfy-search"></i>
                     </form>
                 </div>

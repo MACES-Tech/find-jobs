@@ -7,8 +7,8 @@
                     <h2>Manage Tags</h2>
                     <form class="careerfy-employer-search">
                         <!-- Button trigger modal -->
-                        <input class="tag_typeahead" type="text">
-                        <input type="submit" value="">
+                        <input ng-model="tagSearchQuery" ng-enter="filterTags(tagSearchQuery)" class="tag_typeahead" type="text">
+                        <input ng-click="filterTags(tagSearchQuery)" type="submit" value="">
                         <i class="careerfy-icon careerfy-search"></i>
                     </form>
                 </div>

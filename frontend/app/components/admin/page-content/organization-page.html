@@ -6,8 +6,8 @@
                     <div class="careerfy-profile-title">
                         <h2>Manage Organizations</h2>
                         <form class="careerfy-employer-search">
-                            <input value="Search orders" class="org_typeahead" type="text">
-                            <input type="submit" value="">
+                            <input ng-model="orgSearchQuery" ng-enter="filterOrganizations(orgSearchQuery)" class="org_typeahead" type="text">
+                            <input type="submit" value="" ng-click="filterOrganizations(orgSearchQuery)">
                             <i class="careerfy-icon careerfy-search"></i>
                         </form>
                     </div>

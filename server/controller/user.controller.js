@@ -1,7 +1,8 @@
 const db = require('../config/db.config.js');
 var crypto = require('crypto');
 const Users = db.users;
- 
+const Op = db.sequelize.Op;
+
 exports.create = (req, res, next) => {
 	user = req.body;
 	var saltAndHash = setPassword(req.body.password);
@@ -15,6 +16,8 @@ exports.create = (req, res, next) => {
 exports.findAll = (req, res, next) => {
 	var pageNumber = req.query.pageNumber;
 	var itemsPerPage = req.query.itemsPerPage;
+	var q = req.query.q;
+
 	if(!pageNumber || pageNumber === "undefined"){
 		pageNumber = 1;
 	}
@@ -25,7 +28,11 @@ exports.findAll = (req, res, next) => {
 	var jsonResult ={};
 	Users.count().then(count=>{
 		jsonResult.count = count;
-		Users.findAll({where:{active:true, role: 'ADMIN'},offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(users => {
+		var whereCluase = {active:true, role: 'ADMIN'};
+		if(q && q != "undefined"){
+			whereCluase.name = { [Op.like]: '%' + q + '%'}
+		}
+		Users.findAll({where:whereCluase,offset: offset, limit: parseInt(itemsPerPage), order:[['createdAt', 'DESC']]}).then(users => {
 			jsonResult.users = [];
 			for (let index = 0; index < users.length; index++) {
 				jsonResult.users.push(users[index].toJSON());
