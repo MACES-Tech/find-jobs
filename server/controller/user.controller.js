@@ -26,7 +26,11 @@ exports.findAll = (req, res, next) => {
 	}
 	offset = (pageNumber - 1) * itemsPerPage 
 	var jsonResult ={};
-	Users.count().then(count=>{
+	countObject={};
+	if(q && q != "undefined"){
+		countObject.name = { [Op.like]: '%' + q + '%'}
+	}
+	Users.count({ where: countObject }).then(count=>{
 		jsonResult.count = count;
 		var whereCluase = {active:true, role: 'ADMIN'};
 		if(q && q != "undefined"){

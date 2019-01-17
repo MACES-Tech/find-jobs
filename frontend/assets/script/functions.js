@@ -367,60 +367,60 @@ jQuery(document).ready(function($) {
     //***************************
     jQuery(".navbar-nav .sub-menu").parent("li").addClass("submenu-addicon");
 
-    $('#circle-pie-1').pieChart({
-        barColor: '#1873da',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
-    $('#circle-pie-2').pieChart({
-        barColor: '#53cffc',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
-    $('#circle-pie-3').pieChart({
-        barColor: '#8bc34a',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
-    $('#circle-pie-4').pieChart({
-        barColor: '#ffa34d',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
-    $('#circle-pie-5').pieChart({
-        barColor: '#f54518',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
-    $('#circle-pie-6').pieChart({
-        barColor: '#007eb3',
-        trackColor: '#e4e8e9',
-        lineCap: 'butt',
-        lineWidth: 19,
-        onStep: function (from, to, percent) {
-            $(this.element).find('.pie-value').text(Math.round(percent) + '%');
-        }
-    });
+//     $('#circle-pie-1').pieChart({
+//         barColor: '#1873da',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
+//     $('#circle-pie-2').pieChart({
+//         barColor: '#53cffc',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
+//     $('#circle-pie-3').pieChart({
+//         barColor: '#8bc34a',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
+//     $('#circle-pie-4').pieChart({
+//         barColor: '#ffa34d',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
+//     $('#circle-pie-5').pieChart({
+//         barColor: '#f54518',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
+//     $('#circle-pie-6').pieChart({
+//         barColor: '#007eb3',
+//         trackColor: '#e4e8e9',
+//         lineCap: 'butt',
+//         lineWidth: 19,
+//         onStep: function (from, to, percent) {
+//             $(this.element).find('.pie-value').text(Math.round(percent) + '%');
+//         }
+//     });
 
 });
 

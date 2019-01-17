@@ -7,14 +7,14 @@
                         <h2>Manage Organizations</h2>
                         <form class="careerfy-employer-search">
                             <input ng-model="orgSearchQuery" ng-enter="filterOrganizations(orgSearchQuery)" class="org_typeahead" type="text">
-                            <input type="submit" value="" ng-click="filterOrganizations(orgSearchQuery)">
+                            <input type="submit" value=""  ng-click="filterOrganizations(orgSearchQuery)">
                             <i class="careerfy-icon careerfy-search"></i>
                         </form>
                     </div>
                     <!-- Manage Jobs -->
                     <div class="careerfy-employer careerfy-employer-grid">
                             <ul class="careerfy-row">
-                                <li ng-repeat="org in organizations track by $index" class="careerfy-column-4">
+                                <li  ng-repeat="org in organizations track by $index" class="careerfy-column-4">
                                     <div class="careerfy-employer-grid-wrap">
                                             <figure>
                                                 <a href="/?#/organization/{{org.id}}" class="careerfy-employer-grid-image">

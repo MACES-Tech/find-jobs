@@ -24,7 +24,11 @@ exports.findAll = (req, res, next) => {
 
 	var sqlQuery = "SELECT organizations.id, organizations.name , organizations.approvedByAdmin,organizations.address,\
 	city.name as cityName, country.name as countryName,mainImage.path,mainImage.altValue,\
-	(select count(*) FROM organizations  ) as organizationsCount,\
+	(select count(*) FROM organizations";
+	if(q && q != "undefined"){
+		sqlQuery += " where organizations.name LIKE '%" + q + "%'";
+	}
+	sqlQuery +="  ) as organizationsCount,\
 	(select count(*) FROM jobs WHERE organizationId=organizations.id ) as jobCount from organizations \
 	LEFT OUTER JOIN jobs on jobs.organizationId = organizations.id\
 	LEFT OUTER JOIN files AS mainImage ON organizations.mainImageId = mainImage.id \

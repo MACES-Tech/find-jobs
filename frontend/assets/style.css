@@ -3,6 +3,9 @@
 @import url("css/homepage-three.css");
 @import url("css/homepage-four.css");
 
+.twitter-typeahead span{
+    width: 100% !important;
+}
 /*
 01. Theme Typo
 02. Header

@@ -22,7 +22,11 @@ exports.findAllPaging = (req, res, next) => {
 	}
 	offset = (pageNumber - 1) * itemsPerPage 
 		var sqlQuery = "SELECT tags.id, tags.name , \
-		(select count(*) FROM tags  ) as tagsCount,\
+		(select count(*) FROM tags";
+		if(q && q != "undefined"){
+			sqlQuery += " where tags.name LIKE '%" + q + "%'";
+		}
+		sqlQuery +="  ) as tagsCount,\
 		(select count(*) FROM job_tags where job_tags.tagId = tags.id) as jobCount from tags \
 		WHERE tags.active = true";
 		if(q && q != "undefined"){
