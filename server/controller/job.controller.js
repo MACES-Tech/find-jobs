@@ -63,6 +63,7 @@ exports.getAllJobsForAdmin = (req, res, next) => {
     }
     if(q && q != "undefined"){
         searchobject.title = { [Op.like]: '%' + q + '%'}
+        countObject.title = { [Op.like]: '%' + q + '%'}
     }
     if (!pageNumber || pageNumber === "undefined") {
         pageNumber = 1;
@@ -103,10 +104,39 @@ exports.delete = (req, res, next) => {
 exports.updateJob = (req, res, next) => {
     const id = req.params.jobId;
     job = req.body;
-    Job.update(job,
+    jobObject = { title: job.title, jobtype: job.type, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
+
+    Job.update(jobObject,
         { where: { id: id } }
     ).then(() => {
         // next()
+        JobTag.destroy({where:{jobId:id}}).then(() => {
+            for (let index = 0; index < job.tags.length; index++) {
+                const element = job.tags[index];
+                jobTagObject = { tagId: element.id, jobId: id }
+                JobTag.create(jobTagObject).then(insertedjobTag => {
+
+                }).catch(next);
+
+            }
+        }).catch(next);
+        JobSection.destroy({where:{jobId:id}}).then(() => {
+        for (let index = 0; index < job.sections.length; index++) {
+            const element = job.sections[index];
+            jobSectionObject = { title: element.title, description: element.description, jobId: id }
+            JobSection.create(jobSectionObject).then(insertedJobSection => {
+                JobPoint.destroy({where:{sectionId:null}})
+                for (let index = 0; index < element.points.length; index++) {
+                    const point = element.points[index];
+                    jobpointObject = { title: point.title, sectionId: insertedJobSection.id }
+                    JobPoint.create(jobpointObject).then(insertedJobPoint => {
+
+                    }).catch(next);
+                }
+
+            }).catch(next);
+        }
+    }).catch(next);
         res.status(200).send("updated successfully a job with id = " + id);
     }).catch(next);
 };

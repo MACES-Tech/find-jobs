@@ -14,6 +14,8 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: true,
 		}
+    },{
+        timestamps: false
     })
     City.belongsTo(Country, {foreignKey : 'countryId' , as :"country"})
     return City;

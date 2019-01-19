@@ -5,10 +5,11 @@
                 <div class="careerfy-employer-box-section">
                     <!-- Profile Title -->
                     <div class="careerfy-profile-title">
-                        <h2>Post new Job</h2>
+                        <h2><span ng-if="!job.id">Post new</span><span ng-if="job.id">Edit</span>   Job</h2>
                     </div>
                     <ul class="careerfy-row careerfy-employer-profile-form">
                         <li class="careerfy-column-8">
+                            <input placeholder="Enter name" type="hidden" ng-model="job.id">
                             <label>Job Title *</label>
                             <input placeholder="Enter job Title" type="text" ng-model="job.title">
                         </li>
@@ -139,9 +140,9 @@
                         <li class="careerfy-column-6">
                             <label>City / Town *</label>
                             <div class="careerfy-profile-select">
-                                <select ng-change="getCityData(job.selectedCity)" ng-model="job.selectedCity">
+                                <select ng-model="job.selectedCity">
                                     <option value="" selected disabled>Select City</option>
-                                    <option value="{{city}}" ng-repeat="city in cities">{{city.name}}</option>
+                                    <option value="{{city}}" ng-repeat="city in cities track by city.id">{{city.name}}</option>
                                 </select>
                             </div>
                         </li>
