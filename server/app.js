@@ -36,6 +36,11 @@ require('./route/util.route.js')(app);
 require('./controller/file.controller.js')(app);
 require('./route/job.route.js')(app);
 require('./route/typeahead.route.js')(app);
+require('./route/subscription.route.js')(app);
+
+require('./cron/daily.subscription.cron.js');
+require('./cron/weekly.subscription.cron.js');
+require('./cron/daily.expiration.cron.js');
 
 
 

@@ -1,0 +1,70 @@
+<div class="careerfy-column-9">
+    <div class="careerfy-typo-wrap">
+        <div class="careerfy-employer-dasboard">
+            <div class="careerfy-employer-box-section">
+                <!-- Profile Title -->
+                <div class="careerfy-profile-title">
+                    <h2>Subscription List</h2>
+
+                </div>
+                <!-- Manage Jobs -->
+                <div class="careerfy-managejobs-list-wrap">
+                    <div class="careerfy-managejobs-list">
+                        <!-- Manage Jobs Header -->
+                        <div class="careerfy-table-layer careerfy-managejobs-thead">
+                            <div class="careerfy-table-row">
+                                <div class="careerfy-table-cell" style="width: 30%">Email</div>
+                                <div class="careerfy-table-cell" style="width: 20%">Type</div>
+                                <div class="careerfy-table-cell" style="width: 20%">City</div>
+                                <div class="careerfy-table-cell" style="width: 20%">Organization</div>
+                                <div class="careerfy-table-cell" style="width: 10%">Tag</div>
+                            </div>
+                        </div>
+                        <!-- Manage Jobs Body -->
+
+                        <div ng-repeat="sub in subscriptions" class="careerfy-table-layer careerfy-managejobs-tbody">
+                            <div class="careerfy-table-row">
+                                <div class="careerfy-table-cell" style="width: 30%">
+                                    <h6><a href="">{{sub.email}}</a></h6>
+                                </div>
+                                <div class="careerfy-table-cell" style="width: 20%">
+                                    <a href="" class="careerfy-managejobs-appli" >{{sub.type}}</a>
+                                </div>
+                                <div class="careerfy-table-cell" style="width: 20%">
+                                    <a href="" class="careerfy-managejobs-appli" >{{sub.city.name}}</a>
+
+                                </div>
+                                <div class="careerfy-table-cell" style="width: 20%">
+                                    <a href="" class="careerfy-managejobs-appli" >{{sub.Organization.name}}</a>
+
+                                </div>
+
+                                <div class="careerfy-table-cell" style="width: 10%">
+                                    <a href="" class="careerfy-managejobs-appli" >{{sub.tag.name}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Manage Jobs Body -->
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="careerfy-pagination-blog">
+                    <ul class="page-numbers">
+                        <li ng-click="getSubscriptionListPage(currentPageNumberInSubscriptionListPage - 1)"><a class="prev page-numbers"
+                                href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                        <li ng-repeat="pages in  [].constructor(numberOfPagesInSubscriptionListPage) track by $index " ng-click="getSubscriptionListPage($index + 1)"><span
+                                style="cursor: pointer;" ng-class="{'current':$index + 1  === currentPageNumberInSubscriptionListPage}"
+                                class="page-numbers ">{{ $index + 1 }}</span></li>
+                        <li ng-show="currentPageNumberInSubscriptionListPage + 1 <= numberOfPagesInSubscriptionListPage" ng-click="getSubscriptionListPage(currentPageNumberInAdminsPage + 1)"><a
+                                class="next page-numbers" href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                        <li ng-show="currentPageNumberInSubscriptionListPage + 1 > numberOfPagesInSubscriptionListPage"><a class="next page-numbers"
+                                href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
