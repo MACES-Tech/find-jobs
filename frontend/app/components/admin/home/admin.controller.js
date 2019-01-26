@@ -71,11 +71,12 @@ angular.module('jobs')
                 authority: ['SUPER_ADMIN', 'ADMIN']
             }, {
                 title: "Subscriptions List",
-                html: "",
+                html: "./app/components/admin/page-content/subscriptions-list.html",
                 icon: "careerfy-alarm",
                 url: "subscription_list",
                 showInList: true,
-                authority: ['SUPER_ADMIN']
+                authority: ['SUPER_ADMIN'],
+                function: getSubscriptionListPage
             },
             {
                 title: "Change password",
@@ -280,7 +281,16 @@ angular.module('jobs')
         $scope.filterAdmins = function (adminSearchQuery) {
             getManageAdminsPage(0, adminSearchQuery);
         }
-
+        function getSubscriptionListPage(pageNumber){
+            if (!pageNumber) {
+                pageNumber = 1;
+            }
+            $scope.currentPageNumberInSubscriptionListPage = pageNumber;
+            adminService.getSubscriptionList(pageNumber, numberOfitemPerPages, function (res, err) {
+                $scope.subscriptions = res.data.subscriptions;
+                $scope.numberOfPagesInSubscriptionListPage = getTotalPages(numberOfitemPerPages, res.data.count);
+            });
+        }
         function getManageAdminsPage(pageNumber, q) {
             if (!pageNumber) {
                 pageNumber = 1;
