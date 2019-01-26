@@ -92,6 +92,50 @@ exports.getAllJobsForAdmin = (req, res, next) => {
 
     }).catch(next);
 }
+
+exports.getAllJobsForPublic = (req, res, next) => {
+    var pageNumber = req.body.pageNumber;
+    var itemsPerPage = req.body.itemsPerPage;
+    // var q = req.query.q;
+
+    searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
+    countObject = {}
+    if (adminId) {
+        searchobject.creatorId = adminId;
+        countObject.creatorId = adminId;
+    }
+    // if(q && q != "undefined"){
+        // searchobject.title = { [Op.like]: '%' + q + '%'}
+        // countObject.title = { [Op.like]: '%' + q + '%'}
+    // }
+    if (!pageNumber || pageNumber === "undefined") {
+        pageNumber = 1;
+    }
+    if (!itemsPerPage || itemsPerPage === "undefined") {
+        itemsPerPage = 8;
+    }
+    offset = (pageNumber - 1) * itemsPerPage
+    var jsonResult = {};
+    Job.count({ where: countObject }).then(count => {
+        jsonResult.count = count;
+        Job.findAll({
+            where: searchobject,
+            include: [
+                { model: db.users, as: 'creator' },
+                { model: db.city, as: 'city' },
+                { model: db.organization, as: 'organization' }
+            ], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
+        }).then(jobs => {
+            jsonResult.jobs = [];
+            for (let index = 0; index < jobs.length; index++) {
+                jsonResult.jobs.push(jobs[index].toJSON());
+            }
+            res.send(jsonResult);
+        }).catch(next);
+
+    }).catch(next);
+};
+
 exports.delete = (req, res, next) => {
     const id = req.params.jobId;
     Job.update({ status: jobStatus.deleted },
