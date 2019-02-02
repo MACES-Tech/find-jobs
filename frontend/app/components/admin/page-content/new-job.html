@@ -14,16 +14,12 @@
                             <input placeholder="Enter job Title" type="text" ng-model="job.title">
                         </li>
                         <li class="careerfy-column-4">
-                            <label>Job Type *</label>
+                            <label>Job Degree *</label>
                             <div class="careerfy-profile-select">
-                                <select ng-model="job.type">
-                                    <option value="" selected disabled>Select job type</option>
-                                    <option value="Full Time">Full Time</option>
-                                    <option value="Part Time">Part Time</option>
-                                    <option value="Temporary">Temporary</option>
-                                    <option value="Internship">Internship</option>
-                                    <option value="Freelance">Freelance</option>
-                                    <option value="Volunteer">Volunteer</option>
+                                <select ng-model="job.degree">
+                                    <option value="" selected disabled>Select job degree</option>
+                                    <option value="{{degree.id}}" ng-repeat="degree in degrees">{{degree.name}}</option>
+
                                 </select>
                             </div>
                         </li>

@@ -19,7 +19,7 @@ exports.create = (req, res, next) => {
     } else {
         status = jobStatus.pending;
     }
-    jobObject = { title: job.title, jobtype: job.type, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, status: status, creatorId: job.creator.id, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
+    jobObject = { title: job.title, degreeId: job.degree, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, status: status, creatorId: job.creator.id, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
     Job.create(jobObject).then(insertedjob => {
         for (let index = 0; index < job.tags.length; index++) {
             const element = job.tags[index];
@@ -104,7 +104,7 @@ exports.delete = (req, res, next) => {
 exports.updateJob = (req, res, next) => {
     const id = req.params.jobId;
     job = req.body;
-    jobObject = { title: job.title, jobtype: job.type, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
+    jobObject = { title: job.title, degreeId: job.degree, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
 
     Job.update(jobObject,
         { where: { id: id } }
@@ -143,7 +143,7 @@ exports.updateJob = (req, res, next) => {
 
 exports.getJobById = (req, res, next) => {
     const id = req.params.jobId;
-    db.sequelize.query("SELECT distinct  jobs.*,\
+    db.sequelize.query("SELECT distinct  jobs.*,degrees.name as degree,\
     sections.id as sectionId , sections.title as sectionTitle, sections.description as sectionDescription,\
     points.id as pointId, points.title as pointTitle,\
     cities.name as cityName, cities.lat, cities.long, countries.name as countryName,\
@@ -152,6 +152,7 @@ exports.getJobById = (req, res, next) => {
     tags.id as tagId, tags.name as tagName\
     FROM jobs\
     LEFT OUTER JOIN cities on jobs.cityId = cities.id \
+    LEFT OUTER JOIN degrees on jobs.degreeId = degrees.id \
     LEFT OUTER JOIN countries on cities.countryId = countries.id\
     INNER join organizations on jobs.organizationId = organizations.id\
     LEFT OUTER JOIN files on organizations.mainImageId = files.id\
@@ -164,6 +165,37 @@ exports.getJobById = (req, res, next) => {
 
             res.send(results);
         })
+}
+
+exports.getMorejobsByTags = (req, res, next) => {
+    tags = req.query.tags;
+    if (req.params.jobId)
+        jobId = req.params.jobId;
+    if (req.query.tag) {
+        tags = req.query.tag;
+        queryString = "SELECT cities.name as cityName, jobs.title as title, jobs.id as id, jobs.address as address,organizations.name as orgName ,organizations.id as orgId, \
+        degrees.name as degreeName, degrees.color as degreeColor,files.path as mainImagePath FROM jobs\
+        inner join job_tags on jobs.id = job_tags.id\
+        inner join degrees on jobs.degreeId = degrees.id\
+        inner join cities on cities.id = jobs.cityId\
+        inner join organizations on jobs.organizationId = organizations.id\
+        LEFT OUTER join files on files.id = organizations.mainImageId\
+        where ";
+        where = " status = 'Active' and (";
+        tags.forEach((element, index) => {
+            where += "job_tags.tagId=" + element;
+            if (index < tags.length - 1)
+                where += " or "
+        });
+        where += " ) group by jobs.id;"
+        queryString += where;
+
+        db.sequelize.query(queryString, { replacements: tags }).spread((results, metadata) => {
+            res.send(results);
+        }).catch(next)
+    }else{
+        res.send([]);
+    }
 }
 
 exports.getMorejobsByorganization = (req, res, next) => {

@@ -5,6 +5,9 @@ module.exports = function(app) {
     app.get('/api/job',auth.required, JobController.getAllJobsForAdmin);
     app.get('/api/job/:jobId',auth.required, JobController.getJobById);
     app.get('/api/job/:jobId/moreJobs',auth.required, JobController.getMorejobsByorganization);
+
+    app.get('/api/jobSearch',auth.required, JobController.getMorejobsByTags);
+    
     app.put('/api/job/:jobId',auth.required, JobController.updateJob);
     app.delete('/api/job/:jobId',auth.required, JobController.delete);
 

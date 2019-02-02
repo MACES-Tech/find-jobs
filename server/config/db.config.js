@@ -32,4 +32,5 @@ db.section = require('../model/section.model.js')(sequelize, Sequelize);
 db.tag = require('../model/tag.model.js')(sequelize, Sequelize);
 db.jobTag =  require('../model/jobTag.model.js')(sequelize, Sequelize);
 db.subscription =  require('../model/subscription.model.js')(sequelize, Sequelize);
+db.degree =  require('../model/degree.model.js')(sequelize, Sequelize);
 module.exports = db;

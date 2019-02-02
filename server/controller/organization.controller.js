@@ -94,8 +94,8 @@ exports.findById = (req, res, next) => {
 			if(org.length > 0){
 				orgRsult = org[0].toJSON();
 				Job.findAll({ where:{organizationId:orgRsult.id,status : {[Op.eq]: ['Active']}},include: [{
-						model: db.city, as: 'city'
-					}
+						model:db.city, as: 'city'
+					},{model:db.degree,as:'degree'}
 					],offset: 0, limit: parseInt(5),order:[['createdAt', 'DESC']]}).then(jobs =>{
 						orgRsult.jobs = jobs;
 					res.send(orgRsult);

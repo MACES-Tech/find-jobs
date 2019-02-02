@@ -1,4 +1,9 @@
 
+          <meta property="og:url"           content="{{weburi}}" />
+          <meta property="og:type"          content="website" />
+          <meta property="og:title"         content="{{org.name}}" />
+          <meta property="og:description"   content="{{org.description}}" />
+          <meta property="og:image"         content="{{ webprotocol }}://{{ myhostname }}:{{ webportno }}/uploads/{{org.mainImage.path}}" />
         <!-- SubHeader -->
         <div class="careerfy-job-subheader">
                 <span class="careerfy-banner-transparent"></span>
@@ -27,9 +32,9 @@
                                     <figcaption>
                                         <h2>{{org.name}}</h2>
                                         <ul class="careerfy-jobdetail-options">
-                                            <li><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}, United Kingdom </li>
-                                            <li ng-show="org.website.length > 0"><i class="careerfy-icon careerfy-internet"></i> <a href="">{{org.website}}</a></li>
-                                            <li ng-show="org.email.length > 0"><i class="careerfy-icon careerfy-mail"></i> <a href="">Email: {{org.email}}</a></li>
+                                            <li><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}, {{org.city.countryId}} </li>
+                                            <li ng-show="org.website.length > 0"><i class="careerfy-icon careerfy-internet"></i> <a target="_blank" href="{{org.website}}">{{org.website}}</a></li>
+                                            <li ng-show="org.email.length > 0"><i class="careerfy-icon careerfy-mail"></i> <a href="mailto:{{org.email}}">Email: {{org.email}}</a></li>
                                             <li ng-show="org.phone.length > 0"><i class="careerfy-icon careerfy-technology"></i> Hotline: {{org.phone}}</li>
                                            
                                         </ul>
@@ -68,7 +73,6 @@
                                     </div>
                                 </div>
                                 
-                                
                                 <div ng-show="org.jobs.length > 0" style="margin-top: 25px;" class="careerfy-section-title"><h2>Active Jobs From {{org.name}}</h2></div>
                                 <div class="careerfy-job careerfy-joblisting-classic careerfy-jobdetail-joblisting">
                                     <ul class="careerfy-row">
@@ -85,9 +89,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="careerfy-job-userlist">
-                                                        <a href="/?#/job/{{job.id}}" class="careerfy-option-btn" ng-class="{'careerfy-blue':job.jobtype === 'Full Time',
-                                                                                                            'careerfy-green':job.jobtype === 'Part Time',
-                                                                                                            'careerfy-red':job.jobtype === 'Temporary',}">{{job.jobtype}}</a>
+                                                        <a href="/?#/job/{{job.id}}" class="careerfy-option-btn careerfy-blue" style="background-color:{{job.degree.color}} !important;">{{job.degree.name}}</a>
                                                     </div>
                                                 <div class="clearfix"></div>
                                                 </div>
@@ -100,14 +102,18 @@
                             <!-- Job Detail SideBar -->
                             <aside class="careerfy-column-4 careerfy-typo-wrap">
                                 <div class="widget jobsearch_widget_map">
-                                        <iframe 
+                                        <input type="hidden" id="lat" value="{{org.city.lat}}"></input>
+                                        <input type="hidden" id="long" value="{{org.city.long}}"></input>
+                                        <input type="hidden" id="zoom" value="10"></input>
+
+                                        <div style="width: 100%; height: 480px" id="mapContainer"></div>                                        <!-- <iframe 
                                         src="{{org.mapUrl}}"
                                        >
-                                       </iframe>
+                                       </iframe> -->
                                     <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d22589232.038285658!2d-103.9763543971716!3d46.28054447273778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1507595834401"></iframe> -->
                                 </div>
                                 <div class="widget widget_add">
-                                    <img src="extra-images/jobdetail-add.jpg" alt="">
+                                    <img src="assets/extra-images/jobdetail-add.jpg" alt="">
                                 </div>
                             </aside>
                             <!-- Job Detail SideBar -->

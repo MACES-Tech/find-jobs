@@ -38,6 +38,15 @@ angular.module('jobs')
                 authority: ['SUPER_ADMIN', 'ADMIN']
             },
             {
+                title: "Manage Degrees",
+                html: "./app/components/admin/page-content/manage-degrees.html",
+                icon: "careerfy-briefcase-1",
+                url: "degree",
+                showInList: false,
+                function: getManageDegreesPage,
+                authority: ['SUPER_ADMIN', 'ADMIN']
+            },
+            {
                 title: "Tags",
                 html: "./app/components/admin/page-content/manage-tags.html",
                 icon: "careerfy-salary",
@@ -375,6 +384,11 @@ angular.module('jobs')
             getManageJobsPage(0, jobSearchQuery);
         }
 
+        function getManageDegreesPage(pageNumber){
+            if (!pageNumber) {
+                pageNumber = 1;
+            }
+        }
         function getManageJobsPage(pageNumber, q) {
             if (!pageNumber) {
                 pageNumber = 1;
@@ -531,6 +545,9 @@ angular.module('jobs')
             adminService.getOrganizationsNames(function (res, err) {
                 $scope.AllOrganizations = res.data;
             })
+            adminService.getdegrees(function (res, err) {
+                $scope.degrees = res.data;
+            })
             var section = { title: "", description: "", points: [{ title: "" }] };
             $scope.job.sections.push(section)
         }
@@ -548,7 +565,7 @@ angular.module('jobs')
                         firstRow = results[0];
                         jsonResult = {id:firstRow.id,
                             title : firstRow.title,
-                            type:firstRow.jobtype,
+                            degree:firstRow.degreeId.toString(),
                             postedDate: new Date(firstRow.postedDate),
                             expiredDate: new Date(firstRow.dueDate),
                             status: firstRow.status,
@@ -631,6 +648,9 @@ angular.module('jobs')
                         })
                         adminService.getAllTags(function (res, err) {
                             $scope.AllTags = res.data;
+                        })
+                        adminService.getdegrees(function (res, err) {
+                            $scope.degrees = res.data;
                         })
                     }else{
                         $scope.opnePage('new_job');

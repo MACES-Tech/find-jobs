@@ -270,6 +270,24 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+    self.getdegrees = function(cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "degree",
+            cash: true
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
+    
     self.createJobPost = function(job,cb){
         $http({
             method: 'POST',

@@ -35,5 +35,21 @@ app.service('jobService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+    self.getJobsBytags = function(tags,cb){
+        $http({
+            method: 'GET',
+            url: $rootScope.backendURL + "jobSearch?" + tags
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    };
     
 })
