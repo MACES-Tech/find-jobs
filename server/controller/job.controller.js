@@ -92,6 +92,61 @@ exports.getAllJobsForAdmin = (req, res, next) => {
 
     }).catch(next);
 }
+
+exports.getAllJobsForPublic = (req, res, next) => {
+    var pageNumber = req.body.pageNumber;
+    var itemsPerPage = req.body.itemsPerPage;
+    var orgs = req.body.organizations;
+    var cities = req.body.cities;
+    // var q = req.query.q;
+
+    var searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
+    var filterByOrg = { }
+    var filterByCity = { }
+    if (orgs && orgs.length > 0) {
+        filterByOrg.id = orgs;
+    }
+    if (cities && cities.length > 0) {
+        filterByCity.id = cities;
+    }
+    // if(q && q != "undefined"){
+        // searchobject.title = { [Op.like]: '%' + q + '%'}
+        // countObject.title = { [Op.like]: '%' + q + '%'}
+    // }
+    if (!pageNumber || pageNumber === "undefined") {
+        pageNumber = 1;
+    }
+    if (!itemsPerPage || itemsPerPage === "undefined") {
+        itemsPerPage = 8;
+    }
+    offset = (pageNumber - 1) * itemsPerPage
+    var jsonResult = {};
+    Job.count({ where: searchobject , include: [
+        { model: db.organization, as: 'organization', where: filterByOrg}
+    ]}).then(count => {
+        jsonResult.count = count;
+        Job.findAll({
+            attributes: ['id', 'title', 'postedDate', 'jobtype'],
+            where: searchobject,
+            include: [
+                { model: db.city, as: 'city', where: filterByCity, attributes:['id', 'name'],include: [
+                    {model: db.country, as: 'country', attributes:['id', 'name']}    
+                ]},
+                { model: db.organization, as: 'organization', where: filterByOrg, attributes:['id', 'name'], include: [
+                    {model: db.file, as: 'mainImage', attributes:['id', 'path', 'altValue', 'type']}
+                ] }
+            ], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
+        }).then(jobs => {
+            jsonResult.jobs = [];
+            for (let index = 0; index < jobs.length; index++) {
+                jsonResult.jobs.push(jobs[index].toJSON());
+            }
+            res.send(jsonResult);
+        }).catch(next);
+
+    }).catch(next);
+};
+
 exports.delete = (req, res, next) => {
     const id = req.params.jobId;
     Job.update({ status: jobStatus.deleted },
