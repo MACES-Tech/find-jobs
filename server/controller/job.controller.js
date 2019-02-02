@@ -96,13 +96,18 @@ exports.getAllJobsForAdmin = (req, res, next) => {
 exports.getAllJobsForPublic = (req, res, next) => {
     var pageNumber = req.body.pageNumber;
     var itemsPerPage = req.body.itemsPerPage;
+    var orgs = req.body.organizations;
+    var cities = req.body.cities;
     // var q = req.query.q;
 
-    searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
-    countObject = {}
-    if (adminId) {
-        searchobject.creatorId = adminId;
-        countObject.creatorId = adminId;
+    var searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
+    var filterByOrg = { }
+    var filterByCity = { }
+    if (orgs && orgs.length > 0) {
+        filterByOrg.id = orgs;
+    }
+    if (cities && cities.length > 0) {
+        filterByCity.id = cities;
     }
     // if(q && q != "undefined"){
         // searchobject.title = { [Op.like]: '%' + q + '%'}
@@ -116,14 +121,20 @@ exports.getAllJobsForPublic = (req, res, next) => {
     }
     offset = (pageNumber - 1) * itemsPerPage
     var jsonResult = {};
-    Job.count({ where: countObject }).then(count => {
+    Job.count({ where: searchobject , include: [
+        { model: db.organization, as: 'organization', where: filterByOrg}
+    ]}).then(count => {
         jsonResult.count = count;
         Job.findAll({
+            attributes: ['id', 'title', 'postedDate', 'jobtype'],
             where: searchobject,
             include: [
-                { model: db.users, as: 'creator' },
-                { model: db.city, as: 'city' },
-                { model: db.organization, as: 'organization' }
+                { model: db.city, as: 'city', where: filterByCity, attributes:['id', 'name'],include: [
+                    {model: db.country, as: 'country', attributes:['id', 'name']}    
+                ]},
+                { model: db.organization, as: 'organization', where: filterByOrg, attributes:['id', 'name'], include: [
+                    {model: db.file, as: 'mainImage', attributes:['id', 'path', 'altValue', 'type']}
+                ] }
             ], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
         }).then(jobs => {
             jsonResult.jobs = [];

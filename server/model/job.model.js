@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
     const Organization =  require('../model/organization.model.js')(sequelize, Sequelize);    
     const User =  require('../model/users.model.js')(sequelize, Sequelize);    
 
-	const Job = sequelize.define('Job', {
+	const Job = sequelize.define('job', {
         title:{
             type: Sequelize.STRING,
             allowNull: true
