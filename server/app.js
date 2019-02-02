@@ -37,11 +37,8 @@ require('./controller/file.controller.js')(app);
 require('./route/job.route.js')(app);
 require('./route/typeahead.route.js')(app);
 require('./route/subscription.route.js')(app);
-<<<<<<< HEAD
 require('./route/degree.route.js')(app);
-=======
 require('./route/city.route.js')(app);
->>>>>>> 45c019e948e07dfabcd0566074a778ff0e478773
 
 require('./cron/daily.subscription.cron.js');
 require('./cron/weekly.subscription.cron.js');
