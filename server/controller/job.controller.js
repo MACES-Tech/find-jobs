@@ -19,11 +19,25 @@ exports.create = (req, res, next) => {
     } else {
         status = jobStatus.pending;
     }
-    jobObject = { title: job.title, degreeId: job.degree, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, status: status, creatorId: job.creator.id, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
+    jobObject = {
+        title: job.title,
+        degreeId: job.degree,
+        postedDate: job.postedDate,
+        dueDate: job.expiredDate,
+        address: job.address,
+        status: status,
+        creatorId: job.creator.id,
+        organizationId: job.organization[0].id,
+        cityId: JSON.parse(job.selectedCity).id,
+        jobUrl: job.jobUrl
+    }
     Job.create(jobObject).then(insertedjob => {
         for (let index = 0; index < job.tags.length; index++) {
             const element = job.tags[index];
-            jobTagObject = { tagId: element.id, jobId: insertedjob.id }
+            jobTagObject = {
+                tagId: element.id,
+                jobId: insertedjob.id
+            }
             JobTag.create(jobTagObject).then(insertedjobTag => {
 
             }).catch(next);
@@ -32,12 +46,19 @@ exports.create = (req, res, next) => {
 
         for (let index = 0; index < job.sections.length; index++) {
             const element = job.sections[index];
-            jobSectionObject = { title: element.title, description: element.description, jobId: insertedjob.id }
+            jobSectionObject = {
+                title: element.title,
+                description: element.description,
+                jobId: insertedjob.id
+            }
             JobSection.create(jobSectionObject).then(insertedJobSection => {
 
                 for (let index = 0; index < element.points.length; index++) {
                     const point = element.points[index];
-                    jobpointObject = { title: point.title, sectionId: insertedJobSection.id }
+                    jobpointObject = {
+                        title: point.title,
+                        sectionId: insertedJobSection.id
+                    }
                     JobPoint.create(jobpointObject).then(insertedJobPoint => {
 
                     }).catch(next);
@@ -55,15 +76,23 @@ exports.getAllJobsForAdmin = (req, res, next) => {
     var adminId = req.query.adminId;
     var q = req.query.q;
 
-    searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
+    searchobject = {
+        status: {
+            [Op.ne]: [jobStatus.deleted]
+        }
+    }
     countObject = {}
     if (adminId) {
         searchobject.creatorId = adminId;
         countObject.creatorId = adminId;
     }
-    if(q && q != "undefined"){
-        searchobject.title = { [Op.like]: '%' + q + '%'}
-        countObject.title = { [Op.like]: '%' + q + '%'}
+    if (q && q != "undefined") {
+        searchobject.title = {
+            [Op.like]: '%' + q + '%'
+        }
+        countObject.title = {
+            [Op.like]: '%' + q + '%'
+        }
     }
     if (!pageNumber || pageNumber === "undefined") {
         pageNumber = 1;
@@ -73,15 +102,30 @@ exports.getAllJobsForAdmin = (req, res, next) => {
     }
     offset = (pageNumber - 1) * itemsPerPage
     var jsonResult = {};
-    Job.count({ where: countObject }).then(count => {
+    Job.count({
+        where: countObject
+    }).then(count => {
         jsonResult.count = count;
         Job.findAll({
             where: searchobject,
-            include: [
-                { model: db.users, as: 'creator' },
-                { model: db.city, as: 'city' },
-                { model: db.organization, as: 'organization' }
-            ], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
+            include: [{
+                    model: db.users,
+                    as: 'creator'
+                },
+                {
+                    model: db.city,
+                    as: 'city'
+                },
+                {
+                    model: db.organization,
+                    as: 'organization'
+                }
+            ],
+            offset: offset,
+            limit: parseInt(itemsPerPage),
+            order: [
+                ['createdAt', 'DESC']
+            ]
         }).then(jobs => {
             jsonResult.jobs = [];
             for (let index = 0; index < jobs.length; index++) {
@@ -95,47 +139,112 @@ exports.getAllJobsForAdmin = (req, res, next) => {
 
 exports.getAllJobsForPublic = (req, res, next) => {
     var pageNumber = req.body.pageNumber;
-    var itemsPerPage = req.body.itemsPerPage;
+    var itemsPerPage = req.body.numberOfitemPerPages;
     var orgs = req.body.organizations;
-    var cities = req.body.cities;
+    var tags = req.body.tags;
+    var cities = req.body.city;
+    var grade = req.body.grade;
+    var jobTitleQuery = req.body.job_title;
     // var q = req.query.q;
 
-    var searchobject = { status: { [Op.ne]: [jobStatus.deleted] } }
-    var filterByOrg = { }
-    var filterByCity = { }
+    var searchobject = {
+        status: {
+            [Op.ne]: [jobStatus.deleted]
+        },
+        title: { [Op.like]: '%' + jobTitleQuery + '%'}
+    }
+    var filterByOrg = {};
+    var filterByCity = {};
+    var filterByDegree = {};
+    var filterByTag = {};
+    var degreeRequired = false;
     if (orgs && orgs.length > 0) {
         filterByOrg.id = orgs;
     }
-    if (cities && cities.length > 0) {
+    if (tags && tags.length > 0) {
+        filterByTag.id = tags;
+    }
+    if (cities) {
         filterByCity.id = cities;
     }
+    if (grade) {
+        filterByDegree.id = grade;
+        degreeRequired = true;
+    }
     // if(q && q != "undefined"){
-        // searchobject.title = { [Op.like]: '%' + q + '%'}
-        // countObject.title = { [Op.like]: '%' + q + '%'}
+    // searchobject.title = { [Op.like]: '%' + q + '%'}
+    // countObject.title = { [Op.like]: '%' + q + '%'}
     // }
+    console.log(pageNumber)
+    console.log(itemsPerPage)
+    console.log(req.body)
     if (!pageNumber || pageNumber === "undefined") {
         pageNumber = 1;
     }
     if (!itemsPerPage || itemsPerPage === "undefined") {
         itemsPerPage = 8;
     }
-    offset = (pageNumber - 1) * itemsPerPage
+    offset = (pageNumber - 1) * itemsPerPage;
     var jsonResult = {};
-    Job.count({ where: searchobject , include: [
-        { model: db.organization, as: 'organization', where: filterByOrg}
-    ]}).then(count => {
+    Job.count({
+        where: searchobject,
+        include: [{
+                model: db.organization,
+                as: 'organization',
+                where: filterByOrg
+            },
+            {
+                model: db.city,
+                as: 'city',
+                where: filterByCity
+            },
+            {
+                model: db.degree,
+                required: degreeRequired,
+                as: 'degree',
+                where: filterByDegree
+            }
+        ]
+    }).then(count => {
         jsonResult.count = count;
         Job.findAll({
             attributes: ['id', 'title', 'postedDate', 'jobtype'],
             where: searchobject,
-            include: [
-                { model: db.city, as: 'city', where: filterByCity, attributes:['id', 'name'],include: [
-                    {model: db.country, as: 'country', attributes:['id', 'name']}    
-                ]},
-                { model: db.organization, as: 'organization', where: filterByOrg, attributes:['id', 'name'], include: [
-                    {model: db.file, as: 'mainImage', attributes:['id', 'path', 'altValue', 'type']}
-                ] }
-            ], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
+            include: [{
+                    model: db.city,
+                    as: 'city',
+                    where: filterByCity,
+                    attributes: ['id', 'name'],
+                    include: [{
+                        model: db.country,
+                        as: 'country',
+                        attributes: ['id', 'name']
+                    }]
+                },
+                {
+                    model: db.organization,
+                    as: 'organization',
+                    where: filterByOrg,
+                    attributes: ['id', 'name'],
+                    include: [{
+                        model: db.file,
+                        as: 'mainImage',
+                        attributes: ['id', 'path', 'altValue', 'type']
+                    }]
+                },
+                {
+                    model: db.degree,
+                    as: 'degree',
+                    where: filterByDegree,
+                    required: degreeRequired,
+                    attributes: ['id', 'name', 'color']
+                }
+            ],
+            offset: offset,
+            limit: parseInt(itemsPerPage),
+            order: [
+                ['createdAt', 'DESC']
+            ]
         }).then(jobs => {
             jsonResult.jobs = [];
             for (let index = 0; index < jobs.length; index++) {
@@ -149,9 +258,13 @@ exports.getAllJobsForPublic = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
     const id = req.params.jobId;
-    Job.update({ status: jobStatus.deleted },
-        { where: { id: id } }
-    ).then(() => {
+    Job.update({
+        status: jobStatus.deleted
+    }, {
+        where: {
+            id: id
+        }
+    }).then(() => {
         // next()
         res.status(200).send('deleted successfully a job with id = ' + id);
     }).catch(next);
@@ -159,39 +272,72 @@ exports.delete = (req, res, next) => {
 exports.updateJob = (req, res, next) => {
     const id = req.params.jobId;
     job = req.body;
-    jobObject = { title: job.title, degreeId: job.degree, postedDate: job.postedDate, dueDate: job.expiredDate, address: job.address, organizationId: job.organization[0].id, cityId: JSON.parse(job.selectedCity).id ,jobUrl:job.jobUrl}
+    jobObject = {
+        title: job.title,
+        degreeId: job.degree,
+        postedDate: job.postedDate,
+        dueDate: job.expiredDate,
+        address: job.address,
+        organizationId: job.organization[0].id,
+        cityId: JSON.parse(job.selectedCity).id,
+        jobUrl: job.jobUrl
+    }
 
-    Job.update(jobObject,
-        { where: { id: id } }
-    ).then(() => {
+    Job.update(jobObject, {
+        where: {
+            id: id
+        }
+    }).then(() => {
         // next()
-        JobTag.destroy({where:{jobId:id}}).then(() => {
+        JobTag.destroy({
+            where: {
+                jobId: id
+            }
+        }).then(() => {
             for (let index = 0; index < job.tags.length; index++) {
                 const element = job.tags[index];
-                jobTagObject = { tagId: element.id, jobId: id }
+                jobTagObject = {
+                    tagId: element.id,
+                    jobId: id
+                }
                 JobTag.create(jobTagObject).then(insertedjobTag => {
 
                 }).catch(next);
 
             }
         }).catch(next);
-        JobSection.destroy({where:{jobId:id}}).then(() => {
-        for (let index = 0; index < job.sections.length; index++) {
-            const element = job.sections[index];
-            jobSectionObject = { title: element.title, description: element.description, jobId: id }
-            JobSection.create(jobSectionObject).then(insertedJobSection => {
-                JobPoint.destroy({where:{sectionId:null}})
-                for (let index = 0; index < element.points.length; index++) {
-                    const point = element.points[index];
-                    jobpointObject = { title: point.title, sectionId: insertedJobSection.id }
-                    JobPoint.create(jobpointObject).then(insertedJobPoint => {
-
-                    }).catch(next);
+        JobSection.destroy({
+            where: {
+                jobId: id
+            }
+        }).then(() => {
+            for (let index = 0; index < job.sections.length; index++) {
+                const element = job.sections[index];
+                jobSectionObject = {
+                    title: element.title,
+                    description: element.description,
+                    jobId: id
                 }
+                JobSection.create(jobSectionObject).then(insertedJobSection => {
+                    JobPoint.destroy({
+                        where: {
+                            sectionId: null
+                        }
+                    })
+                    for (let index = 0; index < element.points.length; index++) {
+                        const point = element.points[index];
+                        jobpointObject = {
+                            title: point.title,
+                            sectionId: insertedJobSection.id
+                        }
+                        JobPoint.create(jobpointObject).then(insertedJobPoint => {
 
-            }).catch(next);
-        }
-    }).catch(next);
+                        }).catch(next);
+                    }
+
+                }).catch(next);
+            }
+        }).catch(next);
         res.status(200).send("updated successfully a job with id = " + id);
     }).catch(next);
 };
@@ -215,11 +361,12 @@ exports.getJobById = (req, res, next) => {
     LEFT OUTER JOIN points on points.sectionId = sections.id\
     LEFT OUTER JOIN job_tags on job_tags.jobId = jobs.id\
     LEFT OUTER JOIN tags on job_tags.tagId = tags.id \
-    WHERE jobs.id = ?;",
-        { replacements: [id] }).spread((results, metadata) => {
+    WHERE jobs.id = ?;", {
+        replacements: [id]
+    }).spread((results, metadata) => {
 
-            res.send(results);
-        })
+        res.send(results);
+    })
 }
 
 exports.getMorejobsByTags = (req, res, next) => {
@@ -245,10 +392,12 @@ exports.getMorejobsByTags = (req, res, next) => {
         where += " ) group by jobs.id;"
         queryString += where;
 
-        db.sequelize.query(queryString, { replacements: tags }).spread((results, metadata) => {
+        db.sequelize.query(queryString, {
+            replacements: tags
+        }).spread((results, metadata) => {
             res.send(results);
         }).catch(next)
-    }else{
+    } else {
         res.send([]);
     }
 }
@@ -257,10 +406,24 @@ exports.getMorejobsByorganization = (req, res, next) => {
     orgId = req.query.orgId;
     jobId = req.params.jobId;
     Job.findAll({
-        where: { id: { [Op.ne]: [jobId] }, organizationId: orgId, status: { [Op.eq]: ['Active'] } }, include: [{
-            model: db.city, as: 'city'
-        }
-        ], offset: 0, limit: parseInt(5), order: [['createdAt', 'DESC']]
+        where: {
+            id: {
+                [Op.ne]: [jobId]
+            },
+            organizationId: orgId,
+            status: {
+                [Op.eq]: ['Active']
+            }
+        },
+        include: [{
+            model: db.city,
+            as: 'city'
+        }],
+        offset: 0,
+        limit: parseInt(5),
+        order: [
+            ['createdAt', 'DESC']
+        ]
     }).then(jobs => {
         res.send(jobs);
     }).catch(next);

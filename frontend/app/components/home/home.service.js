@@ -7,7 +7,7 @@ app.service('homeService', function ($http, $rootScope) {
         $http({
             method: 'POST',
             url: url,
-            body: body
+            data: JSON.stringify(body)
         }).then(
             function successCallback(res) {
                 if (res.status == 500) {
@@ -21,21 +21,21 @@ app.service('homeService', function ($http, $rootScope) {
             });
     };
 
-    self.getCitiesFilter = function(body,cb){
-        var url = $rootScope.backendURL + "city/filter";
-        $http({
-            method: 'GET',
-            url: url
-        }).then(
-            function successCallback(res) {
-                if (res.status == 500) {
-                    cb(null, res);
-                } else {
-                    cb(res);
-                }
-            },
-            function errorCallback(err) {
-                cb(null, err);
-            });
-        };
+        self.getGradesFilter = function(cb){
+            var url = $rootScope.backendURL + "degree";
+            $http({
+                method: 'GET',
+                url: url
+            }).then(
+                function successCallback(res) {
+                    if (res.status == 500) {
+                        cb(null, res);
+                    } else {
+                        cb(res);
+                    }
+                },
+                function errorCallback(err) {
+                    cb(null, err);
+                });
+            };
 });

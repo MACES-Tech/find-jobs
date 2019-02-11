@@ -13,7 +13,10 @@ module.exports = (sequelize, Sequelize) => {
         long: {
             type: Sequelize.STRING,
             allowNull: true,
-		}
+        },
+        district: {
+            type: Sequelize.STRING,
+        }
     },{
         timestamps: false
     })

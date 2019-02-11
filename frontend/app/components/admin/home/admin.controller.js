@@ -872,7 +872,6 @@ angular.module('jobs')
                     name: 'Organizations',
                     display: 'name',
                     source: organizationsAutoComplete,
-                    limit: 5
                 });
 
             var tagsAutoComplete = new Bloodhound({
@@ -893,7 +892,6 @@ angular.module('jobs')
                     name: 'Tags',
                     display: 'name',
                     source: tagsAutoComplete,
-                    limit: 5
                 });
 
             var adminsAutoComplete = new Bloodhound({
@@ -914,7 +912,6 @@ angular.module('jobs')
                     name: 'Admins',
                     display: 'name',
                     source: adminsAutoComplete,
-                    limit: 5
                 });
 
             var jobsAutoComplete = new Bloodhound({
@@ -935,7 +932,6 @@ angular.module('jobs')
                     name: 'Job_title',
                     display: 'title',
                     source: jobsAutoComplete,
-                    limit: 5
                 });
         });
 

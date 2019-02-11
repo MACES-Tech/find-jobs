@@ -18,26 +18,37 @@ exports.getCitiesFilter = (req, res, next) => {
     //     {model: db.country, as: 'country', attributes:['id', 'name']}    
     // ]}
     var keyword = req.query.q;
-    if(!keyword)
+    if (!keyword)
         keyword = "";
     City.findAll({
-        attributes: ['id', 'name'],
-        include: [
-            {model: db.country, as: 'country', attributes:['name']}    
-        ],
+        attributes: ['id', 'name', 'district'],
+        include: [{
+            model: db.country,
+            as: 'country',
+            attributes: ['name']
+        }],
         where: {
             [Op.or]: [
-                db.sequelize.where(db.sequelize.fn('lower', db.sequelize.col('city.name')),
-                {
+                db.sequelize.where(db.sequelize.fn('lower', db.sequelize.col('city.name')), {
                     [Op.like]: keyword.toLowerCase() + '%'
                 }),
-                db.sequelize.where(db.sequelize.fn('lower', db.sequelize.col('country.name')),
-                {
+                db.sequelize.where(db.sequelize.fn('lower', db.sequelize.col('country.name')), {
+                    [Op.like]: keyword.toLowerCase() + '%'
+                }), db.sequelize.where(db.sequelize.fn('lower', db.sequelize.col('city.district')), {
                     [Op.like]: keyword.toLowerCase() + '%'
                 })
             ]
-        }
+        },
+        offset: 0,
+        limit: 10
     }).then(cities => {
-        res.send(cities);
+        var r = [];
+        for (var i in cities) {
+            r.push({
+                id: cities[i].id,
+                name: cities[i].name + ', ' + cities[i].country.name
+            });
+        }
+        res.send(r);
     }).catch(next);
 };
