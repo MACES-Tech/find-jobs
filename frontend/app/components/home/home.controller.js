@@ -32,7 +32,6 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
 
 
     $scope.getJobs = function (pageNumber, q) {
-        debugger;
         if (!pageNumber) {
             pageNumber = 1;
         }
