@@ -148,9 +148,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
     // var q = req.query.q;
 
     var searchobject = {
-        status: {
-            [Op.ne]: [jobStatus.deleted]
-        },
+        status: jobStatus.active,
         title: { [Op.like]: '%' + jobTitleQuery + '%'}
     }
     var filterByOrg = {};
