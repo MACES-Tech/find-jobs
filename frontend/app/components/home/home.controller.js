@@ -5,6 +5,7 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
         id: -1,
         name: "All Job Grades"
     };
+  
     $scope.selectedDutyStation = {
         id: -1,
         name: ""
@@ -66,6 +67,11 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
             if (!err) {
                 $scope.jobs = res.data.jobs;
                 $scope.jobsCount = res.data.count;
+                $scope.jobs.forEach(element => {
+                    var jobPostedDate = new Date(element.postedDate);
+                    // $scope.yourDate = new Date('2015-07-08T14:02:42.973');
+                    element.DateDifference = moment(jobPostedDate).fromNow();
+                });
                 $scope.numberOfPagesInJobsPage = getTotalPages($scope.numberOfitemPerPages, res.data.count);
                 $scope.startIndexOfJobs = (($scope.currentPageNumberInJobsPage - 1) * $scope.numberOfitemPerPages) + 1;
                 $scope.endIndexOfJobs = Math.min((($scope.currentPageNumberInJobsPage - 1) * $scope.numberOfitemPerPages) + $scope.numberOfitemPerPages, $scope.jobsCount);
