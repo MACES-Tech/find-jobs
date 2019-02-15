@@ -94,12 +94,18 @@
                         </div>
 
                     </form>
+                    <div class="widget widget_add">
+                        <img src="assets/extra-images/jobdetail-add.jpg" alt="">
+                    </div>
                 </aside>
                 <div class="careerfy-column-9 careerfy-typo-wrap">
                     <!-- FilterAble -->
-                    <div class="careerfy-filterable">
+                    <div class="widget widget_add">
+                        <img src="assets/extra-images/banner-bg - Copy.jpg" alt="">
+                    </div>
+                    <div class="careerfy-filterable" ng-if="jobs.length > 0">
                         <h2>Showing {{startIndexOfJobs}}-{{endIndexOfJobs}} of {{jobsCount}} results</h2>
-                        <ul>
+                        <!-- <ul>
                             <li>
                                 <i class="careerfy-icon careerfy-sort"></i>
                                 <div class="careerfy-filterable-select">
@@ -112,13 +118,26 @@
                             </li>
                             <li><a href="#"><i class="careerfy-icon careerfy-squares"></i> Grid</a></li>
                             <li><a href="#"><i class="careerfy-icon careerfy-list"></i> List</a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                     <!-- FilterAble -->
                     <!-- JobGrid -->
-                    <div class="careerfy-job careerfy-job-grid">
+                    <div class="careerfy-job careerfy-job-grid error-template" ng-if="jobs.length == 0">
+                        <h2>
+                           Sorry, No results found.</h2>
+                        <div class="error-details">
+                            There is no results matched your search criteria!
+                        </div>
+                    </div>
+                    <div class="careerfy-job careerfy-job-grid" ng-if="jobs.length > 0">
                         <ul class="careerfy-row">
-                            <li class="careerfy-column-4" ng-repeat="job in jobs">
+                            <li class="careerfy-column-4">
+                                <div class="careerfy-job-grid-wrap"  style="height: 100%;">
+                                    <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
+                                </div>
+                            </li>
+                            <li class="careerfy-column-4" ng-repeat="job in jobs track by $index">
+                        
                                 <div class="careerfy-job-grid-wrap">
                                     <figure>
                                         <span class="careerfy-jobtype-label" ng-style="{'background-color':job.degree.color}">{{job.degree.name}}</span>
@@ -138,10 +157,15 @@
                                     </div>
                                 </div>
                             </li>
+                            <li class="careerfy-column-4">
+                                <div class="careerfy-job-grid-wrap" style="height: 100%;">
+                                    <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <!-- Pagination -->
-                    <div class="careerfy-pagination-blog">
+                    <div class="careerfy-pagination-blog" ng-if="jobs.length > 0">
                         <!-- <ul class="page-numbers">
                                         <li><a class="prev page-numbers" href="#"><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
                                         <li><span class="page-numbers current">01</span></li>

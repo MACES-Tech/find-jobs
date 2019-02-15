@@ -7,7 +7,7 @@ module.exports = function(app) {
     app.get('/api/organization', auth.required,organizationController.findAll);
 
     app.get('/api/organizationNames', auth.required,organizationController.findAllOrganizationName);
-    app.get('/api/organization/:orginzationId', auth.required,organizationController.findById);
+    app.get('/api/organization/:orginzationId', auth.optional,organizationController.findById);
     app.put('/api/organization/:organizationId',auth.required, organizationController.update);
     app.delete('/api/organization/:organizationId',auth.required, organizationController.delete);
 }

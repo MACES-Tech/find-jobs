@@ -4,10 +4,10 @@ module.exports = function(app) {
     app.post('/api/job',auth.required, JobController.create);
     app.get('/api/job',auth.required, JobController.getAllJobsForAdmin);
     app.post('/api/job/filter',auth.optional, JobController.getAllJobsForPublic);
-    app.get('/api/job/:jobId',auth.required, JobController.getJobById);
-    app.get('/api/job/:jobId/moreJobs',auth.required, JobController.getMorejobsByorganization);
+    app.get('/api/job/:jobId',auth.optional, JobController.getJobById);
+    app.get('/api/job/:jobId/moreJobs',auth.optional, JobController.getMorejobsByorganization);
 
-    app.get('/api/jobSearch',auth.required, JobController.getMorejobsByTags);
+    app.get('/api/jobSearch',auth.optional, JobController.getMorejobsByTags);
     
     app.put('/api/job/:jobId',auth.required, JobController.updateJob);
     app.delete('/api/job/:jobId',auth.required, JobController.delete);

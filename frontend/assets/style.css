@@ -6,6 +6,23 @@
 .twitter-typeahead span{
     width: 100% !important;
 }
+.tt-menu{
+    background-color: white;
+    width: 100%;
+    border: solid 1px;
+    border-color: #f3f3f3;
+}
+.tt-suggestion {
+    padding-left: 10px;
+    cursor: pointer;
+}
+.tt-suggestion:hover {
+    background-color: #13b5ea;
+    color: white;
+}
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; }
 /*
 01. Theme Typo
 02. Header
