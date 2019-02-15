@@ -11,6 +11,10 @@
     width: 100%;
     border: solid 1px;
     border-color: #f3f3f3;
+    text-align: left;
+}
+.twitter-typeahead{
+    width: 100%;
 }
 .tt-suggestion {
     padding-left: 10px;
