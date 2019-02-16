@@ -3,7 +3,6 @@ angular.module('jobs').controller('organizationController', function($route, $ro
     $scope.init = function() {
         if ($routeParams.organizationId) {
             //get an existing object
-            console.log($routeParams.organizationId)
             organizationService.getOrganizationById($routeParams.organizationId,function(res, err){
                 if(!err){
                     if(res.data  &&res.status ===200){

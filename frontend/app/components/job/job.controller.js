@@ -7,7 +7,6 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                 if (!err) {
                     if (res.data && res.status === 200) {
                         results = res.data;
-                        console.log(results);
 
                         firstRow = results[0];
                         jsonResult = {

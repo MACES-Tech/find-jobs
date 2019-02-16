@@ -176,9 +176,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
     // searchobject.title = { [Op.like]: '%' + q + '%'}
     // countObject.title = { [Op.like]: '%' + q + '%'}
     // }
-    console.log(pageNumber)
-    console.log(itemsPerPage)
-    console.log(req.body)
+
     if (!pageNumber || pageNumber === "undefined") {
         pageNumber = 1;
     }
