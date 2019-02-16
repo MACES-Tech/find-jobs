@@ -32,17 +32,20 @@ exports.create = (req, res, next) => {
         jobUrl: job.jobUrl
     }
     Job.create(jobObject).then(insertedjob => {
-        for (let index = 0; index < job.tags.length; index++) {
-            const element = job.tags[index];
-            jobTagObject = {
-                tagId: element.id,
-                jobId: insertedjob.id
+        if(job.tags != undefined && job.tags.length > 0){
+            for (let index = 0; index < job.tags.length; index++) {
+                const element = job.tags[index];
+                jobTagObject = {
+                    tagId: element.id,
+                    jobId: insertedjob.id
+                }
+                JobTag.create(jobTagObject).then(insertedjobTag => {
+    
+                }).catch(next);
+    
             }
-            JobTag.create(jobTagObject).then(insertedjobTag => {
-
-            }).catch(next);
-
         }
+        
 
         for (let index = 0; index < job.sections.length; index++) {
             const element = job.sections[index];
