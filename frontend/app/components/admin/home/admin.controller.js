@@ -183,7 +183,6 @@ angular.module('jobs')
                 adminId = $rootScope.getcurrentUser().id
             adminService.getOrganizations(pageNumber, numberOfitemPerPages, q, function (res, err) {
                 $scope.organizations = res.data;
-                console.log($scope.organizations);
 
                 $scope.numberOfPagesInOrganizationPage = getTotalPages(numberOfitemPerPages, res.data[0].organizationsCount);
             })
@@ -400,7 +399,6 @@ angular.module('jobs')
             adminService.getJobs(pageNumber, numberOfitemPerPages, q, function (res, err) {
                 if (!err) {
                     $scope.jobs = res.data.jobs;
-                    console.log($scope.jobs);
                     $scope.numberOfPagesInJobsPage = getTotalPages(numberOfitemPerPages, res.data.count);
                 }
             }, adminId)
@@ -556,11 +554,9 @@ angular.module('jobs')
         }
         function getEditJobPage() {
             if ($location.search().jobId) {
-                console.log($location.search().jobId);
                 adminService.getJobById($location.search().jobId,function(res,err){
                     if (!err && res.data[0].id) {
                         results = res.data;
-                        console.log(results);
 
                         firstRow = results[0];
                         jsonResult = {id:firstRow.id,
@@ -685,7 +681,6 @@ angular.module('jobs')
         $scope.addNewJob = function (job) {
             if (!job.id) {
             job.creator = $rootScope.getcurrentUser();
-            console.log(job);
             adminService.createJobPost(job, function (res, err) {
                 if (!err) {
                     SweetAlert.swal("Good job!", "The Job added successfully", "success");
@@ -721,9 +716,7 @@ angular.module('jobs')
                         });
                         
                     }
-                    console.log($scope.job.selectedCity);
 
-                    console.log($scope.cities[0]);
                     // $scope.cities.forEach(element => {
                     //     if(element.id == city.id){
                     //         $scope.job.selectedCity = element
@@ -740,7 +733,6 @@ angular.module('jobs')
         $scope.up2 = {};
 
         $scope.addNewOrganization = function (up, model) {
-            console.log(model);
             if (!model.id) {
                 Upload.upload({
                     url: $rootScope.backendURL + 'upload',

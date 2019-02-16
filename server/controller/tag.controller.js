@@ -35,8 +35,6 @@ exports.findAllPaging = (req, res, next) => {
 		sqlQuery += " group by tags.id ORDER BY tags.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";";
 		db.sequelize.query(sqlQuery).spread((results, metadata) => {
 			
-			console.log(results);
-			console.log(metadata);
 			res.send(results);
 		})
 };

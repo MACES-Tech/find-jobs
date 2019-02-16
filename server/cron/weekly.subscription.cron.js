@@ -44,11 +44,7 @@ var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
                         selectquery+= " AND " + searchObjectTag
                     }
                     db.sequelize.query(selectquery).spread((results, metadata) => {
-                        // Results will be an empty array and metadata will contain the number of affected rows.
-                        console.log(results);
-                        console.log(metadata);
-
-                        
+                        // Results will be an empty array and metadata will contain the number of affected rows.                        
                       })
 
                 } loop(subscription);

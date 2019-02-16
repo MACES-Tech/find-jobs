@@ -41,8 +41,6 @@ exports.findAll = (req, res, next) => {
 	sqlQuery += " group by organizations.id ORDER BY organizations.createdAt DESC LIMIT "+offset+","+ itemsPerPage+";"
 	db.sequelize.query(sqlQuery).spread((results, metadata) => {
 		// Results will be an empty array and metadata will contain the number of affected rows.
-		console.log(results);
-		console.log(metadata);
 		res.send(results);
 		
 	  }).catch(next);

@@ -44,8 +44,6 @@ const job = new CronJob('0 0 * * *', function () {
                     }
                     db.sequelize.query(selectquery).spread((results, metadata) => {
                         // Results will be an empty array and metadata will contain the number of affected rows.
-                        console.log(results);
-                        console.log(metadata);
 
                         
                       })
