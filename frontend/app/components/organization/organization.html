@@ -32,7 +32,7 @@
                                     <figcaption>
                                         <h2>{{org.name}}</h2>
                                         <ul class="careerfy-jobdetail-options">
-                                            <li><i class="fa fa-map-marker"></i> {{org.address}}, {{org.city.name}}, {{org.city.countryId}} </li>
+                                            <li ng-if="org.address || org.cityName || org.countryName"><i class="fa fa-map-marker"></i> <span ng-if="org.address">{{org.address}}, </span> <span ng-if="org.cityName">{{org.cityName}}, </span> <span ng-if="org.countryName">{{org.countryName}}</span> </li>
                                             <li ng-show="org.website.length > 0"><i class="careerfy-icon careerfy-internet"></i> <a target="_blank" href="{{org.website}}">{{org.website}}</a></li>
                                             <li ng-show="org.email.length > 0"><i class="careerfy-icon careerfy-mail"></i> <a href="mailto:{{org.email}}">Email: {{org.email}}</a></li>
                                             <li ng-show="org.phone.length > 0"><i class="careerfy-icon careerfy-technology"></i> Hotline: {{org.phone}}</li>
@@ -101,7 +101,7 @@
                             <!-- Job Detail Content -->
                             <!-- Job Detail SideBar -->
                             <aside class="careerfy-column-4 careerfy-typo-wrap">
-                                <div class="widget jobsearch_widget_map">
+                                <div class="widget jobsearch_widget_map" ng-if="org.city && org.city.lat && org.city.long">
                                         <input type="hidden" id="lat" value="{{org.city.lat}}"></input>
                                         <input type="hidden" id="long" value="{{org.city.long}}"></input>
                                         <input type="hidden" id="zoom" value="10"></input>

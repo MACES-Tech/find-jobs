@@ -741,7 +741,12 @@ angular.module('jobs')
                     if (resp.data.error_code === 0) {
                         creator = $rootScope.getcurrentUser();
 
-                        modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, cityId: JSON.parse(model.selectedCity).id, creatorId: creator.id };
+                        modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, creatorId: creator.id };
+                        debugger;
+                        // cityId: JSON.parse(model.selectedCity).id
+                        if(model.selectedCity != undefined){
+                            modelObject.cityId = JSON.parse(model.selectedCity).id
+                        }
                         if (creator.role == "ADMIN") {
                             modelObject.approvedByAdmin = false;
                         } else if (creator.role == "SUPER_ADMIN") {

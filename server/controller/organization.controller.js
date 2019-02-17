@@ -33,7 +33,7 @@ exports.findAll = (req, res, next) => {
 	LEFT OUTER JOIN jobs on jobs.organizationId = organizations.id\
 	LEFT OUTER JOIN files AS mainImage ON organizations.mainImageId = mainImage.id \
 	LEFT OUTER JOIN cities AS city ON organizations.cityId = city.id\
-	INNER  JOIN countries AS country ON city.countryId = country.id  \
+	LEFT OUTER JOIN countries AS country ON city.countryId = country.id  \
 	WHERE organizations.active = true";
 	if(q && q != "undefined"){
 		sqlQuery += " AND organizations.name LIKE '%" + q + "%'";
