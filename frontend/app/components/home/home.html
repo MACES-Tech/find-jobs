@@ -151,8 +151,8 @@
                                             <!-- <li><a href="#">Sales & Marketing</a></li> -->
                                             <li>{{job.DateDifference}}</li>
                                         </ul>
-                                        <span class="careerfy-job-location"><i class="careerfy-icon careerfy-maps-and-flags"></i>
-                                            {{job.city.name}}, {{job.city.country.name}}</span>
+                                        <span class="careerfy-job-location" ng-if="job.city"><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                            <span ng-if="job.city.name">{{job.city.name}}, </span><span ng-if="job.city.country && job.city.country.name">{{job.city.country.name}}</span></span>
                                         <!-- <a href="#" class="careerfy-job-like"><i class="fa fa-heart"></i></a> -->
                                     </div>
                                 </div>

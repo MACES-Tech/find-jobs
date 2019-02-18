@@ -32,7 +32,7 @@
                                     <ul>
                                         <li><i class="careerfy-icon careerfy-calendar"></i> Created: <span> {{job.createdAt | date:'MMM dd yyyy' :'UTC'}} </span></li>
                                         <li><i class="careerfy-icon careerfy-calendar"></i> Expiry: <span>{{job.dueDate | date:'MMM dd yyyy'}}</span></li>
-                                        <li><i class="careerfy-icon careerfy-maps-and-flags"></i> {{job.address}}, {{job.city.name}}</li>
+                                        <li ng-if="job.address || job.city"><i class="careerfy-icon careerfy-maps-and-flags"></i><span ng-if="job.address">{{job.address}}, </span><span ng-if="job.city.name">{{job.city.name}}</span> </li>
                                         <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> <a href="">{{job.jobtype}}</a></li>
                                     </ul>
                                 </div>

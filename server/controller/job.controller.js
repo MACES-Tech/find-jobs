@@ -28,8 +28,10 @@ exports.create = (req, res, next) => {
         status: status,
         creatorId: job.creator.id,
         organizationId: job.organization[0].id,
-        cityId: JSON.parse(job.selectedCity).id,
         jobUrl: job.jobUrl
+    };
+    if(job.selectedCity && job.selectedCity != undefined){
+        jobObject.cityId = JSON.parse(job.selectedCity).id;
     }
     Job.create(jobObject).then(insertedjob => {
         if(job.tags != undefined && job.tags.length > 0){
@@ -159,6 +161,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
     var filterByDegree = {};
     var filterByTag = {};
     var degreeRequired = false;
+    var cityRequired = false;
     if (orgs && orgs.length > 0) {
         filterByOrg.id = orgs;
     }
@@ -167,6 +170,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
     }
     if (cities) {
         filterByCity.id = cities;
+        cityRequired = true;
     }
     if (grade) {
         filterByDegree.id = grade;
@@ -195,6 +199,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
             {
                 model: db.city,
                 as: 'city',
+                required: cityRequired,
                 where: filterByCity
             },
             {
@@ -213,6 +218,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
                     model: db.city,
                     as: 'city',
                     where: filterByCity,
+                    required: cityRequired,
                     attributes: ['id', 'name'],
                     include: [{
                         model: db.country,
@@ -278,8 +284,10 @@ exports.updateJob = (req, res, next) => {
         dueDate: job.expiredDate,
         address: job.address,
         organizationId: job.organization[0].id,
-        cityId: JSON.parse(job.selectedCity).id,
         jobUrl: job.jobUrl
+    }
+    if(job.selectedCity && job.selectedCity != undefined){
+        jobObject.cityId = JSON.parse(job.selectedCity).id;
     }
 
     Job.update(jobObject, {

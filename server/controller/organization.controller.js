@@ -85,7 +85,12 @@ exports.findById = (req, res, next) => {
 	Organization.findAll({where:searchObejct,include: [
 		{ model: db.file, as: 'mainImage'
 		},{
-			model: db.city, as: 'city'
+			model: db.city, as: 'city',
+			include: [{
+				model: db.country,
+				as: 'country',
+				attributes: ['id', 'name']
+		}]
 		 }
 		]}).then(org => {
 			orgRsult = {};

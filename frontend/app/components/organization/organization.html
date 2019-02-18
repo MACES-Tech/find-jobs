@@ -32,7 +32,7 @@
                                     <figcaption>
                                         <h2>{{org.name}}</h2>
                                         <ul class="careerfy-jobdetail-options">
-                                            <li ng-if="org.address || org.cityName || org.countryName"><i class="fa fa-map-marker"></i> <span ng-if="org.address">{{org.address}}, </span> <span ng-if="org.cityName">{{org.cityName}}, </span> <span ng-if="org.countryName">{{org.countryName}}</span> </li>
+                                            <li ng-if="org.address || org.city.name || org.city.country.name"><i class="fa fa-map-marker"></i> <span ng-if="org.address" style="display: inline;">{{org.address}}, </span> <span ng-if="org.city.name" style="display: inline;">{{org.city.name}}, </span> <span style="display: inline;" ng-if="org.city.country.name">{{org.city.country.name}}</span> </li>
                                             <li ng-show="org.website.length > 0"><i class="careerfy-icon careerfy-internet"></i> <a target="_blank" href="{{org.website}}">{{org.website}}</a></li>
                                             <li ng-show="org.email.length > 0"><i class="careerfy-icon careerfy-mail"></i> <a href="mailto:{{org.email}}">Email: {{org.email}}</a></li>
                                             <li ng-show="org.phone.length > 0"><i class="careerfy-icon careerfy-technology"></i> Hotline: {{org.phone}}</li>
@@ -84,7 +84,7 @@
                                                         <h2><a href="/?#/job/{{job.id}}">{{job.title}}</a> </h2>
                                                         <ul>
                                                             <!-- <li><a href="#">@ Massimo Artemisis</a></li> -->
-                                                            <li><i class="careerfy-icon careerfy-maps-and-flags"></i> {{job.address}}, {{job.city.name}}</li>
+                                                            <li ng-if="job.address || job.city.name"><i class="careerfy-icon careerfy-maps-and-flags"></i> <span ng-if="job.address" style="display: inline;"> {{job.address}}, </span><span ng-if="job.city.name" style="display: inline;">{{job.city.name}}</span></li>
                                                             <!-- <li><i class="careerfy-icon careerfy-filter-tool-black-shape"></i> {{job.status}}</li> -->
                                                         </ul>
                                                     </div>

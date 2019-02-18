@@ -30,7 +30,7 @@
                                     <small class="careerfy-jobdetail-postinfo">{{job.createdAt | date:'MMM dd yyyy'
                                         :'UTC'}}</small></span>
                                 <ul class="careerfy-jobdetail-options">
-                                    <li><i class="fa fa-map-marker"></i> {{job.address}}, {{job.city.name}}, {{job.country.name}}
+                                    <li ng-if="job.address || job.city.name || job.country.name"><i class="fa fa-map-marker"></i> <span ng-if="job.address" style="display: inline">{{job.address}}, </span><span ng-if="job.city.name" style="display: inline">{{job.city.name}}, </span><span ng-if="job.country.name" style="display: inline">{{job.country.name}}</span> 
                                     </li>
                                     <li><i class="careerfy-icon careerfy-calendar"></i> Post Date: {{job.postedDate |
                                         date:'MMM dd yyyy' :'UTC'}}</li>
@@ -89,8 +89,8 @@
                                                 <h2><a href="/?#/job/{{job.id}}">{{job.title}}</a> </h2>
                                                 <ul>
                                                     <li><a href="/?#/organization/{{job.orgId}}">@ {{job.orgName}}</a></li>
-                                                    <li><i class="careerfy-icon careerfy-maps-and-flags"></i>
-                                                        {{job.address}}, {{job.cityName}}</li>
+                                                    <li ng-if="job.address || job.cityName"><i class="careerfy-icon careerfy-maps-and-flags"></i>
+                                                        <span ng-if="job.address">{{job.address}}, </span><span ng-if="job.cityName">{{job.cityName}}</span></li>
                                                 </ul>
                                             </div>
                                             <div class="careerfy-job-userlist">
@@ -115,12 +115,13 @@
                                <span id="time"></span>
                             </div>
                         </div>
-                        <div class="widget jobsearch_widget_map">
+                        <div class="widget jobsearch_widget_map" ng-if="job.city && job.city.lat && job.city.long">
                                 <input type="hidden" id="lat" value="{{job.city.lat}}"></input>
                                 <input type="hidden" id="long" value="{{job.city.long}}"></input>
                                 <input type="hidden" id="zoom" value="10"></input>
 
-                                <div style="width: 100%; height: 480px" id="mapContainer"></div>                         </div>
+                                <div style="width: 100%; height: 480px" id="mapContainer"></div>                  
+                        </div>
                         <div class="widget widget_add">
                             <img src="assets/extra-images/jobdetail-add.jpg" alt="">
                         </div>
@@ -132,7 +133,7 @@
                                 <li ng-repeat="job in job.organization.jobs">
                                     <h6><a href="/?#/job/{{job.id}}">{{job.title}}</a></h6>
                                     <span>{{job.jobtype}}</span>
-                                    <small>{{job.address}}, {{job.city.name}}</small>
+                                    <small ng-if="job.address || job.city"><span ng-if="job.address" style="display: inline">{{job.address}}, </span><span ng-if="job.city.name" style="display: inline">{{job.city.name}}</span></small>
                                 </li>
                             </ul>
                             <a href="" class="widget_view_jobs_btn">View all jobs <i class="careerfy-icon careerfy-arrows32"></i></a>
