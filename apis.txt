@@ -1,0 +1,49 @@
+POST http://findintjobs.com/api/job/filter
+{
+	pageNumber: 1,  					"number of pages from 1 to n"
+	numberOfitemPerPages: 9,			"number of results per page"
+	organizations: [1, 2],				"array of organization ids"
+	tags: [1, 2],						"array of tag ids"
+	city: 2,							"city id"
+	grade: 6,							"job grade id"
+	job_title: "engineer"				"search query for job titles"
+}
+
+
+
+GET http://findintjobs.com/api/city/filter?q={{auto_complete_string_for_location}}
+ex: http://findintjobs.com/api/city/filter?q=cair
+
+
+GET http://findintjobs.com/api/typeahead/job?q={{auto_complete_string_for_job_title}}
+ex: http://findintjobs.com/api/typeahead/job?q=soft
+
+
+GET http://findintjobs.com/api/typeahead/organization?q={{auto_complete_string_for_orgs}}
+ex: http://findintjobs.com/api/typeahead/organization?q=world
+
+
+GET http://findintjobs.com/api/typeahead/tag?q={{auto_complete_string_for_tags}}
+ex: http://findintjobs.com/api/typeahead/tag?q=tag
+
+GET http://findintjobs.com/api/degree
+lists all job grade
+
+
+GET http://findintjobs.com/api/organization/{{org_id}}
+EX: http://findintjobs.com/api/organization/16
+
+GET http://findintjobs.com/api/job/{{job_id}}
+ex: http://findintjobs.com/api/job/37
+
+
+GET http://findintjobs.com/api/job/{{job_id}}/moreJobs?orgId={{org_id}}
+ex: http://findintjobs.com/api/job/37/moreJobs?orgId=16
+lists more jobs by org in job details page
+
+
+
+GET http://findintjobs.com/api/jobSearch?tag={{tag_1_id}}&tag={{tag_2_id}}&
+ex: http://findintjobs.com/api/jobSearch?tag=13&tag=5&
+Other jobs you may like in job details page
+input: array of tags related to the job post

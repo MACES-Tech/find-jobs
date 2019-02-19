@@ -10,6 +10,5 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: true
         }
     })
-
     return Tag;
 }

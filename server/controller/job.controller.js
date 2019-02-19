@@ -33,6 +33,7 @@ exports.create = (req, res, next) => {
     if(job.selectedCity && job.selectedCity != undefined){
         jobObject.cityId = JSON.parse(job.selectedCity).id;
     }
+
     Job.create(jobObject).then(insertedjob => {
         if(job.tags != undefined && job.tags.length > 0){
             for (let index = 0; index < job.tags.length; index++) {
@@ -162,11 +163,13 @@ exports.getAllJobsForPublic = (req, res, next) => {
     var filterByTag = {};
     var degreeRequired = false;
     var cityRequired = false;
+    var tagRequired = false;
     if (orgs && orgs.length > 0) {
         filterByOrg.id = orgs;
     }
     if (tags && tags.length > 0) {
         filterByTag.id = tags;
+        tagRequired = true;
     }
     if (cities) {
         filterByCity.id = cities;
@@ -207,12 +210,18 @@ exports.getAllJobsForPublic = (req, res, next) => {
                 required: degreeRequired,
                 as: 'degree',
                 where: filterByDegree
+            },
+            {
+                model: db.tag,
+                required: tagRequired,
+                as: 'tags',
+                where: filterByTag,
             }
         ]
     }).then(count => {
         jsonResult.count = count;
         Job.findAll({
-            attributes: ['id', 'title', 'postedDate', 'jobtype'],
+            attributes: ['id', 'title', 'postedDate', 'jobtype', 'createdAt', 'cityId', 'degreeId'],
             where: searchobject,
             include: [{
                     model: db.city,
@@ -230,7 +239,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
                     model: db.organization,
                     as: 'organization',
                     where: filterByOrg,
-                    attributes: ['id', 'name'],
+                    attributes: ['id', 'name', 'mainImageId'],
                     include: [{
                         model: db.file,
                         as: 'mainImage',
@@ -243,6 +252,16 @@ exports.getAllJobsForPublic = (req, res, next) => {
                     where: filterByDegree,
                     required: degreeRequired,
                     attributes: ['id', 'name', 'color']
+                },
+                {
+                    model: db.tag,
+                    required: tagRequired,
+                    as: 'tags',
+                    attributes: ['id', 'name'],
+                    where: filterByTag,
+                    through: { 
+                        attributes: [],
+                     }
                 }
             ],
             offset: offset,

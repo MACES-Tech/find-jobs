@@ -1,6 +1,6 @@
 const db = require('../config/db.config.js');
 const Tag = db.tag;
-const JobTag = db.jobTag;
+// const JobTag = db.jobTag;
 
 exports.create = (req, res, next) => {
     tag = req.body;

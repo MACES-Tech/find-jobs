@@ -4,6 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     const Degree =  require('../model/degree.model.js')(sequelize, Sequelize);    
     const Organization =  require('../model/organization.model.js')(sequelize, Sequelize);    
     const User =  require('../model/users.model.js')(sequelize, Sequelize);    
+    const Tag =  require('../model/tag.model.js')(sequelize, Sequelize);    
     // const JobTag = require('../model/jobTag.model.js')(sequelize, Sequelize);
 
 	const Job = sequelize.define('job', {
@@ -40,6 +41,15 @@ module.exports = (sequelize, Sequelize) => {
     Job.belongsTo(Degree, {foreignKey : 'degreeId' , as :"degree"})
     // Job.belongsTo(Category, {foreignKey : 'categoryId' , as :"category"})
     Job.belongsTo(City, {foreignKey : 'cityId' , as :"city"})
-    // Job.hasMany(JobTag, {foreignKey : 'jobTagId' , as :"tags"})
+    Job.belongsToMany(Tag, {
+        through: 'job_tags',
+        as: 'tags',
+        foreignKey: 'jobId'
+      });
+    Tag.belongsToMany(Job, {
+        through: 'job_tags',
+        as: 'jobs',
+        foreignKey: 'tagId'
+      });
     return Job;
 }
