@@ -747,11 +747,11 @@ angular.module('jobs')
                         if(model.selectedCity != undefined){
                             modelObject.cityId = JSON.parse(model.selectedCity).id
                         }
-                        if (creator.role == "ADMIN") {
-                            modelObject.approvedByAdmin = false;
-                        } else if (creator.role == "SUPER_ADMIN") {
+                        // if (creator.role == "ADMIN") {
+                        //     modelObject.approvedByAdmin = false;
+                        // } else if (creator.role == "SUPER_ADMIN") {
                             modelObject.approvedByAdmin = true;
-                        }
+                        // }
                         adminService.creatNewOrganization(modelObject, function (res, err) {
                             if (!err) {
                                 SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
