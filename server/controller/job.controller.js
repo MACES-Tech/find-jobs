@@ -320,16 +320,18 @@ exports.updateJob = (req, res, next) => {
                 jobId: id
             }
         }).then(() => {
-            for (let index = 0; index < job.tags.length; index++) {
-                const element = job.tags[index];
-                jobTagObject = {
-                    tagId: element.id,
-                    jobId: id
+            if(job.tags != undefined && job.tags.length > 0){
+                for (let index = 0; index < job.tags.length; index++) {
+                    const element = job.tags[index];
+                    jobTagObject = {
+                        tagId: element.id,
+                        jobId: id
+                    }
+                    JobTag.create(jobTagObject).then(insertedjobTag => {
+
+                    }).catch(next);
+
                 }
-                JobTag.create(jobTagObject).then(insertedjobTag => {
-
-                }).catch(next);
-
             }
         }).catch(next);
         JobSection.destroy({
