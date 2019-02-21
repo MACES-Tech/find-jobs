@@ -404,8 +404,8 @@ angular.module('jobs')
             }, adminId)
         }
         $scope.approvejobPost = function (jobId, index) {
-            updatedObject = { status: "Active" }
-            adminService.updateJobPost(jobId, updatedObject, function (res, err) {
+            updatedObject = { id: jobId }
+            adminService.approveJobPost(updatedObject, function (res, err) {
                 if (!err) {
                     $scope.jobs[index].status = 'Active'
                     SweetAlert.swal("Good job!", "The Job Approved successfully", "success");

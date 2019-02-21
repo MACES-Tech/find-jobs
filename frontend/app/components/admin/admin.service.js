@@ -322,6 +322,23 @@ app.service('adminService', function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+    self.approveJobPost= function(updatedObject,cb){
+        $http({
+            method: 'PUT',
+            url: $rootScope.backendURL + "job/approve",
+            data:JSON.stringify(updatedObject)
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    }
     self.updateJobPost = function(jobId,updatedObject,cb){
         $http({
             method: 'PUT',

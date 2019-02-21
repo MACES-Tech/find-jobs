@@ -293,6 +293,16 @@ exports.delete = (req, res, next) => {
         res.status(200).send('deleted successfully a job with id = ' + id);
     }).catch(next);
 };
+exports.approveJobPost= (req, res, next) => {
+    job = req.body;
+    Job.update({ status: jobStatus.active}, {
+        where: {
+            id: job.id
+        }
+    }).then(() => {
+        res.status(200).send("approve successfully Job with id = " + job.id);
+    }).catch(next);
+}
 exports.updateJob = (req, res, next) => {
     const id = req.params.jobId;
     job = req.body;
@@ -306,7 +316,7 @@ exports.updateJob = (req, res, next) => {
         status: job.status
     }
     if(job.organization && job.organization.length > 0){
-        job.organizationId = job.organization[0].id;
+        jobObject.organizationId = job.organization[0].id;
     }
     if(job.selectedCity && job.selectedCity != undefined){
         jobObject.cityId = JSON.parse(job.selectedCity).id;
