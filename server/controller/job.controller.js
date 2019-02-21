@@ -302,8 +302,10 @@ exports.updateJob = (req, res, next) => {
         postedDate: job.postedDate,
         dueDate: job.expiredDate,
         address: job.address,
-        organizationId: job.organization[0].id,
         jobUrl: job.jobUrl
+    }
+    if(job.organization && job.organization.length > 0){
+        job.organizationId = job.organization[0].id;
     }
     if(job.selectedCity && job.selectedCity != undefined){
         jobObject.cityId = JSON.parse(job.selectedCity).id;
