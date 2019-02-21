@@ -302,7 +302,8 @@ exports.updateJob = (req, res, next) => {
         postedDate: job.postedDate,
         dueDate: job.expiredDate,
         address: job.address,
-        jobUrl: job.jobUrl
+        jobUrl: job.jobUrl,
+        status: job.status
     }
     if(job.organization && job.organization.length > 0){
         job.organizationId = job.organization[0].id;
@@ -341,31 +342,33 @@ exports.updateJob = (req, res, next) => {
                 jobId: id
             }
         }).then(() => {
-            for (let index = 0; index < job.sections.length; index++) {
-                const element = job.sections[index];
-                jobSectionObject = {
-                    title: element.title,
-                    description: element.description,
-                    jobId: id
-                }
-                JobSection.create(jobSectionObject).then(insertedJobSection => {
-                    JobPoint.destroy({
-                        where: {
-                            sectionId: null
-                        }
-                    })
-                    for (let index = 0; index < element.points.length; index++) {
-                        const point = element.points[index];
-                        jobpointObject = {
-                            title: point.title,
-                            sectionId: insertedJobSection.id
-                        }
-                        JobPoint.create(jobpointObject).then(insertedJobPoint => {
-
-                        }).catch(next);
+            if(job.sections != undefined && job.sections.length > 0){
+                for (let index = 0; index < job.sections.length; index++) {
+                    const element = job.sections[index];
+                    jobSectionObject = {
+                        title: element.title,
+                        description: element.description,
+                        jobId: id
                     }
-
-                }).catch(next);
+                    JobSection.create(jobSectionObject).then(insertedJobSection => {
+                        JobPoint.destroy({
+                            where: {
+                                sectionId: null
+                            }
+                        })
+                        for (let index = 0; index < element.points.length; index++) {
+                            const point = element.points[index];
+                            jobpointObject = {
+                                title: point.title,
+                                sectionId: insertedJobSection.id
+                            }
+                            JobPoint.create(jobpointObject).then(insertedJobPoint => {
+    
+                            }).catch(next);
+                        }
+    
+                    }).catch(next);
+                }
             }
         }).catch(next);
         res.status(200).send("updated successfully a job with id = " + id);
