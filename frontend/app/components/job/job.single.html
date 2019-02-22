@@ -65,7 +65,7 @@
                                 <div class="careerfy-description">
                                     <p>{{section.description}}</p>
                                     <ul class="careerfy-list-style-icon">
-                                        <li ng-repeat="point in section.points"><i class="careerfy-icon careerfy-arrows22"></i>{{point.title}}</li>
+                                        <li ng-repeat="point in section.points" ng-if="point.title != ''"><i class="careerfy-icon careerfy-arrows22"></i>{{point.title}}</li>
                                     </ul>
                                 </div>
                             </div>
