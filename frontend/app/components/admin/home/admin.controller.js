@@ -184,7 +184,7 @@ angular.module('jobs')
             adminService.getOrganizations(pageNumber, numberOfitemPerPages, q, function (res, err) {
                 $scope.organizations = res.data;
 
-                $scope.numberOfPagesInOrganizationPage = getTotalPages(numberOfitemPerPages, res.data[0].organizationsCount);
+                $scope.numberOfPagesInOrganizationPage = res.data[0] ? getTotalPages(numberOfitemPerPages, res.data[0].organizationsCount) : 0;
             })
         }
 
