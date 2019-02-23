@@ -58,8 +58,7 @@ exports.update = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.tagId;
-	Tag.update( {active: false}, 
-        { where: {id: id} }
+	Tag.destroy({ where: {id: id} }
       ).then(() => {
 		// next()
 	  res.status(200).send('deleted successfully a tag with id = ' + id);

@@ -99,8 +99,7 @@ exports.resetPassword = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.userId;
-	Users.update( {active: false}, 
-        { where: {id: id} }
+	Users.destroy({ where: {id: id} }
       ).then(() => {
 		// next()
 	  res.status(200).send('deleted successfully a user with id = ' + id);

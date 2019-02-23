@@ -29,8 +29,7 @@ exports.update = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.categoryId;
-	Degree.update( {active: false}, 
-        { where: {id: id} }
+	Degree.destroy( { where: {id: id} }
       ).then(() => {
 		// next()
 	  res.status(200).send('deleted successfully a category with id = ' + id);

@@ -62,8 +62,7 @@ exports.update = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.organizationId;
-	Organization.update( {active: false}, 
-        { where: {id: id} }
+	Organization.destroy({ where: {id: id} }
       ).then(() => {
 		// next()
 	  res.status(200).send('deleted successfully a organization with id = ' + id);

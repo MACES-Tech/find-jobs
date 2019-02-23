@@ -29,7 +29,7 @@ exports.update = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.categoryId;
-	Category.update( {active: false}, 
+	Category.destroy(
         { where: {id: id} }
       ).then(() => {
 		// next()

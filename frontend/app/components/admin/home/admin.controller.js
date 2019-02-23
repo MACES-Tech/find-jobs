@@ -510,18 +510,20 @@ angular.module('jobs')
                 adminService.getOrganizationById($location.search().orgId, function (res, err) {
                     if (!err && res.data.id) {
                         $scope.org = res.data;
-                        $scope.org.selectedCity = JSON.stringify(res.data.city);
+                        // if(res.data.city != null){
+                            // $scope.org.selectedCity = JSON.stringify(res.data.city);
+                        // }
                         adminService.getCountries(function (res, err) {
                             if (!err) {
                                 $scope.countries = res.data;
                                 $scope.countries.forEach(country => {
-                                    if (country.id == JSON.parse($scope.org.selectedCity).countryId) {
+                                    if (country.id == $scope.org.city.countryId) {
                                         $scope.selectedCountry = JSON.stringify(country);
-                                        $scope.getCities($scope.selectedCountry, $scope.org.selectedCity)
+                                        $scope.getCities($scope.selectedCountry, $scope.org.city);
                                     }
                                 });
                             }
-                        })
+                        });
                     } else {
                         $scope.opnePage('new_organization');
                     }
@@ -561,7 +563,6 @@ angular.module('jobs')
                         firstRow = results[0];
                         jsonResult = {id:firstRow.id,
                             title : firstRow.title,
-                            degree:firstRow.degreeId.toString(),
                             postedDate: new Date(firstRow.postedDate),
                             expiredDate: new Date(firstRow.dueDate),
                             status: firstRow.status,
@@ -578,12 +579,18 @@ angular.module('jobs')
                                 },
                             country:{
                                 name:firstRow.countryName
-                            },
-                            organization:[{
+                            }
+                        }
+                        if(firstRow.degreeId != null){
+                            jsonResult.degree = firstRow.degreeId.toString();
+                        }
+                        if(firstRow.organizationId != null){
+                            jsonResult.organization = [{
                                 id:firstRow.organizationId,
                                 name:firstRow.organizationName
-                            }]
+                            }];
                         }
+
                         jsonResult.tags=[];
                         let tagIds = new Set();
 
@@ -709,6 +716,7 @@ angular.module('jobs')
                         $scope.org.selectedCity = ""
                         $scope.job.selectedCity = ""
                     }else{
+                        // city = JSON.parse(city)
                         $scope.cities.forEach(element => {
                             if(element.id == city.id){
                                 $scope.job.selectedCity = JSON.stringify(element)
@@ -742,7 +750,7 @@ angular.module('jobs')
                         creator = $rootScope.getcurrentUser();
 
                         modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, creatorId: creator.id };
-                        debugger;
+                        // debugger;
                         // cityId: JSON.parse(model.selectedCity).id
                         if(model.selectedCity != undefined){
                             modelObject.cityId = JSON.parse(model.selectedCity).id
@@ -776,7 +784,12 @@ angular.module('jobs')
             } else {
 
                 if (!up.file) {
-                    modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, cityId: JSON.parse(model.selectedCity).id };
+                    modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin};
+                    // cityId: JSON.parse(model.selectedCity).id
+                    if(model.selectedCity != undefined && model.selectedCity != "null"){
+                        modelObject.cityId = JSON.parse(model.selectedCity).id
+                    }
+                    modelObject.approvedByAdmin = true;
                     adminService.updateOrganization(model.id, modelObject, function (res, err) {
                         if (!err) {
                             SweetAlert.swal("Good job!", "The Organiztion Updated successfully", "success");

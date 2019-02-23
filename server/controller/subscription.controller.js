@@ -50,8 +50,7 @@ exports.update = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
 	const id = req.params.subscriptionId;
-	Subscription.update({ active: false },
-		{ where: { id: id } }
+	Subscription.destroy({ where: { id: id } }
 	).then(() => {
 		res.status(200).send('deleted successfully a tag with id = ' + id);
 	}).catch(next);

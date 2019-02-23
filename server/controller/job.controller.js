@@ -27,9 +27,11 @@ exports.create = (req, res, next) => {
         address: job.address,
         status: status,
         creatorId: job.creator.id,
-        organizationId: job.organization[0].id,
         jobUrl: job.jobUrl
     };
+    if(job.organization && job.organization.length > 0){
+        jobObject.organizationId = job.organization[0].id;
+    }
     if(job.selectedCity && job.selectedCity != undefined){
         jobObject.cityId = JSON.parse(job.selectedCity).id;
     }
@@ -124,7 +126,8 @@ exports.getAllJobsForAdmin = (req, res, next) => {
                 },
                 {
                     model: db.organization,
-                    as: 'organization'
+                    as: 'organization',
+                    required: false
                 }
             ],
             offset: offset,
@@ -164,8 +167,10 @@ exports.getAllJobsForPublic = (req, res, next) => {
     var degreeRequired = false;
     var cityRequired = false;
     var tagRequired = false;
+    var orgRequired = false;
     if (orgs && orgs.length > 0) {
         filterByOrg.id = orgs;
+        orgRequired = true;
     }
     if (tags && tags.length > 0) {
         filterByTag.id = tags;
@@ -197,6 +202,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
         include: [{
                 model: db.organization,
                 as: 'organization',
+                required: orgRequired,
                 where: filterByOrg
             },
             {
@@ -221,7 +227,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
     }).then(count => {
         jsonResult.count = count;
         Job.findAll({
-            attributes: ['id', 'title', 'postedDate', 'jobtype', 'createdAt', 'cityId', 'degreeId'],
+            attributes: ['id', 'title', 'postedDate', 'jobtype', 'createdAt', 'cityId', 'degreeId', 'organizationId'],
             where: searchobject,
             include: [{
                     model: db.city,
@@ -240,6 +246,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
                     as: 'organization',
                     where: filterByOrg,
                     attributes: ['id', 'name', 'mainImageId'],
+                    required: orgRequired,
                     include: [{
                         model: db.file,
                         as: 'mainImage',
@@ -282,9 +289,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
     const id = req.params.jobId;
-    Job.update({
-        status: jobStatus.deleted
-    }, {
+    Job.destroy( {
         where: {
             id: id
         }
@@ -398,7 +403,7 @@ exports.getJobById = (req, res, next) => {
     LEFT OUTER JOIN cities on jobs.cityId = cities.id \
     LEFT OUTER JOIN degrees on jobs.degreeId = degrees.id \
     LEFT OUTER JOIN countries on cities.countryId = countries.id\
-    INNER join organizations on jobs.organizationId = organizations.id\
+    LEFT OUTER JOIN organizations on jobs.organizationId = organizations.id\
     LEFT OUTER JOIN files on organizations.mainImageId = files.id\
     LEFT OUTER JOIN sections on sections.jobId = jobs.id\
     LEFT OUTER JOIN points on points.sectionId = sections.id\
