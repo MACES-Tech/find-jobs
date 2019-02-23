@@ -104,7 +104,9 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                                 if (res.data && res.status === 200) {
                                     results = res.data;
                                     $scope.job.organization.jobs = results;
-                                    $scope.reloadScripts();
+                                    
+                                    if( $scope.job.organization.city)
+                                        $scope.reloadScripts();
                                 }
                             }
                         })

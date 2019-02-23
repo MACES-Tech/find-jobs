@@ -21,8 +21,11 @@
                 <div class="careerfy-column-12">
                     <div class="careerfy-typo-wrap">
                         <figure class="careerfy-jobdetail-list">
-                            <span class="careerfy-jobdetail-listthumb"><img ng-src="/uploads/{{job.organization.mainImage.path}}"
-                                    alt="{{job.organization.mainImage.altValue}}"></span>
+                            <span class="careerfy-jobdetail-listthumb">
+                                <img ng-if="job.organization.mainImage.path" ng-src="/uploads/{{job.organization.mainImage.path}}"
+                                    alt="{{job.organization.mainImage.altValue}}">
+                                    <img ng-if="!job.organization.mainImage.path" ng-src="thumb.jpg" >
+                                </span>
                             <figcaption>
                                 <h2>{{job.title}}</h2>
                                 <span><small class="careerfy-jobdetail-type">{{job.degree}}</small>
@@ -57,8 +60,8 @@
                 <!-- Job Detail Content -->
                 <div class="careerfy-column-8">
                     <div class="careerfy-typo-wrap">
-                        <div class="careerfy-jobdetail-content">
-                            <div ng-repeat="section in job.sections" ng-if="job.sections.length > 0">
+                        <div class="careerfy-jobdetail-content" ng-if="job.sections.length > 0">
+                            <div ng-repeat="section in job.sections" >
                                 <div class="careerfy-content-title">
                                     <h2>{{section.title}}</h2>
                                 </div>

@@ -193,7 +193,7 @@ exports.getAllJobsForPublic = (req, res, next) => {
         pageNumber = 1;
     }
     if (!itemsPerPage || itemsPerPage === "undefined") {
-        itemsPerPage = 8;
+        itemsPerPage = 10;
     }
     offset = (pageNumber - 1) * itemsPerPage;
     var jsonResult = {};
@@ -418,26 +418,30 @@ exports.getJobById = (req, res, next) => {
 }
 
 exports.getMorejobsByTags = (req, res, next) => {
-    tags = req.query.tags;
+    tags = req.query.tag;
     if (req.params.jobId)
         jobId = req.params.jobId;
     if (req.query.tag) {
         tags = req.query.tag;
         queryString = "SELECT cities.name as cityName, jobs.title as title, jobs.id as id, jobs.address as address,organizations.name as orgName ,organizations.id as orgId, \
         degrees.name as degreeName, degrees.color as degreeColor,files.path as mainImagePath FROM jobs\
-        inner join job_tags on jobs.id = job_tags.id\
-        inner join degrees on jobs.degreeId = degrees.id\
-        inner join cities on cities.id = jobs.cityId\
-        inner join organizations on jobs.organizationId = organizations.id\
+        LEFT join job_tags on jobs.id = job_tags.jobId\
+        LEFT join degrees on jobs.degreeId = degrees.id\
+        LEFT join cities on cities.id = jobs.cityId\
+        LEFT join organizations on jobs.organizationId = organizations.id\
         LEFT OUTER join files on files.id = organizations.mainImageId\
         where ";
         where = " status = 'Active' and (";
-        tags.forEach((element, index) => {
-            where += "job_tags.tagId=" + element;
-            if (index < tags.length - 1)
-                where += " or "
-        });
-        where += " ) group by jobs.id;"
+        if(typeof tags !== 'string'){
+            tags.forEach((element, index) => {
+                where += "job_tags.tagId=" + element;
+                if (index < tags.length - 1)
+                    where += " or "
+            });
+        }else{
+            where += "job_tags.tagId=" + tags;
+        }
+        where += " ) and jobs.id <> "+jobId+" group by jobs.id;"
         queryString += where;
 
         db.sequelize.query(queryString, {

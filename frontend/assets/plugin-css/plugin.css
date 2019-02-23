@@ -3394,7 +3394,7 @@ body.careerfy-modal-active{
 .careerfy-user-options ul li.active i { background-color: #93c907; }
 /* Login User Form */
 .careerfy-user-form,.careerfy-user-form label,.careerfy-user-form-info,
-.careerfy-user-form input[type="text"],.careerfy-user-form input[type="submit"] {
+.careerfy-user-form input[type="text"],.careerfy-user-form input[type="submit"],.careerfy-user-form input[type="password"] {
     float: left;
     width: 100%;
     text-align: left;

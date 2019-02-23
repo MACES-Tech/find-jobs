@@ -743,52 +743,79 @@ angular.module('jobs')
 
         $scope.addNewOrganization = function (up, model) {
             debugger;
+            creator = $rootScope.getcurrentUser();
             if (!model.id) {
-                Upload.upload({
-                    url: $rootScope.backendURL + 'upload',
-                    data: { file: up.file }
-                }).then(function (resp) {
-                    if (resp.data.error_code === 0) {
-                        creator = $rootScope.getcurrentUser();
+                if (!up.file) {
 
-                        modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, creatorId: creator.id };
-                        // debugger;
-                        // cityId: JSON.parse(model.selectedCity).id
-                        if(model.selectedCity != undefined){
-                            modelObject.cityId = JSON.parse(model.selectedCity).id
-                        }
-                        // if (creator.role == "ADMIN") {
-                        //     modelObject.approvedByAdmin = false;
-                        // } else if (creator.role == "SUPER_ADMIN") {
-                            modelObject.approvedByAdmin = true;
-                        // }
-                        adminService.creatNewOrganization(modelObject, function (res, err) {
-                            if (!err) {
-                                SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
-                                $scope.org = {};
-                                $scope.up2 = {};
-                                $scope.OrganizationImageProgress = 0;
-                                $scope.opnePage('organizations');
-                            } else {
-                                SweetAlert.swal("Error", "an error occuers", "error");
-                            }
-                        })
-                    } else {
-                        SweetAlert.swal("Error", "an error occuers", "error");
-
+                    modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, creatorId: creator.id };
+                    // debugger;
+                    // cityId: JSON.parse(model.selectedCity).id
+                    if(model.selectedCity != undefined && model.selectedCity.length > 0){
+                        modelObject.cityId = JSON.parse(model.selectedCity).id
                     }
-                }, function (resp) {
-                    SweetAlert.swal("Error", "an error occuers", "error");
-                }, function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope.OrganizationImageProgress = 'progress: ' + progressPercentage + '% ';
-                });
+                    // if (creator.role == "ADMIN") {
+                    //     modelObject.approvedByAdmin = false;
+                    // } else if (creator.role == "SUPER_ADMIN") {
+                        modelObject.approvedByAdmin = true;
+                    // }
+                    adminService.creatNewOrganization(modelObject, function (res, err) {
+                        if (!err) {
+                            SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
+                            $scope.org = {};
+                            $scope.up2 = {};
+                            $scope.OrganizationImageProgress = 0;
+                            $scope.opnePage('organizations');
+                        } else {
+                            SweetAlert.swal("Error", "an error occuers", "error");
+                        }
+                    })
+                }else{
+                    Upload.upload({
+                        url: $rootScope.backendURL + 'upload',
+                        data: { file: up.file }
+                    }).then(function (resp) {
+                        if (resp.data.error_code === 0) {
+    
+                            modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, mainImageId: resp.data.insertedFile.id, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin, creatorId: creator.id };
+                            // debugger;
+                            // cityId: JSON.parse(model.selectedCity).id
+                            if(model.selectedCity != undefined && model.selectedCity.length > 0){
+                                modelObject.cityId = JSON.parse(model.selectedCity).id
+                            }
+                            // if (creator.role == "ADMIN") {
+                            //     modelObject.approvedByAdmin = false;
+                            // } else if (creator.role == "SUPER_ADMIN") {
+                                modelObject.approvedByAdmin = true;
+                            // }
+                            adminService.creatNewOrganization(modelObject, function (res, err) {
+                                if (!err) {
+                                    SweetAlert.swal("Good job!", "The Organiztion added successfully", "success");
+                                    $scope.org = {};
+                                    $scope.up2 = {};
+                                    $scope.OrganizationImageProgress = 0;
+                                    $scope.opnePage('organizations');
+                                } else {
+                                    SweetAlert.swal("Error", "an error occuers", "error");
+                                }
+                            })
+                        } else {
+                            SweetAlert.swal("Error", "an error occuers", "error");
+    
+                        }
+                    }, function (resp) {
+                        SweetAlert.swal("Error", "an error occuers", "error");
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.OrganizationImageProgress = 'progress: ' + progressPercentage + '% ';
+                    });
+                }
+                
             } else {
 
                 if (!up.file) {
                     modelObject = { name: model.name, email: model.email, phone: model.phone, website: model.webSite, description: model.description, address: model.address, postcode: model.postcode, lat: model.lat, long: model.long, facebook: model.facebook, twitter: model.twitter, googlePlus: model.googlePlus, youtube: model.youtube, vimeo: model.vimeo, linkedin: model.linkedin};
                     // cityId: JSON.parse(model.selectedCity).id
-                    if(model.selectedCity != undefined && model.selectedCity != "null"){
+                    if(model.selectedCity != undefined && model.selectedCity != "null" && model.selectedCity.length > 0){
                         modelObject.cityId = JSON.parse(model.selectedCity).id
                     }
                     modelObject.approvedByAdmin = true;

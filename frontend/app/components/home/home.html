@@ -130,15 +130,18 @@
                         </div>
                     </div>
                     <div class="careerfy-job careerfy-job-grid" ng-if="jobs.length > 0">
-                        <ul class="careerfy-row">
+                        <ul class="careerfy-row" ng-repeat="row in rows track by $index">
+<!--                                 
                             <li class="careerfy-column-4">
                                 <div class="careerfy-job-grid-wrap"  style="height: 100%;">
                                     <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
                                 </div>
-                            </li>
-                            <li class="careerfy-column-4" ng-repeat="job in jobs track by $index">
-                        
-                                <div class="careerfy-job-grid-wrap">
+                            </li> -->
+                            <li class="careerfy-column-4" ng-repeat="job in row track by $index">
+                                <div class="careerfy-job-grid-wrap"  ng-if="job.type">
+                                    <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
+                                </div>
+                                <div class="careerfy-job-grid-wrap"ng-if="!job.type">
                                     <figure>
                                         <span class="careerfy-jobtype-label" ng-style="{'background-color':job.degree.color}">{{job.degree.name}}</span>
                                         <a href="/?#/job/{{job.id}}"><img ng-src="/uploads/{{job.organization.mainImage.path}}" alt="{{job.organization.mainImage.altValue}}"></a>
@@ -157,11 +160,11 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="careerfy-column-4">
+                            <!-- <li class="careerfy-column-4">
                                 <div class="careerfy-job-grid-wrap" style="height: 100%;">
                                     <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
                                 </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <!-- Pagination -->

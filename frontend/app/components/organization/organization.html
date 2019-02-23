@@ -28,8 +28,13 @@
                             <!-- Job Detail List -->
                             <div class="careerfy-column-12 careerfy-typo-wrap">
                                 <figure class="careerfy-jobdetail-list">
-                                    <span class="careerfy-jobdetail-listthumb"><img ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}"></span>
-                                    <figcaption>
+                                    <span class="careerfy-jobdetail-listthumb">
+                                        <img ng-if="org.mainImage.path" ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}">
+                                        <img ng-if="!org.mainImage.path"  ng-src="thumb.jpg" >
+
+                                    </span>
+
+                                        <figcaption>
                                         <h2>{{org.name}}</h2>
                                         <ul class="careerfy-jobdetail-options">
                                             <li ng-if="org.address || org.city.name || org.city.country.name"><i class="fa fa-map-marker"></i> <span ng-if="org.address" style="display: inline;">{{org.address}}, </span> <span ng-if="org.city.name" style="display: inline;">{{org.city.name}}, </span> <span style="display: inline;" ng-if="org.city.country.name">{{org.city.country.name}}</span> </li>
@@ -57,9 +62,9 @@
     
                             <!-- Job Detail Content -->
                             <div class="careerfy-column-8 careerfy-typo-wrap">
-                                <div class="careerfy-jobdetail-content careerfy-employerdetail-content">
+                                <div class="careerfy-jobdetail-content careerfy-employerdetail-content" ng-if="org.description.length > 0">
                                     
-                                    <div class="careerfy-content-title"><h2>Organization Description</h2></div>
+                                    <div class="careerfy-content-title" ><h2>Organization Description</h2></div>
                                     <div class="careerfy-description">
                                         <p>{{org.description}}</p>
                                         <!-- <ul class="careerfy-list-style-icon">
@@ -78,8 +83,11 @@
                                     <ul class="careerfy-row">
                                         <li class="careerfy-column-12" ng-repeat="job in org.jobs">
                                             <div class="careerfy-joblisting-classic-wrap">
-                                                <figure><a href="/?#/job/{{job.id}}"><img ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}"></a></figure>
-                                                <div class="careerfy-joblisting-text">
+                                                <figure><a href="/?#/job/{{job.id}}">
+                                                    <img ng-if="org.mainImage.path" ng-src="/uploads/{{org.mainImage.path}}" alt="{{org.mainImage.altValue}}"></a></figure>
+                                                    <img ng-if="!org.mainImage.path" ng-src="thumb.jpg" >
+
+                                                    <div class="careerfy-joblisting-text">
                                                     <div class="careerfy-list-option">
                                                         <h2><a href="/?#/job/{{job.id}}">{{job.title}}</a> </h2>
                                                         <ul>

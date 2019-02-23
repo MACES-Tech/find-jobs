@@ -1,6 +1,6 @@
 angular.module('jobs').controller('homeController', function ($route, $rootScope, $scope, $location, homeService, Upload, SweetAlert) {
 
-    $scope.numberOfitemPerPages = 9;
+    $scope.numberOfitemPerPages = 10;
     $scope.selectedGradeFilter = {
         id: -1,
         name: "All Job Grades"
@@ -65,13 +65,29 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
         }
         homeService.getJobs(b, function (res, err) {
             if (!err) {
-                $scope.jobs = res.data.jobs;
+                $scope.jobs = [];
+                $scope.jobs.push({type:"ads"})
+                 res.data.jobs.forEach(element =>{
+                    $scope.jobs.push(element);
+                 });
+                $scope.jobs.push({type:"ads"})
                 $scope.jobsCount = res.data.count;
-                $scope.jobs.forEach(element => {
+                row =  [];
+                $scope.rows =  [];
+                $scope.jobs.forEach((element,index) => {
                     var jobPostedDate = new Date(element.postedDate);
                     // $scope.yourDate = new Date('2015-07-08T14:02:42.973');
                     element.DateDifference = moment(jobPostedDate).fromNow();
+                    row.push(element);
+                    if((index+1) % 3 ==0){
+                        $scope.rows.push(row);
+                        row =  [];
+                    }else if(index == $scope.jobs.length - 1){
+                        $scope.rows.push(row);
+                    }
                 });
+                console.log($scope.rows);
+                
                 $scope.numberOfPagesInJobsPage = getTotalPages($scope.numberOfitemPerPages, res.data.count);
                 $scope.startIndexOfJobs = (($scope.currentPageNumberInJobsPage - 1) * $scope.numberOfitemPerPages) + 1;
                 $scope.endIndexOfJobs = Math.min((($scope.currentPageNumberInJobsPage - 1) * $scope.numberOfitemPerPages) + $scope.numberOfitemPerPages, $scope.jobsCount);
