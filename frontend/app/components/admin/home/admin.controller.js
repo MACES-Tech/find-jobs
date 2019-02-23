@@ -719,7 +719,8 @@ angular.module('jobs')
                         // city = JSON.parse(city)
                         $scope.cities.forEach(element => {
                             if(element.id == city.id){
-                                $scope.job.selectedCity = JSON.stringify(element)
+                                $scope.job.selectedCity = JSON.stringify(element);
+                                $scope.org.selectedCity = JSON.stringify(element)
                             }
                         });
                         
@@ -741,6 +742,7 @@ angular.module('jobs')
         $scope.up2 = {};
 
         $scope.addNewOrganization = function (up, model) {
+            debugger;
             if (!model.id) {
                 Upload.upload({
                     url: $rootScope.backendURL + 'upload',

@@ -1,0 +1,16 @@
+if ($request_uri ~* ".(ico|css|js|gif|jpe?g|png)$") {
+                                        expires off;
+                                        access_log off;
+                                        add_header Pragma public;
+                                        add_header Cache-Control "public";
+                                        break;
+                                }
+
+
+
+
+
+
+
+ sudo vim /etc/nginx/sites-enabled/node
+sudo /etc/init.d/nginx restart
