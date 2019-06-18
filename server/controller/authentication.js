@@ -65,7 +65,7 @@ let _onPassportAuth = (req, res, error, user, info) => {
   }
 
 
-  User.find({where:{email: req.body.email }}).then(user => {
+  User.find({where:{email: req.body.email ,active:true}}).then(user => {
     if (!user) {
         return res.send(401);
     } else {
