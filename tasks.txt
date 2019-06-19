@@ -1,0 +1,11 @@
+- share and email links in single page --> go to home page
+-(Done) city is mandatory in create organization
+-(Done) city is mandatory in create organization
+- upload image -- compress image jpg
+-(Done) tags-jobs many-to-many relationship
+- subscribe on filters and frequency
+- employer on right --> ngojobsinafrica.com
+- homepage parse parameters
+-(Done) if org deleted, then added with same name .... unique constraint violation
+-(Done) email and website and selectedcity binding in organization
+-(Done) city selected on update
