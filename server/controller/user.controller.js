@@ -99,9 +99,10 @@ exports.resetPassword = (req, res, next) => {
  
 exports.delete = (req, res, next) => {
     const id = req.params.userId;
-	Users.destroy({ where: {id: id} }
-      ).then(() => {
-		// next()
-	  res.status(200).send('deleted successfully a user with id = ' + id);
-	}).catch(next);
+		Users.update( {active:false}, 
+			{ where: {id: id} }
+			).then(() => {
+			 // next()
+			res.status(200).send("updated successfully a user with id = " + id);
+			}).catch(next);
 };

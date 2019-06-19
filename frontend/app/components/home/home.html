@@ -144,12 +144,12 @@
                                 <div class="careerfy-job-grid-wrap"ng-if="!job.type">
                                     <figure>
                                         <span class="careerfy-jobtype-label" ng-style="{'background-color':job.degree.color}">{{job.degree.name}}</span>
-                                        <a href="/?#/job/{{job.id}}"><img ng-src="/uploads/{{job.organization.mainImage.path}}" alt="{{job.organization.mainImage.altValue}}"></a>
+                                        <a target="_blank" href="/?#/job/{{job.id}}"><img ng-src="/uploads/{{job.organization.mainImage.path}}" alt="{{job.organization.mainImage.altValue}}"></a>
                                         <!-- <span class="careerfy-featured-label">Featured</span> -->
                                     </figure>
                                     <div class="careerfy-jobgrid-text">
-                                        <div class="careerfy-job-tag"><a href="/?#/organization/{{job.organization.id}}">{{job.organization.name}}</a></div>
-                                        <h2><a href="/?#/job/{{job.id}}">{{job.title}}</a></h2>
+                                        <div class="careerfy-job-tag"><a target="_blank" href="/?#/organization/{{job.organization.id}}">{{job.organization.name}}</a></div>
+                                        <h2><a target="_blank" href="/?#/job/{{job.id}}">{{job.title}}</a></h2>
                                         <ul class="careerfy-job-time">
                                             <!-- <li><a href="#">Sales & Marketing</a></li> -->
                                             <li>{{job.DateDifference}}</li>

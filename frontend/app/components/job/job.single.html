@@ -28,7 +28,7 @@
                                 </span>
                             <figcaption>
                                 <h2>{{job.title}}</h2>
-                                <span><small class="careerfy-jobdetail-type">{{job.degree}}</small>
+                                <span><small ng-if="job.degree" class="careerfy-jobdetail-type">{{job.degree}}</small>
                                     <a href="/?#/organization/{{job.organization.id}}">{{job.organization.name}}</a>
                                     <small class="careerfy-jobdetail-postinfo">{{job.createdAt | date:'MMM dd yyyy'
                                         :'UTC'}}</small></span>

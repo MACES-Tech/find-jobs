@@ -26,7 +26,9 @@ exports.findAll = (req, res, next) => {
 	city.name as cityName, country.name as countryName,mainImage.path,mainImage.altValue,\
 	(select count(*) FROM organizations";
 	if(q && q != "undefined"){
-		sqlQuery += " where organizations.name LIKE '%" + q + "%'";
+		sqlQuery += " where organizations.active = true and organizations.name LIKE '%" + q + "%'";
+	}else{
+		sqlQuery += " where organizations.active = true"
 	}
 	sqlQuery +="  ) as organizationsCount,\
 	(select count(*) FROM jobs WHERE organizationId=organizations.id ) as jobCount from organizations \

@@ -1,5 +1,5 @@
 angular.module('jobs')
-    .controller('adminController', function ($rootScope, $scope, $location, $route, adminService, Upload, SweetAlert) {
+    .controller('adminController', function ($rootScope, $scope, $location, $route, adminService, Upload, SweetAlert,$window ) {
 
         $scope.pages = [
             {
@@ -367,9 +367,13 @@ angular.module('jobs')
                 if (err) {
                     SweetAlert.swal("Error", "an error occuers", "error");
                 } else {
+                    if(res.status == 400){
+                        SweetAlert.swal("Error",res.data.message, "error");
+                    }else{
                     $scope.newAdmin = {};
                     $scope.admins.splice(0, 0, res.data.user);
                     SweetAlert.swal("Done", "", "success");
+                }
                 }
             });
         };
@@ -687,23 +691,38 @@ angular.module('jobs')
         }
         $scope.addNewJob = function (job) {
             if (!job.id) {
-            job.creator = $rootScope.getcurrentUser();
-            adminService.createJobPost(job, function (res, err) {
-                if (!err) {
-                    SweetAlert.swal("Good job!", "The Job added successfully", "success");
-                } else {
-                    SweetAlert.swal("Error", "an error occuers", "error");
-                }
-            });
-        }else if(job.id){
-            adminService.updateJobPost(job.id,job, function (res, err) {
-                if (!err) {
-                    SweetAlert.swal("Good job!", "The Job updated successfully", "success");
-                } else {
-                    SweetAlert.swal("Error", "an error occuers", "error");
-                }
-            });
-        }
+                job.creator = $rootScope.getcurrentUser();
+                adminService.createJobPost(job, function (res, err) {
+                    if (!err) {
+                        SweetAlert.swal({
+                            title: "The Job added successfully",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonColor: "#32904f", confirmButtonText: "Add new job",
+                            cancelButtonText: "Go to jobs page",
+                            closeOnConfirm: true,
+                            closeOnCancel: true
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    $window.location.reload();
+                                } else {
+                                    $scope.opnePage('jobs');
+                                }
+                            });
+                    } else {
+                        SweetAlert.swal("Error", "an error occuers", "error");
+                    }
+                });
+            } else if (job.id) {
+                adminService.updateJobPost(job.id, job, function (res, err) {
+                    if (!err) {
+                        SweetAlert.swal("Good job!", "The Job updated successfully", "success");
+                    } else {
+                        SweetAlert.swal("Error", "an error occuers", "error");
+                    }
+                });
+            }
         }
 
         $scope.getCities = function (country, city) {
