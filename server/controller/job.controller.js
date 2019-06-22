@@ -392,7 +392,7 @@ exports.updateJob = (req, res, next) => {
 
 exports.getJobById = (req, res, next) => {
     const id = req.params.jobId;
-    db.sequelize.query("SELECT distinct  jobs.*,degrees.name as degree,\
+    db.sequelize.query("SELECT distinct  jobs.*,degrees.name as degree, degrees.color as degreeColor,\
     sections.id as sectionId , sections.title as sectionTitle, sections.description as sectionDescription,\
     points.id as pointId, points.title as pointTitle,\
     cities.name as cityName, cities.lat, cities.long, countries.name as countryName,\
