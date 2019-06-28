@@ -100,9 +100,9 @@
                 </aside>
                 <div class="careerfy-column-9 careerfy-typo-wrap">
                     <!-- FilterAble -->
-                    <div class="widget widget_add">
+                    <!-- <div class="widget widget_add">
                         <img src="assets/extra-images/banner-bg - Copy.jpg" alt="">
-                    </div>
+                    </div> -->
                     <div class="careerfy-filterable" ng-if="jobs.length > 0">
                         <h2>Showing {{startIndexOfJobs}}-{{endIndexOfJobs}} of {{jobsCount}} results</h2>
                         <!-- <ul>
@@ -138,9 +138,9 @@
                                 </div>
                             </li> -->
                             <li class="careerfy-column-4" ng-repeat="job in row track by $index">
-                                <div class="careerfy-job-grid-wrap"  ng-if="job.type">
+                                <!-- <div class="careerfy-job-grid-wrap"  ng-if="job.type">
                                     <img src="assets/extra-images/candidate-detail-two-1.jpg" alt="">
-                                </div>
+                                </div> -->
                                 <div class="careerfy-job-grid-wrap"ng-if="!job.type">
                                     <figure>
                                         <span class="careerfy-jobtype-label" ng-style="{'background-color':job.degree.color}">{{job.degree.name}}</span>

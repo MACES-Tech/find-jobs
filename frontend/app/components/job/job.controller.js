@@ -105,7 +105,7 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                                     results = res.data;
                                     $scope.job.organization.jobs = results;
                                     
-                                    if( $scope.job.organization.city)
+                                    if( $scope.job.city)
                                         $scope.reloadScripts();
                                 }
                             }
