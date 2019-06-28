@@ -311,15 +311,24 @@ exports.approveJobPost= (req, res, next) => {
 exports.updateJob = (req, res, next) => {
     const id = req.params.jobId;
     job = req.body;
+    if (job.creator.role === "SUPER_ADMIN") {
+        status = jobStatus.active;
+    } else {
+        status = jobStatus.pending;
+    }
+    console.log(job.creator.role)
+    console.log(status)
+    
     jobObject = {
         title: job.title,
         degreeId: job.degree,
         postedDate: job.postedDate,
         dueDate: job.expiredDate,
         address: job.address,
+        status: status,
         jobUrl: job.jobUrl,
-        status: job.status
     }
+    console.log(jobObject)
     if(job.organization && job.organization.length > 0){
         jobObject.organizationId = job.organization[0].id;
     }

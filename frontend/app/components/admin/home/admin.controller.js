@@ -715,12 +715,29 @@ angular.module('jobs')
                     }
                 });
             } else if (job.id) {
+                job.creator = $rootScope.getcurrentUser();
                 adminService.updateJobPost(job.id, job, function (res, err) {
                     if (!err) {
-                        SweetAlert.swal("Good job!", "The Job updated successfully", "success");
+                        SweetAlert.swal({
+                            title: "The Job updated successfully",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonColor: "#32904f", confirmButtonText: "update job post",
+                            cancelButtonText: "Go to jobs page",
+                            closeOnConfirm: true,
+                            closeOnCancel: true
+                        },
+                            function (isConfirm) {
+                                if (isConfirm) {
+                                    $window.location.reload();
+                                } else {
+                                    $scope.opnePage('jobs');
+                                }
+                            });
                     } else {
                         SweetAlert.swal("Error", "an error occuers", "error");
                     }
+                        // SweetAlert.swal("Good job!", "The Job updated successfully", "success");
                 });
             }
         }

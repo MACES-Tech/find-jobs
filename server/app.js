@@ -54,5 +54,5 @@ const db = require('./config/db.config.js');
 app.use('/uploads', express.static(process.cwd() + '/uploads'));
 
 app.listen('3000', function () {
-    console.log('running on 3000...');
+    console.log('running on 300...');
 });

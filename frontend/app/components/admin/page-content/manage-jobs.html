@@ -45,7 +45,7 @@
                                 <div class="careerfy-table-cell">
                                     <div class="careerfy-managejobs-links">
                                         <a href="/?#/job/{{job.id}}" target="_blank" class="careerfy-icon careerfy-view"></a>
-                                        <a href="" class="careerfy-icon careerfy-edit" ng-click="editJob(job.id)" ng-if=" getcurrentUser().role =='SUPER_ADMIN' "></a>
+                                        <a href="" class="careerfy-icon careerfy-edit" ng-click="editJob(job.id)"></a>
                                         <a href="" class="careerfy-icon careerfy-rubbish" ng-click="deleteJobPost(job.id,$index)" ng-if="getcurrentUser().role =='SUPER_ADMIN' "></a>
                                         <a href="" class="careerfy-icon" ng-click="approvejobPost(job.id,$index)" ng-if="job.status === 'Pending' && getcurrentUser().role =='SUPER_ADMIN' "><i class="fa fa-check"></i> </a>
                                     </div>
