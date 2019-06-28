@@ -21,6 +21,7 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                             creatorId: firstRow.creatorId,
                             address: firstRow.address,
                             jobUrl:firstRow.jobUrl,
+                            tags: firstRow.tags,
                             city: {
                                 id: firstRow.cityId,
                                 name: firstRow.cityName,
@@ -39,24 +40,12 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                                 }
                             }
                         }
-                        jsonResult.tags = [];
-                        let tagIds = new Set();
 
                         jsonResult.sections = [];
                         let secionIds = new Set();
 
                         let pointIds = new Set();
                         results.forEach((element, index) => {
-                            if (element.tagId) {
-                                tag = {
-                                    id: element.tagId,
-                                    name: element.tagName
-                                }
-                                if (!tagIds.has(tag.id)) {
-                                    tagIds.add(tag.id);
-                                    jsonResult.tags.push(tag);
-                                }
-                            }
                             if (element.sectionId) {
                                 section = {
                                     id: element.sectionId,
@@ -112,7 +101,7 @@ angular.module('jobs').controller('singleJobController', function ($route, $root
                         })
                         tagsString = "";
                         $scope.job.tags.forEach(element => {
-                            tagsString+="tag="+element.id +"&";
+                            tagsString+="tag="+element.tagId +"&";
                         });
                         jobService.getJobsBytags(tagsString, function (res, err) {
                             if (!err) {

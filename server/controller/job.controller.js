@@ -412,8 +412,32 @@ exports.getJobById = (req, res, next) => {
     WHERE jobs.id = ?;", {
         replacements: [id]
     }).spread((results, metadata) => {
-
-        res.send(results);
+        var tags = [];
+        let tagIds = new Set();
+        let sectionIds = new Set();
+        var ret = [];
+        results.forEach((element, index) => {
+            if (element.tagId) {
+                var tag = {
+                    tagId: element.tagId,
+                    tagName: element.tagName
+                }
+                if (!tagIds.has(tag.tagId)) {
+                    tagIds.add(tag.tagId);
+                    tags.push(tag);
+                }
+            }
+        });
+        results.forEach((element, index) => {
+            if (element.sectionId) {
+                if (!sectionIds.has(element.sectionId)) {
+                    sectionIds.add(element.sectionId);
+                    element.tags = tags;
+                    ret.push(element);
+                }
+            }
+        });
+        res.send(ret);
     })
 }
 
