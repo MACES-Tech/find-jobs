@@ -690,6 +690,9 @@ angular.module('jobs')
             $scope.job.sections.splice(index, 1);
         }
         $scope.addNewJob = function (job) {
+            if(job.degree == ""){
+                job.degree = undefined;
+            }
             if (!job.id) {
                 job.creator = $rootScope.getcurrentUser();
                 adminService.createJobPost(job, function (res, err) {
