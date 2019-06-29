@@ -75,7 +75,7 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
                 row =  [];
                 $scope.rows =  [];
                 $scope.jobs.forEach((element,index) => {
-                    var jobPostedDate = new Date(element.postedDate);
+                    var jobPostedDate = new Date(element.createdAt);
                     // $scope.yourDate = new Date('2015-07-08T14:02:42.973');
                     element.DateDifference = moment(jobPostedDate).fromNow();
                     row.push(element);
