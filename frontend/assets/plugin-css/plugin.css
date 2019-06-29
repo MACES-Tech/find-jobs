@@ -386,7 +386,7 @@
     margin-right: -4px;
 }
 .careerfy-job-grid-wrap                                                                { border: 1px solid #ececec; }
-.careerfy-job-grid figure a,.careerfy-job-grid figure img                             { height: 100%; }
+/* .careerfy-job-grid figure a,.careerfy-job-grid figure img                             { height: 100%; } */
 .careerfy-job-time li:first-child                                                      { padding-left: 0px; }
 .careerfy-job-time li:first-child:before                                               { display: none; }
 .careerfy-job-time li a                                                                { color: #999999; }
@@ -395,9 +395,9 @@
     background-color: #fcfcfc;
     margin-bottom: 0px;
     text-align: center;
-    padding: 44px 40px;
+    /* padding: 44px 40px; */
     border-bottom: 1px solid #efefef;
-    height: 190px;
+    /* height: 190px; */
 }
 .careerfy-jobtype-label {
     position: absolute;
