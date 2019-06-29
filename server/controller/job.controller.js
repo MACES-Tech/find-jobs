@@ -154,11 +154,13 @@ exports.getAllJobsForPublic = (req, res, next) => {
     var cities = req.body.city;
     var grade = req.body.grade;
     var jobTitleQuery = req.body.job_title;
+    var closingSoon = req.body.closing_soon;
+    var closed = req.body.closed;
     // var q = req.query.q;
 
     var searchobject = {
         status: jobStatus.active,
-        title: { [Op.like]: '%' + jobTitleQuery + '%'}
+        title: { [Op.like]: '%' + jobTitleQuery + '%'},
     }
     var filterByOrg = {};
     var filterByCity = {};
@@ -168,6 +170,12 @@ exports.getAllJobsForPublic = (req, res, next) => {
     var cityRequired = false;
     var tagRequired = false;
     var orgRequired = false;
+    if(closingSoon){
+        searchobject.dueDate = db.sequelize.literal('dueDate >= Now() And dueDate <( CURDATE() + INTERVAL 3 DAY )');
+    }
+    if(closed){
+        searchobject.status = jobStatus.expired;
+    }
     if (orgs && orgs.length > 0) {
         filterByOrg.id = orgs;
         orgRequired = true;

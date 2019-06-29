@@ -26,7 +26,7 @@
                     <!-- Sub Header Form -->
                     <div class="careerfy-subheader-form">
                         <form class="careerfy-banner-search">
-                            <ul>
+                            <ul class="col-md-10">
                                 <li>
                                     <input placeholder="Job Title" type="text" class="jobTitle_typeahead" ng-model="selectedJobTitle.title">
                                 </li>
@@ -44,6 +44,29 @@
                                 <li class="careerfy-banner-submit"> <button ng-click="getJobs()"> <i class="careerfy-icon careerfy-search"></i>
                                 </li>
                             </ul>
+                            <ul class="col-md-10"> 
+                                    <li>
+                                        <input placeholder="Organization" type="text" class="org_typeahead" ng-model="selectedOrg.name">
+                                    </li>
+                                    <li>
+                                            <div class="careerfy-checkbox" style="width: auto; margin-left: 10px;">
+                                                    <input type="checkbox" id="closingSoon" ng-model="closingSoon" ng-change="getJobs()"/>
+                                                    <label for="closingSoon"><span></span> Closing soon</label>
+                                                </div>
+                                                
+                                    </li>
+                                    <li>
+                                            <div class="careerfy-checkbox" style="width: auto; margin-left: 10px;">
+                                                    <input type="checkbox" id="closed" ng-model="closed" ng-change="getJobs()"/>
+                                                    <label for="closed"><span></span> Closed</label>
+                                                </div>
+                                    </li>
+                                    <li>
+
+                                    </li>
+                                    <!-- <li class="careerfy-banner-submit"> <button ng-click="getJobs()"> <i class="careerfy-icon careerfy-search"></i>
+                                    </li> -->
+                                </ul>
                         </form>
                     </div>
                     <!-- Sub Header Form -->
@@ -59,46 +82,7 @@
         <div class="container">
             <div class="row">
 
-                <aside class="careerfy-column-3 careerfy-typo-wrap">
-                    <form class="careerfy-search-filter">
-                        <div class="careerfy-search-filter-wrap careerfy-without-toggle">
-                            <h2><a href="#">Organizations</a></h2>
-                            <div class="careerfy-search-box">
-                                <input placeholder="Search" type="text" class="org_typeahead">
-                                <input type="submit" value="">
-                                <i class="careerfy-icon careerfy-search"></i>
-                            </div>
-                            <ul class="careerfy-checkbox">
-                                <li ng-repeat="org in selectedOrgs">
-                                    <input type="checkbox" id="{{org.id}}" checked ng-click="ignoreOrganization(org)" />
-                                    <label for="{{org.id}}"><span></span>{{org.name}}</label>
-                                </li>
-                            </ul>
-                            <!-- <a href="#" class="careerfy-seemore">+see more</a> -->
-                        </div>
-
-                        <div class="careerfy-search-filter-wrap careerfy-without-toggle">
-                            <h2><a href="#">Tags</a></h2>
-                            <div class="careerfy-search-box">
-                                <input placeholder="Search" type="text" class="tag_typeahead">
-                                <input type="submit" value="">
-                                <i class="careerfy-icon careerfy-search"></i>
-                            </div>
-                            <ul class="careerfy-checkbox">
-                                <li ng-repeat="tag in selectedTags">
-                                    <input type="checkbox" id="{{tag.id}}" checked ng-click="ignoreTag(tag)" />
-                                    <label for="{{tag.id}}"><span></span>{{tag.name}}</label>
-                                </li>
-                            </ul>
-                            <!-- <a href="#" class="careerfy-seemore">+see more</a> -->
-                        </div>
-
-                    </form>
-                    <div class="widget widget_add">
-                        <img src="assets/extra-images/jobdetail-add.jpg" alt="">
-                    </div>
-                </aside>
-                <div class="careerfy-column-9 careerfy-typo-wrap">
+                <div class="careerfy-column-12 careerfy-typo-wrap">
                     <!-- FilterAble -->
                     <!-- <div class="widget widget_add">
                         <img src="assets/extra-images/banner-bg - Copy.jpg" alt="">

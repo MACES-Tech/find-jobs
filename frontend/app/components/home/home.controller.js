@@ -14,8 +14,14 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
         id: -1,
         title: ""
     };
+    $scope.selectedOrg = {
+        id: -1,
+        name: ""
+    };
     $scope.selectedTags = [];
     $scope.selectedOrgs = [];
+    $scope.closingSoon = false;
+    $scope.closed = false;
     $scope.init = function () {
         homeService.getGradesFilter(function (res, err) {
             if (!err) {
@@ -33,6 +39,7 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
 
 
     $scope.getJobs = function (pageNumber, q) {
+        debugger;
         if (!pageNumber) {
             pageNumber = 1;
         }
@@ -40,18 +47,26 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
         if ($scope.selectedDutyStation.name == "") {
             $scope.selectedDutyStation.id = -1;
         }
+        if ($scope.selectedOrg.name == "") {
+            $scope.selectedOrg.id = -1;
+        }
 
         $scope.currentPageNumberInJobsPage = pageNumber;
         var b = {
             pageNumber: pageNumber,
             numberOfitemPerPages: $scope.numberOfitemPerPages,
             job_title: $scope.selectedJobTitle.title,
+            closing_soon: $scope.closingSoon,
+            closed: $scope.closed
         };
         if ($scope.selectedGradeFilter.id != -1) {
             b.grade = $scope.selectedGradeFilter.id;
         }
         if ($scope.selectedDutyStation.id != -1) {
             b.city = $scope.selectedDutyStation.id;
+        }
+        if ($scope.selectedOrg.id != -1) {
+            b.organizations = [$scope.selectedOrg.id];
         }
         if($scope.selectedTags.length > 0){
             b.tags = $scope.selectedTags.map(function(tag){
@@ -188,7 +203,7 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
             display: 'name',
             source: orgAutoComplete,
         }).bind('typeahead:select', function (ev, suggestion) {
-            $scope.selectedOrgs.push(suggestion);
+            $scope.selectedOrg = suggestion;
             $scope.getJobs();
         });
 
