@@ -1,7 +1,8 @@
         // Initialize the platform object:
         var platform = new H.service.Platform({
         'app_id': 'Zt6kgEj7u9XVc3QmoIbI',
-        'app_code': 'tfO142v5R0r359GZAdpT_g'
+        'app_code': 'tfO142v5R0r359GZAdpT_g',
+        'useHTTPS': true
         });
 
         var pixelRatio = window.devicePixelRatio || 1;
