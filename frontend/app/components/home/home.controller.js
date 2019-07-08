@@ -1,6 +1,6 @@
 angular.module('jobs').controller('homeController', function ($route, $rootScope, $scope, $location, homeService, Upload, SweetAlert) {
 
-    $scope.numberOfitemPerPages = 10;
+    $scope.numberOfitemPerPages = 20;
     $scope.selectedGradeFilter = {
         id: -1,
         name: "All Job Grades"
