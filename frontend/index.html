@@ -29,6 +29,9 @@
 	<script src="bower_components/moment/moment.js"></script>
 	<link href="assets/css/sweetalert/sweetalert.css" rel="stylesheet">
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+
+
 	    <!-- Css -->
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -85,6 +88,15 @@
     
     <div ng-view ></div>
 	<div footer-panel></div>
+	<div class="alert text-center cookiealert" role="alert">
+		<b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website. <a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
+	
+		<button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+			I agree
+		</button>
+	</div>
+	<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+
 	</div>
 
 
