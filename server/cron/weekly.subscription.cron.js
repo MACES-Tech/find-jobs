@@ -43,6 +43,7 @@ var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
                     if(searchObjectTag.length > 0 ){
                         selectquery+= " AND " + searchObjectTag
                     }
+                    selectquery+= "ORDER BY createdAt Limit 10"
                     db.sequelize.query(selectquery).spread((results, metadata) => {
                         // Results will be an empty array and metadata will contain the number of affected rows.                        
                       })
