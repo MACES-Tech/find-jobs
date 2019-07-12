@@ -44,7 +44,10 @@ require('./cron/daily.subscription.cron.js');
 require('./cron/weekly.subscription.cron.js');
 require('./cron/daily.expiration.cron.js');
 
-
+app.post('/api/mail', function(req, res, next){
+console.log(req);
+res.send(200);
+});
 
 const db = require('./config/db.config.js');
 // force: true will drop the table if it already exists

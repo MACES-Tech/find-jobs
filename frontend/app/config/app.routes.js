@@ -52,6 +52,25 @@ angular.module('jobs').config(function ($routeProvider, $ocLazyLoadProvider) {
                 });
             }]
         }
+    }).when('/about-us', {
+        templateUrl:"./app/components/about_us/aboutUs.html"
+    }).when('/privacy', {
+        templateUrl:"./app/components/privacy_policy/privacy_policy.html"
+    }).when('/terms', {
+        templateUrl:"./app/components/terms_of_us/terms.html"
+    }).when('/contact', {
+        templateUrl:"./app/components/contact_us/contactUs.html",
+        controller:"contactController",
+        resolve: {
+            deps:['$ocLazyLoad', function($ocLazyLoad) {
+                return $ocLazyLoad.load( {
+                    files: [
+                        "/app/components/contact_us/contactUs.controller.js",
+                        "/app/components/contact_us/contact.service.js"
+                    ]
+                });
+            }]
+        }
     }).otherwise({
         templateUrl:"./app/components/home/home.html", 
         controller:'homeController', 

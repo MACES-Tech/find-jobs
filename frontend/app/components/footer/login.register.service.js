@@ -18,6 +18,23 @@ app.service('loginRegisterService' , function ($http, $rootScope) {
                 cb(null, err);
             })
     };
+    this.subscribe = function(sub,cb){
+        $http({
+            method: 'POST',
+            url: $rootScope.backendURL + "subscription",
+            data:JSON.stringify(sub)
+        }).then(
+            function successCallback(res) {
+                if (res.status == 500) {
+                    cb(null, res);
+                } else {
+                    cb(res);
+                }
+            },
+            function errorCallback(err) {
+                cb(null, err);
+            })
+    }
     this.register = function(registerObject,cb){
         $http({
             method: 'POST',
