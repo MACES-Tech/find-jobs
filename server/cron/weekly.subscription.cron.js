@@ -25,9 +25,8 @@ var last = new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
                     if (subscription.organizationId) {
                         searchObjectorganization = " organizationId = " + subscription.organizationId ;
                     }
-                    if (subscription.tagId) {
-                        innertJoin = "INNER JOIN job_tags on jobs.id = job_tags.jobId "
-                        searchObjectTag = " job_tags.tagId = "+ subscription.tagId;
+                    if (subscription.degreeId) {
+                        searchObjectTag = " degreeId = "+ subscription.degreeId;
                     }
                     selectquery = "SELECT * FROM jobs ";
                     if(innertJoin.length > 0){
