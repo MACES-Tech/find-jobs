@@ -112,15 +112,23 @@ angular.module('jobs')
         $scope.init();
 
         $scope.Subscribe = function () {
-            console.log($scope.sub);
-            if ($scope.sub.email && $scope.sub.email.length > 0) {
-                loginRegisterService.subscribe($scope.sub, function (res, err) {
-                    SweetAlert.swal("Done", "Thank You for subscribing  in our newsletter", "success");
-                    $scope.sub = {};
-                    $scope.sub.selectedGradeFilter = $scope.SubgradesFilter[0];
-                    $scope.sub.selecteSubscripetype = $scope.SubscriptiontypeFilter[0];
+            if ($scope.sub.selecteSubscripetype.id != -1) {
+                if ($scope.sub.email && $scope.sub.email.length > 0) {
 
-                })
+                    loginRegisterService.subscribe($scope.sub, function (res, err) {
+                        SweetAlert.swal("Done", "Thank You for subscribing  in our newsletter", "success");
+                        $scope.sub = {};
+                        $scope.sub.selectedGradeFilter = $scope.SubgradesFilter[0];
+                        $scope.sub.selecteSubscripetype = $scope.SubscriptiontypeFilter[0];
+
+                    })
+                }
+                else {
+                    alert("Write you email!!")
+                }
+            }
+            else {
+                alert("Select subscription type")
             }
 
 

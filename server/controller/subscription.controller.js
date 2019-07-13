@@ -2,8 +2,21 @@ const db = require('../config/db.config.js');
 const Subscription = db.subscription;
 
 exports.create = (req, res, next) => {
-	sub = req.body;
-	Subscription.create(sub).then(sub => {
+	let sub = req.body;
+	let obj = {type:sub.selecteSubscripetype.name.toLowerCase(),
+		email:sub.email
+	}
+	if(sub.selectedDutyStation && sub.selectedDutyStation.id!= -1){
+		obj.cityId= sub.selectedDutyStation.id
+	}
+	if(sub.SubselectedOrg && sub.SubselectedOrg.id!= -1){
+		obj.organizationId= sub.SubselectedOrg.id
+	}
+	if(sub.selectedGradeFilter.id!= -1){
+		obj.degreeId= sub.selectedGradeFilter.id
+	}
+	
+	Subscription.create(obj).then(sub => {
 		res.send(sub);
 	}).catch(next);
 };

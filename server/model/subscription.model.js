@@ -5,7 +5,7 @@ module.exports = (sequelize, Sequelize) => {
     const Subscription = sequelize.define('subscription', {
         type: {
             type:   Sequelize.ENUM,
-            values: ['daily', 'weekly', 'instantly'],
+            values: ['daily', 'weekly', 'monthly'],
             allowNull: false,
         },
         email: {
@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
     })
     Subscription.belongsTo(City, {foreignKey : 'cityId' , as :"city"})
     Subscription.belongsTo(Organization, {foreignKey : 'organizationId' , as :"Organization"})
-    Subscription.belongsTo(Tag, {foreignKey : 'tagId' , as :"tag"})
+    Subscription.belongsTo(Tag, {foreignKey : 'degreeId' , as :"grade"})
 
     return Subscription;
 }
