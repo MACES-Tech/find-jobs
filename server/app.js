@@ -44,8 +44,26 @@ require('./cron/daily.subscription.cron.js');
 require('./cron/weekly.subscription.cron.js');
 require('./cron/daily.expiration.cron.js');
 
+const transporter = require('./service/mail.service.js');
+
 app.post('/api/mail', function(req, res, next){
-console.log(req);
+        // Message object
+
+        let message = {
+            from: 'Find Int jobs Contact Us',
+    
+            // Comma separated list of recipients
+            to: 'findintjobs@gmail.com',
+    
+            // Subject of the message
+            subject: `${req.body.subject}`,
+    
+            // plaintext body
+            text: `From: ${req.body.email}\n Name: ${req.body.name}\n phone Number: ${req.body.phoneNumber}\n description: ${req.body.description}\n
+            `
+        };
+
+    let info = transporter.transporter.sendMail(message);
 res.send(200);
 });
 
