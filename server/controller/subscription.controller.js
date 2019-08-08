@@ -39,7 +39,7 @@ exports.findAllPaging = (req, res, next) => {
 		Subscription.findAll({
 			where: { active: true },
 			include: [
-				{ model: db.tag, as: 'tag' },
+				{ model: db.degree, as: 'grade' },
 				{ model: db.city, as: 'city' },
 				{ model: db.organization, as: 'Organization' }
 			], offset: offset, limit: parseInt(itemsPerPage), order: [['createdAt', 'DESC']]
