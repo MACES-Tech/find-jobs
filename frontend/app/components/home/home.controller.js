@@ -38,8 +38,24 @@ angular.module('jobs').controller('homeController', function ($route, $rootScope
     }
 
 
+    $scope.preparePagination = function(){
+        var maxSize = 10;
+        startPage = Math.max($scope.currentPageNumberInJobsPage - Math.floor(maxSize / 2), 1);
+        endPage = startPage + maxSize - 1;
+
+        // Adjust if limit is exceeded
+        if (endPage > $scope.numberOfPagesInJobsPage) {
+          endPage = $scope.numberOfPagesInJobsPage;
+          startPage = Math.max(endPage - maxSize + 1, 1);
+        }
+        var ret = [];
+        for(var i = startPage; i <= endPage; i++){
+            ret.push(i);
+        }
+        return ret;
+    };
+
     $scope.getJobs = function (pageNumber, q) {
-        debugger;
         if (!pageNumber) {
             pageNumber = 1;
         }

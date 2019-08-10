@@ -174,18 +174,18 @@
                                         <li><a class="next page-numbers" href="#"><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
                                     </ul> -->
                         <ul class="page-numbers">
-                            <li ng-click="getJobs(currentPageNumberInJobsPage - 1)"><a class="prev page-numbers"
+                            <li ng-click="getJobs(currentPageNumberInJobsPage - 1)" ng-if="currentPageNumberInJobsPage > 1"><a class="prev page-numbers"
                                     href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
-                            <li ng-repeat="pages in  [].constructor(numberOfPagesInJobsPage) track by $index "
+                            <li ng-repeat="pages in  preparePagination() track by $index "
                                 ng-click="getJobs($index + 1)"><span style="cursor: pointer;"
                                     ng-class="{'current':$index + 1  === currentPageNumberInJobsPage}"
                                     class="page-numbers ">{{ $index + 1 }}</span></li>
-                            <li ng-show="currentPageNumberInJobsPage + 1 <= numberOfPagesInJobsPage"
+                            <li ng-show="currentPageNumberInJobsPage < numberOfPagesInJobsPage"
                                 ng-click="getJobs(currentPageNumberInJobsPage + 1)"><a class="next page-numbers"
                                     href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
-                            <li ng-show="currentPageNumberInJobsPage + 1 > numberOfPagesInJobsPage"><a
+                            <!-- <li ng-show="currentPageNumberInJobsPage + 1 > numberOfPagesInJobsPage"><a
                                     class="next page-numbers" href=""><span><i
-                                            class="careerfy-icon careerfy-arrows4"></i></span></a></li>
+                                            class="careerfy-icon careerfy-arrows4"></i></span></a></li> -->
                         </ul>
                     </div>
                 </div>
