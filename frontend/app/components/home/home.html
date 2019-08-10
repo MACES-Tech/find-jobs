@@ -177,9 +177,9 @@
                             <li ng-click="getJobs(currentPageNumberInJobsPage - 1)" ng-if="currentPageNumberInJobsPage > 1"><a class="prev page-numbers"
                                     href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
                             <li ng-repeat="pages in  preparePagination() track by $index "
-                                ng-click="getJobs(startPage + $index + 1)"><span style="cursor: pointer;"
-                                    ng-class="{'current':startPage + $index + 1  === currentPageNumberInJobsPage}"
-                                    class="page-numbers ">{{startPage + $index + 1 }}</span></li>
+                                ng-click="getJobs(startPage + $index)"><span style="cursor: pointer;"
+                                    ng-class="{'current':startPage + $index  === currentPageNumberInJobsPage}"
+                                    class="page-numbers ">{{startPage + $index }}</span></li>
                             <li ng-show="currentPageNumberInJobsPage < numberOfPagesInJobsPage"
                                 ng-click="getJobs(currentPageNumberInJobsPage + 1)"><a class="next page-numbers"
                                     href=""><span><i class="careerfy-icon careerfy-arrows4"></i></span></a></li>
