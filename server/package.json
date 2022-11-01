@@ -11,9 +11,9 @@
   "devDependencies": {
     "grunt": "^1.0.3",
     "grunt-db-migrate": "^1.0.0",
-    "gulp": "3.9.0",
+    "gulp": "4.0.2",
     "gulp-develop-server": "0.5.0",
-    "gulp-jshint": "1.12.0"
+    "gulp-jshint": "2.1.0"
   },
   "dependencies": {
     "body-parser": "1.14.1",
